@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+:root {
+  /* Font stacks */
+  --font-sans:    var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  --font: var(--font-sans);
+
+  /* Type scale */
+  --text-2xs:  0.625rem;    /*  10px */
+  --text-xs:   0.6875rem;   /*  11px */
+  --text-sm:   0.75rem;     /*  12px */
+  --text-base: 0.8125rem;   /*  13px */
+  --text-md:   0.9375rem;   /*  15px */
+  --text-lg:   1.0625rem;   /*  17px */
+  --text-xl:   1.25rem;     /*  20px */
+  --text-2xl:  1.5rem;      /*  24px */
+  --text-3xl:  2rem;        /*  32px */
+  --text-4xl:  2.625rem;    /*  42px */
+  --text-5xl:  3.5rem;      /*  56px */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #0f1e36;
+  background: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #0f1e36;
+}
+
+h1 { font-size: var(--text-4xl); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl);  }
+h4 { font-size: var(--text-lg);  }
+h5 { font-size: var(--text-md);  font-weight: 700; }
+h6 { font-size: var(--text-base); font-weight: 700; }
+
+.fr-hero h1,
+.page-hero h1,
+.hero-heading,
+.display-heading {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+p {
+  font-size: var(--text-base);
+  line-height: 1.7;
+  color: #4a5568;
+}
+
+.lead {
+  font-size: var(--text-md);
+  line-height: 1.7;
+  font-weight: 500;
+  color: #4a5568;
+}
+
+small {
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--text-base);
+}
+
+button {
+  font-weight: 900;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+nav a {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  line-height: 1;
+}
+
+table {
+  font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--text-sm);
+}
+
+th {
+  font-size: var(--text-2xs);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #8896a8;
+}
+
+td {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #4a5568;
+}
+
+
+.tabular-nums,
+.price,
+.amount,
+.deal-value,
+.stat-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+
+code, pre, .mono, .deal-id {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow,
+.label-caps,
+.db-eyebrow {
+  font-size: var(--text-2xs);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1;
+}
+
+.font-display  { font-family: var(--font-display) !important; }
+.font-sans     { font-family: var(--font-sans)    !important; }
+.font-mono     { font-family: var(--font-mono)    !important; }
+
+
+.font-regular   { font-weight: 400; }
+.font-medium    { font-weight: 500; }
+.font-semibold  { font-weight: 600; }
+.font-bold      { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black     { font-weight: 900; }

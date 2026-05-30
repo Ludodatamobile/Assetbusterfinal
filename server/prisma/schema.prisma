@@ -1,0 +1,499 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+  BUSINESS_OWNER
+  INVESTOR
+  FRANCHISE_PARTNER
+  ADVISOR
+  BUYER
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+  PENDING
+}
+
+enum ProfileType {
+  SELL_BUSINESS
+  BUY_BUSINESS
+  FRANCHISE_BRAND
+  INVEST
+  RAISE_CAPITAL
+  FUNDING_SERVICE
+  STARTUP
+  ADVISOR
+}
+
+enum ListingStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  REJECTED
+  CLOSED
+}
+
+enum DealStatus {
+  INQUIRY
+  NDA_SENT
+  NDA_SIGNED
+  NEGOTIATION
+  DUE_DILIGENCE
+  CLOSED
+  WITHDRAWN
+}
+
+enum DealType {
+  FULL_SALE
+  PARTIAL_STAKE
+  BUSINESS_LOAN
+  INVESTMENT
+}
+
+enum DocumentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum DocumentAccess {
+  PUBLIC_TEASER
+  DATA_ROOM
+  RESTRICTED
+}
+
+enum BroadcastStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+model User {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  password  String
+  role      Role    @default(BUSINESS_OWNER)
+  firstName String
+  lastName  String
+  phone     String?
+  country   String?
+
+  status             UserStatus @default(PENDING)
+  isEmailVerified    Boolean    @default(false)
+  verified           Boolean    @default(false)
+  verificationStatus String     @default("UNVERIFIED")
+  profileImage       String?
+  profileScore       Int        @default(0)
+
+  emailVerificationToken   String?
+  emailVerificationExpires DateTime?
+  passwordResetToken       String?
+  passwordResetExpires     DateTime?
+
+  lastLoginAt DateTime?
+  loginCount  Int       @default(0)
+  memberSince DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  businessProfiles BusinessProfile[]
+  investorProfiles InvestorProfile[]
+  advisorProfiles  AdvisorProfile[]
+  dealsAsInitiator Deal[]            @relation("Initiator")
+  dealsAsReceiver  Deal[]            @relation("Receiver")
+  sentMessages     Message[]
+  notifications    Notification[]
+  documents        Document[]
+  refreshTokens    RefreshToken[]
+  savedBusinesses  SavedBusiness[]
+
+  @@index([role])
+  @@index([status])
+  @@index([country])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Admin {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  password  String
+  role      Role    @default(ADMIN)
+  firstName String
+  lastName  String
+  isActive  Boolean @default(true)
+
+  lastLoginAt DateTime?
+  loginCount  Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  auditLogs     AuditLog[]
+  refreshTokens AdminRefreshToken[]
+  campaigns     BroadcastCampaign[]
+
+  @@index([role])
+  @@index([isActive])
+}
+
+model AdminRefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+}
+
+model BusinessProfile {
+  id           String        @id @default(uuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileType  ProfileType   @default(SELL_BUSINESS)
+  title        String
+  slug         String        @unique
+  description  String
+  industry     String
+  country      String
+  city         String?
+  dealType     DealType      @default(FULL_SALE)
+  currency     String        @default("USD")
+  askAmount    Decimal       @db.Decimal(18, 2)
+  askPercent   Decimal?      @db.Decimal(5, 2)
+  askRate      Decimal?      @db.Decimal(5, 2)
+  runSales     Decimal?      @db.Decimal(18, 2)
+  ebitda       Decimal?      @db.Decimal(18, 2)
+  ebitdaMargin Decimal?      @db.Decimal(7, 2)
+  employees    Int?
+  established  Int?
+  outlets      Int?
+
+  // Business Identity
+  businessName    String?
+  legalEntityName String?
+  website         String?
+  headline        String?
+  shortSummary    String?
+
+  // Financials
+  grossRevenue    Decimal? @db.Decimal(18, 2)
+  netProfit       Decimal? @db.Decimal(18, 2)
+  monthlyRevenue  Decimal? @db.Decimal(18, 2)
+  monthlyProfit   Decimal? @db.Decimal(18, 2)
+  inventoryValue  Decimal? @db.Decimal(18, 2)
+  assetValue      Decimal? @db.Decimal(18, 2)
+  realEstateValue Decimal? @db.Decimal(18, 2)
+
+  // Valuation & Pricing
+  askingPriceReason String?
+  valuationMethod   String?
+
+  // Business Details
+  businessModel         String?
+  productsServices      String?
+  customerBase          String?
+  keyClients            String?
+  growthOpportunities   String?
+  competitiveAdvantages String?
+  facilities            String?
+  leaseTerms            String?
+
+  // Sale Details
+  reasonForSelling   String?
+  assetsIncluded     String?
+  sellerFinancing    Boolean @default(false)
+  transitionSupport  String?
+  trainingIncluded   Boolean @default(false)
+  preferredBuyerType String?
+  dealStructureNotes String?
+
+  // Confidentiality & Data Room
+  isConfidential      Boolean @default(true)
+  ndaRequired         Boolean @default(true)
+  teaserSummary       String?
+  financialsAvailable Boolean @default(false)
+  dataRoomReady       Boolean @default(false)
+
+  // Fundraising / Capital Raise
+  fundingStage       String?
+  useOfFunds         String?
+  traction           String?
+  runway             String?
+  minInvestment      Decimal? @db.Decimal(18, 2)
+  targetInvestor     String?
+  previousFunding    Decimal? @db.Decimal(18, 2)
+  revenueModel       String?
+  keyMetrics         String?
+  investorHighlights String?
+  exitStrategy       String?
+  pitchDeckReady     Boolean  @default(false)
+
+  // Funding Service / Funding Sources
+  fundingServiceType       String?
+  capitalProviderType      String?
+  capitalTypes             String[] @default([])
+  ticketMin                Decimal? @db.Decimal(18, 2)
+  ticketMax                Decimal? @db.Decimal(18, 2)
+  targetCompanyStage       String?
+  collateralRequired       Boolean  @default(false)
+  repaymentTerms           String?
+  processingTime           String?
+  regionsCovered           String[] @default([])
+  eligibilityCriteria      String?
+  requiredDocuments        String?
+  feesDescription          String?
+  regulatoryLicense        String?
+  fundingServiceHighlights String?
+
+  // Startup / Project Listings
+  startupType        String?
+  startupCategory    String?
+  startupStage       String?
+  problemStatement   String?
+  solutionStatement  String?
+  targetMarket       String?
+  marketSize         String?
+  productStatus      String?
+  tractionSummary    String?
+  teamSummary        String?
+  technologyStack    String?
+  goToMarketStrategy String?
+  competitors        String?
+  startupHighlights  String?
+  fundingNeeded      Decimal? @db.Decimal(18, 2)
+  imageUrls          String[] @default([])
+
+  status       ListingStatus @default(DRAFT)
+  isPremium    Boolean       @default(false)
+  isVerified   Boolean       @default(false)
+  isFeatured   Boolean       @default(false)
+  rating       Decimal       @default(0) @db.Decimal(3, 1)
+  viewCount    Int           @default(0)
+  enquiryCount Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  deals      Deal[]
+  documents  Document[]
+  valuations Valuation[]
+  savedBy    SavedBusiness[]
+
+  @@index([userId])
+  @@index([profileType])
+  @@index([status])
+  @@index([industry])
+  @@index([country])
+  @@index([isFeatured])
+}
+
+model InvestorProfile {
+  id           String      @id @default(uuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileType  ProfileType @default(INVEST)
+  title        String
+  firmName     String?
+  investorType String
+  bio          String?
+  currency     String      @default("USD")
+  minTicket    Decimal     @db.Decimal(18, 2)
+  maxTicket    Decimal     @db.Decimal(18, 2)
+  industries   String[]
+  countries    String[]
+  dealTypes    String[]
+  isPremium    Boolean     @default(false)
+  isVerified   Boolean     @default(false)
+  dealsCount   Int         @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([profileType])
+  @@index([investorType])
+  @@index([isVerified])
+}
+
+model AdvisorProfile {
+  id          String      @id @default(uuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileType ProfileType @default(ADVISOR)
+  title       String
+  firmName    String?
+  specialties String[]
+  bio         String?
+  countries   String[]
+  rating      Decimal     @default(0) @db.Decimal(3, 1)
+  dealsCount  Int         @default(0)
+  isVerified  Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([isVerified])
+}
+
+model Deal {
+  id          String          @id @default(uuid())
+  businessId  String
+  business    BusinessProfile @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  initiatorId String
+  initiator   User            @relation("Initiator", fields: [initiatorId], references: [id])
+  receiverId  String
+  receiver    User            @relation("Receiver", fields: [receiverId], references: [id])
+  status      DealStatus      @default(INQUIRY)
+  ndaSigned   Boolean         @default(false)
+  ndaSignedAt DateTime?
+  notes       String?
+  closedAt    DateTime?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  messages  Message[]
+  documents Document[]
+
+  @@index([businessId])
+  @@index([initiatorId])
+  @@index([receiverId])
+  @@index([status])
+}
+
+model Message {
+  id        String    @id @default(uuid())
+  dealId    String
+  deal      Deal      @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    User      @relation(fields: [senderId], references: [id])
+  content   String
+  isRead    Boolean   @default(false)
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([dealId])
+  @@index([senderId])
+}
+
+model Document {
+  id         String           @id @default(uuid())
+  name       String
+  url        String
+  type       String
+  fileType   String?
+  fileSize   Int?
+  access     DocumentAccess   @default(DATA_ROOM)
+  status     DocumentStatus   @default(PENDING)
+  isNda      Boolean          @default(false)
+  userId     String?
+  user       User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  businessId String?
+  business   BusinessProfile? @relation(fields: [businessId], references: [id], onDelete: SetNull)
+  dealId     String?
+  deal       Deal?            @relation(fields: [dealId], references: [id], onDelete: SetNull)
+  createdAt  DateTime         @default(now())
+
+  @@index([userId])
+  @@index([businessId])
+  @@index([dealId])
+}
+
+model Valuation {
+  id         String          @id @default(uuid())
+  businessId String
+  business   BusinessProfile @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  method     String
+  value      Decimal         @db.Decimal(18, 2)
+  notes      String?
+  createdAt  DateTime        @default(now())
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  type      String    @default("GENERAL")
+  isRead    Boolean   @default(false)
+  readAt    DateTime?
+  link      String?
+  meta      Json?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+model SavedBusiness {
+  id         String          @id @default(uuid())
+  userId     String
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessId String
+  business   BusinessProfile @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  createdAt  DateTime        @default(now())
+
+  @@unique([userId, businessId])
+  @@index([userId])
+  @@index([businessId])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  action    String
+  entity    String
+  entityId  String
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([entity])
+  @@index([createdAt])
+}
+
+model BroadcastCampaign {
+  id             String          @id @default(uuid())
+  adminId        String
+  admin          Admin           @relation(fields: [adminId], references: [id])
+  title          String
+  subject        String
+  body           String
+  audience       String          @default("ALL")
+  status         BroadcastStatus @default(DRAFT)
+  scheduledAt    DateTime?
+  sentAt         DateTime?
+  recipientCount Int             @default(0)
+  failedCount    Int             @default(0)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([adminId])
+  @@index([status])
+  @@index([scheduledAt])
+}
