@@ -1,6 +1,13 @@
+// 
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type FormEvent,
+} from "react";
 import {
   BadgeCheck,
   Building2,
@@ -15,12 +22,33 @@ import {
 import { FundraiserService } from "@/services/fundraiser.service";
 import type { FundraiserFilters, FundraiserListing } from "@/types/fundraiser";
 
-const INDUSTRIES = ["Technology", "Healthcare", "Manufacturing", "Energy", "Real Estate", "Hospitality", "Logistics", "Financial Services"];
-const COUNTRIES = ["Nigeria", "Ghana", "Kenya", "South Africa", "United States", "United Kingdom", "India", "United Arab Emirates"];
+const INDUSTRIES = [
+  "Technology",
+  "Healthcare",
+  "Manufacturing",
+  "Energy",
+  "Real Estate",
+  "Hospitality",
+  "Logistics",
+  "Financial Services",
+];
+const COUNTRIES = [
+  "Nigeria",
+  "Ghana",
+  "Kenya",
+  "South Africa",
+  "United States",
+  "United Kingdom",
+  "India",
+  "United Arab Emirates",
+];
 
 function formatEnum(value?: string | null) {
   if (!value) return "Not available";
-  return value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
+  return value
+    .replaceAll("_", " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 function formatMoney(value?: string | number | null, currency = "USD") {
@@ -32,7 +60,9 @@ function formatMoney(value?: string | number | null, currency = "USD") {
 function FundraiserCard({ item }: { item: FundraiserListing }) {
   const [open, setOpen] = useState(false);
   const location = [item.city, item.country].filter(Boolean).join(", ");
-  const owner = item.user ? [item.user.firstName, item.user.lastName].filter(Boolean).join(" ") : "Confidential fundraiser";
+  const owner = item.user
+    ? [item.user.firstName, item.user.lastName].filter(Boolean).join(" ")
+    : "Confidential fundraiser";
 
   return (
     <article className="fr-card">
@@ -45,7 +75,14 @@ function FundraiserCard({ item }: { item: FundraiserListing }) {
 
       <div className="fr-card-body">
         <div className="fr-card-top">
-          <span>{item.isVerified ? <BadgeCheck size={13} /> : <Building2 size={13} />}{item.isVerified ? "Verified" : "Fundraise"}</span>
+          <span>
+            {item.isVerified ? (
+              <BadgeCheck size={13} />
+            ) : (
+              <Building2 size={13} />
+            )}
+            {item.isVerified ? "Verified" : "Fundraise"}
+          </span>
           {item.isFeatured && <b>Featured</b>}
         </div>
 
@@ -80,13 +117,19 @@ function FundraiserCard({ item }: { item: FundraiserListing }) {
         {open && (
           <div className="fr-detail">
             <p>{item.description}</p>
-            <small>{owner} · {item.enquiryCount || item._count?.deals || 0} enquiries · {item.viewCount} views</small>
+            <small>
+              {owner} · {item.enquiryCount || item._count?.deals || 0} enquiries
+              · {item.viewCount} views
+            </small>
           </div>
         )}
 
-        <button type="button" className="fr-view-btn" onClick={() => setOpen((value) => !value)}>
-          {open ? "Hide Detail" : "View Detail"}
-        </button>
+        <a
+          className="fr-view-btn"
+          href={`/fund-raisers/${item.slug || item.id}`}
+        >
+          View Detail
+        </a>
       </div>
     </article>
   );
@@ -94,9 +137,23 @@ function FundraiserCard({ item }: { item: FundraiserListing }) {
 
 export default function FundRaisersPage() {
   const [items, setItems] = useState<FundraiserListing[]>([]);
-  const [meta, setMeta] = useState({ total: 0, page: 1, limit: 12, totalPages: 1 });
-  const [filters, setFilters] = useState<FundraiserFilters>({ page: 1, limit: 12, sortBy: "featured" });
-  const [draft, setDraft] = useState({ search: "", industry: "", country: "", currency: "" });
+  const [meta, setMeta] = useState({
+    total: 0,
+    page: 1,
+    limit: 12,
+    totalPages: 1,
+  });
+  const [filters, setFilters] = useState<FundraiserFilters>({
+    page: 1,
+    limit: 12,
+    sortBy: "featured",
+  });
+  const [draft, setDraft] = useState({
+    search: "",
+    industry: "",
+    country: "",
+    currency: "",
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -107,7 +164,14 @@ export default function FundRaisersPage() {
     try {
       const response = await FundraiserService.getFundraisers(filters);
       setItems(response.data);
-      setMeta(response.meta || { total: response.data.length, page: 1, limit: 12, totalPages: 1 });
+      setMeta(
+        response.meta || {
+          total: response.data.length,
+          page: 1,
+          limit: 12,
+          totalPages: 1,
+        },
+      );
     } catch (err: any) {
       setError(err?.message || "Fund raisers could not be loaded.");
     } finally {
@@ -121,7 +185,7 @@ export default function FundRaisersPage() {
 
   const totalCapital = useMemo(
     () => items.reduce((sum, item) => sum + Number(item.askAmount || 0), 0),
-    [items]
+    [items],
   );
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -150,15 +214,30 @@ export default function FundRaisersPage() {
           <div>
             <p>Capital raise marketplace</p>
             <h1>Fund Raisers</h1>
-            <span>Discover companies raising growth capital, strategic investment, debt funding, or joint venture capital across active M&A markets.</span>
+            <span>
+              Discover companies raising growth capital, strategic investment,
+              debt funding, or joint venture capital across active M&A markets.
+            </span>
           </div>
           <a href="/dashboard?tab=add-profile">Raise Capital</a>
         </section>
 
         <section className="fr-stats">
-          <article><HandCoins size={18} /><span>{meta.total}</span><p>Fund raisers found</p></article>
-          <article><TrendingUp size={18} /><span>{formatMoney(totalCapital, "USD")}</span><p>Visible capital demand</p></article>
-          <article><BadgeCheck size={18} /><span>{items.filter((item) => item.isVerified).length}</span><p>Verified profiles</p></article>
+          <article>
+            <HandCoins size={18} />
+            <span>{meta.total}</span>
+            <p>Fund raisers found</p>
+          </article>
+          <article>
+            <TrendingUp size={18} />
+            <span>{formatMoney(totalCapital, "USD")}</span>
+            <p>Visible capital demand</p>
+          </article>
+          <article>
+            <BadgeCheck size={18} />
+            <span>{items.filter((item) => item.isVerified).length}</span>
+            <p>Verified profiles</p>
+          </article>
         </section>
 
         <section className="fr-layout">
@@ -173,29 +252,58 @@ export default function FundRaisersPage() {
                 Search
                 <div className="fr-input-icon">
                   <Search size={14} />
-                  <input value={draft.search} onChange={(e) => setDraft({ ...draft, search: e.target.value })} placeholder="Company, sector, location" />
+                  <input
+                    value={draft.search}
+                    onChange={(e) =>
+                      setDraft({ ...draft, search: e.target.value })
+                    }
+                    placeholder="Company, sector, location"
+                  />
                 </div>
               </label>
 
               <label>
                 Industry
-                <select value={draft.industry} onChange={(e) => setDraft({ ...draft, industry: e.target.value })}>
+                <select
+                  value={draft.industry}
+                  onChange={(e) =>
+                    setDraft({ ...draft, industry: e.target.value })
+                  }
+                >
                   <option value="">All industries</option>
-                  {INDUSTRIES.map((item) => <option key={item} value={item}>{item}</option>)}
+                  {INDUSTRIES.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
               </label>
 
               <label>
                 Location
-                <select value={draft.country} onChange={(e) => setDraft({ ...draft, country: e.target.value })}>
+                <select
+                  value={draft.country}
+                  onChange={(e) =>
+                    setDraft({ ...draft, country: e.target.value })
+                  }
+                >
                   <option value="">All locations</option>
-                  {COUNTRIES.map((item) => <option key={item} value={item}>{item}</option>)}
+                  {COUNTRIES.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
               </label>
 
               <label>
                 Currency
-                <select value={draft.currency} onChange={(e) => setDraft({ ...draft, currency: e.target.value })}>
+                <select
+                  value={draft.currency}
+                  onChange={(e) =>
+                    setDraft({ ...draft, currency: e.target.value })
+                  }
+                >
                   <option value="">Any currency</option>
                   <option value="USD">USD</option>
                   <option value="NGN">NGN</option>
@@ -204,15 +312,29 @@ export default function FundRaisersPage() {
                 </select>
               </label>
 
-              <button type="submit"><SlidersHorizontal size={14} />Apply Filters</button>
-              <button type="button" className="fr-clear" onClick={clearFilters}>Clear</button>
+              <button type="submit">
+                <SlidersHorizontal size={14} />
+                Apply Filters
+              </button>
+              <button type="button" className="fr-clear" onClick={clearFilters}>
+                Clear
+              </button>
             </form>
           </aside>
 
           <section className="fr-results">
             <div className="fr-results-head">
               <strong>{meta.total} results found.</strong>
-              <select value={filters.sortBy || "featured"} onChange={(e) => setFilters({ ...filters, page: 1, sortBy: e.target.value as FundraiserFilters["sortBy"] })}>
+              <select
+                value={filters.sortBy || "featured"}
+                onChange={(e) =>
+                  setFilters({
+                    ...filters,
+                    page: 1,
+                    sortBy: e.target.value as FundraiserFilters["sortBy"],
+                  })
+                }
+              >
                 <option value="featured">Featured first</option>
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
@@ -223,19 +345,38 @@ export default function FundRaisersPage() {
             {error && <div className="fr-alert">{error}</div>}
 
             {loading ? (
-              <div className="fr-loading"><Loader2 className="spin" size={20} />Loading fund raisers</div>
+              <div className="fr-loading">
+                <Loader2 className="spin" size={20} />
+                Loading fund raisers
+              </div>
             ) : items.length ? (
               <div className="fr-grid">
-                {items.map((item) => <FundraiserCard key={item.id} item={item} />)}
+                {items.map((item) => (
+                  <FundraiserCard key={item.id} item={item} />
+                ))}
               </div>
             ) : (
-              <div className="fr-empty">No fund raisers match your filters.</div>
+              <div className="fr-empty">
+                No fund raisers match your filters.
+              </div>
             )}
 
             <div className="fr-pagination">
-              <button disabled={meta.page <= 1} onClick={() => setFilters({ ...filters, page: meta.page - 1 })}>Previous</button>
-              <span>Page {meta.page} of {meta.totalPages}</span>
-              <button disabled={meta.page >= meta.totalPages} onClick={() => setFilters({ ...filters, page: meta.page + 1 })}>Next</button>
+              <button
+                disabled={meta.page <= 1}
+                onClick={() => setFilters({ ...filters, page: meta.page - 1 })}
+              >
+                Previous
+              </button>
+              <span>
+                Page {meta.page} of {meta.totalPages}
+              </span>
+              <button
+                disabled={meta.page >= meta.totalPages}
+                onClick={() => setFilters({ ...filters, page: meta.page + 1 })}
+              >
+                Next
+              </button>
             </div>
           </section>
         </section>

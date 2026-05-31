@@ -32,8 +32,14 @@ export const MarketplaceService = {
     )
   },
 
+  getBusinessById(id: string) {
+    return apiRequest<ApiSuccessResponse<{ listing: BusinessListing } | { business: BusinessListing } | BusinessListing>>(
+      `/businesses/${id}`,
+    )
+  },
+
   getBusinessBySlug(slug: string) {
-    return apiRequest<ApiSuccessResponse<{ listing: BusinessListing }>>(
+    return apiRequest<ApiSuccessResponse<{ listing: BusinessListing } | { business: BusinessListing } | BusinessListing>>(
       `/businesses/slug/${slug}`,
     )
   },
@@ -81,6 +87,12 @@ export const MarketplaceService = {
     )
   },
 
+  getInvestorBySlug(slug: string) {
+    return apiRequest<ApiSuccessResponse<{ investor: InvestorProfile }>>(
+      `/investors/${slug}`,
+    )
+  },
+
   getAdvisors(params: Record<string, QueryValue> = {}) {
     return apiRequest<ApiSuccessResponse<AdvisorProfile[]>>(
       `/advisors${buildQuery({
@@ -96,7 +108,7 @@ export const MarketplaceService = {
     )
   },
 
-   enquire(token: string | null | undefined, businessId: string, message: string) {
+  enquire(token: string | null | undefined, businessId: string, message: string) {
     return apiRequest<ApiSuccessResponse<{ deal: DealListItem }>>('/deals', {
       method: 'POST',
       token,
@@ -105,6 +117,25 @@ export const MarketplaceService = {
         message,
       },
     })
+  },
+
+  enquireInvestor(
+    token: string | null | undefined,
+    investorProfileId: string,
+    message: string,
+    businessId?: string,
+  ) {
+    return apiRequest<ApiSuccessResponse<{ deal: DealListItem }>>(
+      `/deals/investors/${investorProfileId}`,
+      {
+        method: 'POST',
+        token,
+        body: {
+          businessId,
+          message,
+        },
+      },
+    )
   },
 
   contactInvestor(

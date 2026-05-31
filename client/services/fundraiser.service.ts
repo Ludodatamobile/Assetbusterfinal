@@ -31,6 +31,12 @@ export const FundraiserService = {
     );
   },
 
+  getFundraiserBySlug(slug: string) {
+    return apiRequest<ApiSuccessResponse<{ listing: FundraiserListing }>>(
+      `/fundraisers/${slug}`
+    );
+  },
+
   createFundraiser(
     token: string | null | undefined,
     payload: CreateFundraiserPayload

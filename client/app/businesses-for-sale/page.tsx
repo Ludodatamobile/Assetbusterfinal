@@ -1,421 +1,266 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { useParams, useRouter } from "next/navigation";
 import {
   BadgeCheck,
-  BriefcaseBusiness,
   Building2,
-  CheckCircle2,
-  Database,
-  FileText,
-  LockKeyhole,
+  Filter,
+  Loader2,
   MapPin,
-  MessageSquare,
-  ShieldCheck,
+  Search,
+  SlidersHorizontal,
   TrendingUp,
   Users,
 } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
 import { MarketplaceService } from "@/services/marketplace.service";
 import type { BusinessListing } from "@/types/marketplace";
 
-const toNumber = (value: unknown) => Number(value ?? 0);
-
-const hasValue = (value: unknown) => {
-  if (value === undefined || value === null || value === "") return false;
-  const numeric = Number(value);
-  if (Number.isFinite(numeric)) return numeric !== 0;
-  return String(value).trim().length > 0;
+type Filters = {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  search?: string;
+  industry?: string;
+  country?: string;
+  currency?: string;
 };
 
-const formatMoney = (value: unknown, currency = "USD") => {
-  const amount = toNumber(value);
-  if (!amount) return "Not disclosed";
+const INDUSTRIES = ["Technology", "Healthcare", "Manufacturing", "Energy", "Real Estate", "Hospitality", "Logistics", "Financial Services"];
+const COUNTRIES = ["Nigeria", "Ghana", "Kenya", "South Africa", "United States", "United Kingdom", "India", "United Arab Emirates"];
 
-  try {
-    return new Intl.NumberFormat("en", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  } catch {
-    return `${currency} ${amount.toLocaleString()}`;
-  }
-};
-
-const formatEnum = (value?: string | null) => {
+function formatEnum(value?: string | null) {
   if (!value) return "Not available";
-  return value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
-};
-
-function DetailRow({ label, value }: { label: string; value?: string | number | boolean | null }) {
-  if (value === undefined || value === null || value === "") return null;
-
-  return (
-    <div className="bd-row">
-      <span>{label}</span>
-      <strong>{typeof value === "boolean" ? (value ? "Yes" : "No") : value}</strong>
-    </div>
-  );
+  return value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function Section({
-  eyebrow,
-  title,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  children: React.ReactNode;
-}) {
+function formatMoney(value?: string | number | null, currency = "USD") {
+  const amount = Number(value || 0);
+  if (!amount) return "Not disclosed";
+  return `${currency} ${amount.toLocaleString()}`;
+}
+
+function getSummary(item: BusinessListing) {
+  return item.shortSummary || item.teaserSummary || item.description || "No summary has been provided yet.";
+}
+
+function unwrapBusinesses(response: any): BusinessListing[] {
+  const data = response?.data?.listings || response?.data?.businesses || response?.data?.items || response?.data || [];
+  return Array.isArray(data) ? data : [];
+}
+
+function BusinessCard({ item }: { item: BusinessListing }) {
+  const location = [item.city, item.country].filter(Boolean).join(", ");
+  const href = `/businesses-for-sale/${item.id}`;
+  const revenue = item.runSales ?? item.grossRevenue;
+  const profit = item.ebitda ?? item.netProfit;
+
   return (
-    <section className="bd-panel">
-      <div className="bd-panel-head">
-        <p>{eyebrow}</p>
-        <h2>{title}</h2>
+    <article className="bs-card">
+      <div className="bs-card-art">
+        <Building2 size={34} />
+        <strong>{item.industry ? item.industry.slice(0, 2).toUpperCase() : "BS"}</strong>
+        <span>{formatEnum(item.dealType)}</span>
       </div>
-      {children}
-    </section>
-  );
-}
 
-function EnquiryModal({
-  listing,
-  message,
-  saving,
-  error,
-  onMessage,
-  onClose,
-  onSubmit,
-}: {
-  listing: BusinessListing;
-  message: string;
-  saving: boolean;
-  error: string;
-  onMessage: (value: string) => void;
-  onClose: () => void;
-  onSubmit: () => void;
-}) {
-  return (
-    <div className="bd-modal-backdrop" role="presentation" onClick={onClose}>
-      <form
-        className="bd-modal"
-        onClick={(event) => event.stopPropagation()}
-        onSubmit={(event: FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          onSubmit();
-        }}
-      >
-        <div className="bd-modal-head">
+      <div className="bs-card-body">
+        <div className="bs-card-top">
+          <span>{item.isVerified ? <BadgeCheck size={13} /> : <Building2 size={13} />}{item.isVerified ? "Verified" : "Business"}</span>
+          {item.isFeatured && <b>Featured</b>}
+        </div>
+
+        <h2>
+          <a href={href}>{item.title}</a>
+        </h2>
+
+        <p className="bs-location">
+          <MapPin size={14} />
+          {location || item.country || "Location not disclosed"}
+        </p>
+
+        <p className="bs-summary">{getSummary(item)}</p>
+
+        <div className="bs-ask">
+          <span>Asking Amount</span>
+          <strong>{formatMoney(item.askAmount, item.currency)}</strong>
+        </div>
+
+        <div className="bs-metrics">
           <div>
-            <p>Secure enquiry</p>
-            <h3>{listing.title}</h3>
+            <span>Revenue</span>
+            <strong>{formatMoney(revenue, item.currency)}</strong>
           </div>
-          <button type="button" onClick={onClose} aria-label="Close enquiry modal">
-            x
-          </button>
+          <div>
+            <span>Profit</span>
+            <strong>{formatMoney(profit, item.currency)}</strong>
+          </div>
         </div>
 
-        {error && <div className="bd-error">{error}</div>}
-
-        <textarea
-          rows={6}
-          value={message}
-          onChange={(event) => onMessage(event.target.value)}
-          placeholder="Introduce yourself and explain your interest. Minimum 20 characters."
-        />
-
-        <div className="bd-modal-actions">
-          <button type="button" className="bd-secondary" onClick={onClose}>
-            Cancel
-          </button>
-          <button type="submit" className="bd-primary" disabled={saving}>
-            {saving ? "Sending..." : "Send Enquiry"}
-          </button>
-        </div>
-      </form>
-    </div>
+        <a className="bs-view-btn" href={href}>
+          View Details
+        </a>
+      </div>
+    </article>
   );
 }
 
-export default function BusinessDetailPage() {
-  const params = useParams<{ slug: string }>();
-  const router = useRouter();
-  const { accessToken, isAuthenticated } = useAuth();
-
-  const [listing, setListing] = useState<BusinessListing | null>(null);
+export default function BusinessesForSalePage() {
+  const [items, setItems] = useState<BusinessListing[]>([]);
+  const [meta, setMeta] = useState({ total: 0, page: 1, limit: 12, totalPages: 1 });
+  const [filters, setFilters] = useState<Filters>({ page: 1, limit: 12, sortBy: "featured" });
+  const [draft, setDraft] = useState({ search: "", industry: "", country: "", currency: "" });
   const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const slug = params?.slug;
-
-  const load = useCallback(async () => {
-    if (!slug) return;
-
+  const loadBusinesses = useCallback(async () => {
     setLoading(true);
-    setLoadError("");
+    setError("");
 
     try {
-      const response = await MarketplaceService.getBusinessBySlug(slug);
-      setListing(response.data.listing);
+      const response = await MarketplaceService.getBusinesses(filters);
+      const data = unwrapBusinesses(response);
+
+      setItems(data);
+      setMeta(
+        response?.meta ||
+          response?.data?.meta || {
+            total: data.length,
+            page: Number(filters.page || 1),
+            limit: Number(filters.limit || 12),
+            totalPages: Math.max(1, Math.ceil(data.length / Number(filters.limit || 12))),
+          },
+      );
     } catch (err: any) {
-      setLoadError(err?.message || "Business listing could not be loaded.");
+      setItems([]);
+      setError(err?.message || "Businesses could not be loaded.");
     } finally {
       setLoading(false);
     }
-  }, [slug]);
+  }, [filters]);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    void loadBusinesses();
+  }, [loadBusinesses]);
 
-  const location = useMemo(() => {
-    if (!listing) return "";
-    return [listing.city, listing.country].filter(Boolean).join(", ") || listing.country;
-  }, [listing]);
+  const totalAsking = useMemo(
+    () => items.reduce((sum, item) => sum + Number(item.askAmount || 0), 0),
+    [items],
+  );
 
-  const openEnquiry = () => {
-    if (!listing) return;
-
-    if (!isAuthenticated) {
-      router.push(`/login?redirect=/businesses-for-sale/${listing.slug}`);
-      return;
-    }
-
-    setMessage(`Hello, I am interested in ${listing.title} and would like to learn more about the business, financials, and deal process.`);
-    setError("");
-    setModalOpen(true);
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFilters({
+      page: 1,
+      limit: 12,
+      sortBy: "featured",
+      search: draft.search || undefined,
+      industry: draft.industry || undefined,
+      country: draft.country || undefined,
+      currency: draft.currency || undefined,
+    });
   };
 
-  const sendEnquiry = async () => {
-    if (!listing || !accessToken) return;
-
-    if (message.trim().length < 20) {
-      setError("Please write at least 20 characters.");
-      return;
-    }
-
-    setSaving(true);
-    setError("");
-
-    try {
-      await MarketplaceService.enquire(accessToken, listing.id, message);
-      setModalOpen(false);
-      router.push("/dashboard?tab=enquiries");
-    } catch (err: any) {
-      setError(err?.message || "Could not send enquiry.");
-    } finally {
-      setSaving(false);
-    }
+  const clearFilters = () => {
+    setDraft({ search: "", industry: "", country: "", currency: "" });
+    setFilters({ page: 1, limit: 12, sortBy: "featured" });
   };
-
-  if (loading) {
-    return (
-      <>
-        <style>{styles}</style>
-        <main className="bd-loading">Loading business profile...</main>
-      </>
-    );
-  }
-
-  if (!listing || loadError) {
-    return (
-      <>
-        <style>{styles}</style>
-        <main className="bd-loading">{loadError || "Business listing not found."}</main>
-      </>
-    );
-  }
-
-  const revenue = listing.runSales ?? listing.grossRevenue;
-  const profit = listing.ebitda ?? listing.netProfit;
-  const profitLabel = listing.ebitda ? "EBITDA" : "Net Profit";
 
   return (
     <>
       <style>{styles}</style>
-
-      <main className="bd-page">
-        <section className="bd-hero">
-          <div className="bd-hero-inner">
-            <nav className="bd-breadcrumb">
-              <a href="/">Home</a>
-              <span>/</span>
-              <a href="/businesses-for-sale">Businesses for Sale</a>
-              <span>/</span>
-              <span>{listing.title}</span>
-            </nav>
-
-            <div className="bd-hero-grid">
-              <div>
-                <div className="bd-tag-row">
-                  <span>{listing.industry}</span>
-                  <span>{formatEnum(listing.dealType)}</span>
-                  {listing.isVerified && <span><BadgeCheck size={12} />Verified</span>}
-                  {listing.isFeatured && <span>Featured</span>}
-                </div>
-
-                <h1>{listing.headline || listing.title}</h1>
-                {listing.headline && <h2>{listing.title}</h2>}
-
-                <p>{listing.shortSummary || listing.teaserSummary || listing.description}</p>
-
-                <div className="bd-location">
-                  <MapPin size={15} />
-                  <span>{location}</span>
-                </div>
-              </div>
-
-              <aside className="bd-ask-card">
-                <span>Asking Amount</span>
-                <strong>{formatMoney(listing.askAmount, listing.currency)}</strong>
-                <p>
-                  {listing.askPercent ? `${listing.askPercent}% equity offered` : ""}
-                  {listing.askRate ? `${listing.askRate}% interest rate` : ""}
-                  {!listing.askPercent && !listing.askRate ? formatEnum(listing.dealType) : ""}
-                </p>
-                <button type="button" onClick={openEnquiry}>
-                  <MessageSquare size={15} />
-                  Contact Seller
-                </button>
-              </aside>
-            </div>
+      <main className="bs-page">
+        <section className="bs-hero">
+          <div>
+            <p>Business acquisition marketplace</p>
+            <h1>Businesses for Sale</h1>
+            <span>Explore active acquisition opportunities, profitable businesses, and strategic sale listings across major markets.</span>
           </div>
+          <a href="/dashboard?tab=add-profile">Sell Your Business</a>
         </section>
 
-        <section className="bd-main">
-          <div className="bd-left">
-            <div className="bd-kpi-grid">
-              <div><TrendingUp size={17} /><span>Revenue</span><strong>{formatMoney(revenue, listing.currency)}</strong></div>
-              <div><BriefcaseBusiness size={17} /><span>{profitLabel}</span><strong>{hasValue(profit) ? formatMoney(profit, listing.currency) : listing.ebitdaMargin ? `${listing.ebitdaMargin}% margin` : "Not disclosed"}</strong></div>
-              <div><Users size={17} /><span>Employees</span><strong>{listing.employees || "Not disclosed"}</strong></div>
-              <div><Building2 size={17} /><span>Established</span><strong>{listing.established || "Not disclosed"}</strong></div>
+        <section className="bs-stats">
+          <article><Building2 size={18} /><span>{meta.total}</span><p>Businesses found</p></article>
+          <article><TrendingUp size={18} /><span>{formatMoney(totalAsking, "USD")}</span><p>Visible asking value</p></article>
+          <article><BadgeCheck size={18} /><span>{items.filter((item) => item.isVerified).length}</span><p>Verified listings</p></article>
+        </section>
+
+        <section className="bs-layout">
+          <aside className="bs-filters">
+            <div className="bs-filter-head">
+              <Filter size={16} />
+              <strong>Filter Businesses</strong>
             </div>
 
-            <Section eyebrow="Overview" title="Business Summary">
-              <div className="bd-rich-text">
-                <p>{listing.description}</p>
-              </div>
-              <div className="bd-detail-grid">
-                <DetailRow label="Business Name" value={listing.businessName} />
-                <DetailRow label="Legal Entity" value={listing.legalEntityName} />
-                <DetailRow label="Website" value={listing.website} />
-                <DetailRow label="Outlets / Locations" value={listing.outlets} />
-              </div>
-            </Section>
-
-            <Section eyebrow="Operations" title="Operating Model">
-              <div className="bd-copy-grid">
-                <DetailRow label="Business Model" value={listing.businessModel} />
-                <DetailRow label="Products / Services" value={listing.productsServices} />
-                <DetailRow label="Customer Base" value={listing.customerBase} />
-                <DetailRow label="Key Clients" value={listing.keyClients} />
-                <DetailRow label="Competitive Advantages" value={listing.competitiveAdvantages} />
-                <DetailRow label="Growth Opportunities" value={listing.growthOpportunities} />
-              </div>
-            </Section>
-
-            <Section eyebrow="Financials" title="Financial Snapshot">
-              <div className="bd-detail-grid">
-                <DetailRow label="Annual Revenue" value={formatMoney(listing.runSales ?? listing.grossRevenue, listing.currency)} />
-                <DetailRow label="Gross Revenue" value={hasValue(listing.grossRevenue) ? formatMoney(listing.grossRevenue, listing.currency) : null} />
-                <DetailRow label="Monthly Revenue" value={hasValue(listing.monthlyRevenue) ? formatMoney(listing.monthlyRevenue, listing.currency) : null} />
-                <DetailRow label="EBITDA" value={hasValue(listing.ebitda) ? formatMoney(listing.ebitda, listing.currency) : null} />
-                <DetailRow label="EBITDA Margin" value={listing.ebitdaMargin ? `${listing.ebitdaMargin}%` : null} />
-                <DetailRow label="Net Profit" value={hasValue(listing.netProfit) ? formatMoney(listing.netProfit, listing.currency) : null} />
-                <DetailRow label="Monthly Profit" value={hasValue(listing.monthlyProfit) ? formatMoney(listing.monthlyProfit, listing.currency) : null} />
-                <DetailRow label="Inventory Value" value={hasValue(listing.inventoryValue) ? formatMoney(listing.inventoryValue, listing.currency) : null} />
-                <DetailRow label="Asset Value" value={hasValue(listing.assetValue) ? formatMoney(listing.assetValue, listing.currency) : null} />
-                <DetailRow label="Real Estate Value" value={hasValue(listing.realEstateValue) ? formatMoney(listing.realEstateValue, listing.currency) : null} />
-              </div>
-            </Section>
-
-            <Section eyebrow="Deal terms" title="Transaction Details">
-              <div className="bd-copy-grid">
-                <DetailRow label="Deal Type" value={formatEnum(listing.dealType)} />
-                <DetailRow label="Valuation Method" value={listing.valuationMethod} />
-                <DetailRow label="Asking Price Reason" value={listing.askingPriceReason} />
-                <DetailRow label="Reason For Selling" value={listing.reasonForSelling} />
-                <DetailRow label="Assets Included" value={listing.assetsIncluded} />
-                <DetailRow label="Seller Financing" value={listing.sellerFinancing} />
-                <DetailRow label="Training Included" value={listing.trainingIncluded} />
-                <DetailRow label="Transition Support" value={listing.transitionSupport} />
-                <DetailRow label="Preferred Buyer Type" value={listing.preferredBuyerType} />
-                <DetailRow label="Deal Structure Notes" value={listing.dealStructureNotes} />
-              </div>
-            </Section>
-
-            {(listing.facilities || listing.leaseTerms) && (
-              <Section eyebrow="Facilities" title="Property And Lease">
-                <div className="bd-copy-grid">
-                  <DetailRow label="Facilities" value={listing.facilities} />
-                  <DetailRow label="Lease Terms" value={listing.leaseTerms} />
+            <form onSubmit={submit}>
+              <label>
+                Search
+                <div className="bs-input-icon">
+                  <Search size={14} />
+                  <input value={draft.search} onChange={(e) => setDraft({ ...draft, search: e.target.value })} placeholder="Business, sector, location" />
                 </div>
-              </Section>
-            )}
+              </label>
 
-            {listing.profileType === "RAISE_CAPITAL" && (
-              <Section eyebrow="Fundraise" title="Investor Information">
-                <div className="bd-copy-grid">
-                  <DetailRow label="Funding Stage" value={listing.fundingStage} />
-                  <DetailRow label="Use Of Funds" value={listing.useOfFunds} />
-                  <DetailRow label="Traction" value={listing.traction} />
-                  <DetailRow label="Runway" value={listing.runway} />
-                  <DetailRow label="Minimum Investment" value={hasValue(listing.minInvestment) ? formatMoney(listing.minInvestment, listing.currency) : null} />
-                  <DetailRow label="Target Investor" value={listing.targetInvestor} />
-                  <DetailRow label="Previous Funding" value={hasValue(listing.previousFunding) ? formatMoney(listing.previousFunding, listing.currency) : null} />
-                  <DetailRow label="Revenue Model" value={listing.revenueModel} />
-                  <DetailRow label="Key Metrics" value={listing.keyMetrics} />
-                  <DetailRow label="Investor Highlights" value={listing.investorHighlights} />
-                  <DetailRow label="Exit Strategy" value={listing.exitStrategy} />
-                  <DetailRow label="Pitch Deck Ready" value={listing.pitchDeckReady} />
-                </div>
-              </Section>
-            )}
-          </div>
+              <label>
+                Industry
+                <select value={draft.industry} onChange={(e) => setDraft({ ...draft, industry: e.target.value })}>
+                  <option value="">All industries</option>
+                  {INDUSTRIES.map((item) => <option key={item} value={item}>{item}</option>)}
+                </select>
+              </label>
 
-          <aside className="bd-right">
-            <section className="bd-side-card">
-              <div className="bd-owner">
-                <div>{listing.user?.firstName?.[0] || "A"}{listing.user?.lastName?.[0] || "B"}</div>
-                <strong>{listing.user ? `${listing.user.firstName} ${listing.user.lastName}` : "Listing Owner"}</strong>
-                <span>{listing.user?.country || listing.country}</span>
-              </div>
-              <button type="button" onClick={openEnquiry}>
-                <MessageSquare size={15} />
-                Send Enquiry
-              </button>
-            </section>
+              <label>
+                Location
+                <select value={draft.country} onChange={(e) => setDraft({ ...draft, country: e.target.value })}>
+                  <option value="">All locations</option>
+                  {COUNTRIES.map((item) => <option key={item} value={item}>{item}</option>)}
+                </select>
+              </label>
 
-            <section className="bd-side-card">
-              <h3>Trust And Diligence</h3>
-              <div className="bd-trust-list">
-                <span><LockKeyhole size={14} />{listing.isConfidential !== false ? "Confidential listing" : "Public listing"}</span>
-                <span><ShieldCheck size={14} />{listing.ndaRequired !== false ? "NDA expected" : "NDA not required"}</span>
-                <span><FileText size={14} />{listing.financialsAvailable ? "Financials available" : "Financials not marked available"}</span>
-                <span><Database size={14} />{listing.dataRoomReady ? "Data room ready" : "Data room pending"}</span>
-                <span><CheckCircle2 size={14} />{listing.isVerified ? "Verified owner/listing" : "Verification pending"}</span>
-              </div>
-            </section>
+              <label>
+                Currency
+                <select value={draft.currency} onChange={(e) => setDraft({ ...draft, currency: e.target.value })}>
+                  <option value="">Any currency</option>
+                  <option value="USD">USD</option>
+                  <option value="NGN">NGN</option>
+                  <option value="GBP">GBP</option>
+                  <option value="EUR">EUR</option>
+                </select>
+              </label>
+
+              <button type="submit"><SlidersHorizontal size={14} />Apply Filters</button>
+              <button type="button" className="bs-clear" onClick={clearFilters}>Clear</button>
+            </form>
           </aside>
-        </section>
 
-        {modalOpen && (
-          <EnquiryModal
-            listing={listing}
-            message={message}
-            saving={saving}
-            error={error}
-            onMessage={setMessage}
-            onClose={() => setModalOpen(false)}
-            onSubmit={sendEnquiry}
-          />
-        )}
+          <section className="bs-results">
+            <div className="bs-results-head">
+              <strong>{meta.total} results found.</strong>
+              <select value={filters.sortBy || "featured"} onChange={(e) => setFilters({ ...filters, page: 1, sortBy: e.target.value })}>
+                <option value="featured">Featured first</option>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="askAmount">Highest ask</option>
+              </select>
+            </div>
+
+            {error && <div className="bs-alert">{error}</div>}
+
+            {loading ? (
+              <div className="bs-loading"><Loader2 className="spin" size={20} />Loading businesses</div>
+            ) : items.length ? (
+              <div className="bs-grid">
+                {items.map((item) => <BusinessCard key={item.id} item={item} />)}
+              </div>
+            ) : (
+              <div className="bs-empty">No businesses match your filters.</div>
+            )}
+
+            <div className="bs-pagination">
+              <button disabled={meta.page <= 1} onClick={() => setFilters({ ...filters, page: meta.page - 1 })}>Previous</button>
+              <span>Page {meta.page} of {meta.totalPages}</span>
+              <button disabled={meta.page >= meta.totalPages} onClick={() => setFilters({ ...filters, page: meta.page + 1 })}>Next</button>
+            </div>
+          </section>
+        </section>
       </main>
     </>
   );
@@ -423,63 +268,49 @@ export default function BusinessDetailPage() {
 
 const styles = `
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--mw:82rem;--navy:#0f1e36;--t2:#4a5568;--t3:#8896a8;--bdr:#e2e6ed;--surf:#f4f6f9;--blue:#1A56DB;--green:#10B981;--amber:#F5A623;--red:#D42B2B;--font:'Poppins','Inter',system-ui,sans-serif}
-body{font-family:var(--font);background:var(--surf);color:var(--navy)}
-.bd-loading{min-height:70vh;display:grid;place-items:center;padding-top:100px;color:var(--t2);font-size:13px;font-weight:900}
-.bd-page{min-height:100vh;padding-top:102px;background:var(--surf)}
-.bd-hero{background:var(--navy);color:#fff;padding:30px 0}
-.bd-hero-inner{max-width:var(--mw);margin:0 auto;padding:0 28px}
-.bd-breadcrumb{display:flex;gap:7px;align-items:center;flex-wrap:wrap;font-size:11px;color:rgba(255,255,255,.38);margin-bottom:16px}
-.bd-breadcrumb a{color:rgba(255,255,255,.68);text-decoration:none}
-.bd-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:26px;align-items:start}
-.bd-tag-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
-.bd-tag-row span{display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:rgba(255,255,255,.78);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.55px;padding:4px 8px}
-.bd-hero h1{font-size:clamp(28px,4vw,46px);line-height:1.08;font-weight:900;letter-spacing:-.8px;max-width:850px}
-.bd-hero h2{font-size:14px;color:rgba(255,255,255,.48);margin-top:8px;font-weight:800}
-.bd-hero p{font-size:14px;line-height:1.75;color:rgba(255,255,255,.62);max-width:780px;margin-top:14px}
-.bd-location{display:flex;align-items:center;gap:7px;margin-top:14px;color:rgba(255,255,255,.72);font-size:12.5px;font-weight:800}
-.bd-ask-card{background:#fff;color:var(--navy);border:1px solid rgba(255,255,255,.12);padding:18px}
-.bd-ask-card>span{display:block;font-size:10px;font-weight:900;text-transform:uppercase;color:var(--t3);letter-spacing:.7px}
-.bd-ask-card strong{display:block;font-size:25px;font-weight:900;margin-top:7px}
-.bd-ask-card p{color:var(--t2);font-size:12px;margin:6px 0 14px;line-height:1.45}
-.bd-ask-card button,.bd-side-card button,.bd-primary{height:38px;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--blue);border:1px solid var(--blue);color:#fff;font-family:var(--font);font-size:12px;font-weight:900;cursor:pointer;text-decoration:none;padding:0 14px;width:100%}
-.bd-main{max-width:var(--mw);margin:0 auto;padding:24px 28px 70px;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
-.bd-left{display:flex;flex-direction:column;gap:18px}
-.bd-right{display:flex;flex-direction:column;gap:16px;position:sticky;top:120px}
-.bd-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.bd-kpi-grid div{background:#fff;border:1px solid var(--bdr);padding:14px}
-.bd-kpi-grid svg{color:var(--blue);margin-bottom:10px}
-.bd-kpi-grid span{display:block;font-size:10px;color:var(--t3);font-weight:900;text-transform:uppercase;letter-spacing:.55px}
-.bd-kpi-grid strong{display:block;font-size:15px;color:var(--navy);font-weight:900;margin-top:4px}
-.bd-panel,.bd-side-card{background:#fff;border:1px solid var(--bdr);padding:18px}
-.bd-panel-head{border-bottom:1px solid var(--bdr);padding-bottom:12px;margin-bottom:14px}
-.bd-panel-head p{font-size:10px;color:var(--blue);font-weight:900;text-transform:uppercase;letter-spacing:.75px;margin-bottom:4px}
-.bd-panel-head h2{font-size:18px;color:var(--navy);font-weight:900}
-.bd-rich-text p{font-size:13px;line-height:1.8;color:var(--t2);white-space:pre-line}
-.bd-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.bd-copy-grid{display:flex;flex-direction:column;gap:10px}
-.bd-row{background:var(--surf);border:1px solid var(--bdr);padding:11px 12px}
-.bd-row span{display:block;font-size:10px;color:var(--t3);font-weight:900;text-transform:uppercase;letter-spacing:.55px;margin-bottom:4px}
-.bd-row strong{display:block;font-size:12.5px;color:var(--navy);font-weight:800;line-height:1.6;white-space:pre-line}
-.bd-owner{text-align:center;border-bottom:1px solid var(--bdr);padding-bottom:14px;margin-bottom:14px}
-.bd-owner div{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--amber));color:#fff;display:grid;place-items:center;font-weight:900;margin:0 auto 9px}
-.bd-owner strong{display:block;font-size:14px;font-weight:900}
-.bd-owner span{display:block;font-size:11px;color:var(--t3);font-weight:800;margin-top:3px}
-.bd-side-card h3{font-size:15px;font-weight:900;margin-bottom:12px}
-.bd-trust-list{display:flex;flex-direction:column;gap:9px}
-.bd-trust-list span{display:flex;align-items:flex-start;gap:8px;background:var(--surf);border:1px solid var(--bdr);padding:9px 10px;font-size:11.5px;color:var(--t2);font-weight:800;line-height:1.45}
-.bd-trust-list svg{color:var(--blue);flex-shrink:0;margin-top:1px}
-.bd-modal-backdrop{position:fixed;inset:0;background:rgba(10,22,40,.58);display:grid;place-items:center;z-index:100;padding:18px}
-.bd-modal{width:min(560px,100%);background:#fff;border:1px solid var(--bdr);padding:18px;display:flex;flex-direction:column;gap:12px}
-.bd-modal-head{display:flex;justify-content:space-between;gap:12px}
-.bd-modal-head p{font-size:10px;color:var(--blue);font-weight:900;text-transform:uppercase}
-.bd-modal-head h3{font-size:16px}
-.bd-modal-head button{border:0;background:var(--surf);width:30px;height:30px;cursor:pointer}
-.bd-modal textarea{width:100%;border:1px solid var(--bdr);padding:12px;font-family:var(--font);font-size:13px}
-.bd-error{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:9px 10px;font-size:12px;font-weight:800}
-.bd-modal-actions{display:flex;justify-content:flex-end;gap:9px}
-.bd-secondary{border:1px solid var(--bdr);background:#fff;color:var(--t2);padding:9px 14px;font-family:var(--font);font-weight:800;cursor:pointer}
-.bd-primary{width:auto}
-@media(max-width:1040px){.bd-hero-grid,.bd-main{grid-template-columns:1fr}.bd-right{position:static}.bd-kpi-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.bd-page{padding-top:78px}.bd-hero-inner,.bd-main{padding-left:16px;padding-right:16px}.bd-detail-grid,.bd-kpi-grid{grid-template-columns:1fr}.bd-ask-card button{width:100%}}
+.bs-page{min-height:100vh;background:#f4f6f9;color:#0f1e36;font-family:'Poppins','Inter',system-ui,sans-serif;padding:128px 24px 64px}
+.bs-hero{max-width:82rem;margin:0 auto 18px;background:#0a1628;color:#fff;padding:30px;display:flex;align-items:flex-start;justify-content:space-between;gap:18px;border-radius:4px}
+.bs-hero p{font-size:11px;font-weight:900;text-transform:uppercase;color:#f5a623;margin-bottom:8px}
+.bs-hero h1{font-size:34px;line-height:1.12;margin-bottom:10px}
+.bs-hero span{display:block;max-width:760px;color:rgba(255,255,255,.68);font-size:14px;line-height:1.7}
+.bs-hero a{height:40px;display:inline-flex;align-items:center;justify-content:center;background:#f5a623;color:#fff;text-decoration:none;font-size:13px;font-weight:900;padding:0 18px;border-radius:4px;white-space:nowrap}
+.bs-stats{max-width:82rem;margin:0 auto 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.bs-stats article{background:#fff;border:1px solid #e2e6ed;padding:16px;display:flex;align-items:center;gap:12px;border-radius:4px}
+.bs-stats svg{color:#1A56DB}.bs-stats span{display:block;font-size:20px;font-weight:900}.bs-stats p{font-size:12px;color:#8896a8;font-weight:800}
+.bs-layout{max-width:82rem;margin:0 auto;display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px}
+.bs-filters,.bs-results-head,.bs-card,.bs-empty,.bs-loading,.bs-alert{background:#fff;border:1px solid #e2e6ed;border-radius:4px}
+.bs-filters{height:max-content;padding:18px;position:sticky;top:128px}
+.bs-filter-head{display:flex;align-items:center;gap:9px;margin-bottom:18px;color:#0f1e36}
+.bs-filters form{display:flex;flex-direction:column;gap:13px}
+.bs-filters label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:900;text-transform:uppercase;color:#4a5568}
+.bs-filters input,.bs-filters select{width:100%;height:40px;border:1px solid #e2e6ed;background:#fff;color:#0f1e36;padding:0 11px;font:600 13px 'Poppins','Inter',system-ui,sans-serif;outline:none;border-radius:3px}
+.bs-input-icon{position:relative}.bs-input-icon svg{position:absolute;left:10px;top:13px;color:#8896a8}.bs-input-icon input{padding-left:32px}
+.bs-filters button,.bs-view-btn,.bs-pagination button{height:38px;border:0;background:#f5a623;color:#fff;font:900 12px 'Poppins','Inter',system-ui,sans-serif;cursor:pointer;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none}
+.bs-filters .bs-clear{background:#fff;color:#4a5568;border:1px solid #e2e6ed}
+.bs-results{min-width:0}
+.bs-results-head{height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:14px}
+.bs-results-head strong{font-size:15px}.bs-results-head select{height:34px;border:1px solid #e2e6ed;background:#fff;padding:0 10px;border-radius:3px}
+.bs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.bs-card{overflow:hidden}
+.bs-card-art{height:150px;background:#eef3f8;display:grid;place-items:center;color:#1A56DB;text-align:center}
+.bs-card-art strong{font-size:26px;color:#0f1e36}.bs-card-art span{font-size:11px;font-weight:900;color:#4a5568}
+.bs-card-body{padding:18px}
+.bs-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}
+.bs-card-top span{display:inline-flex;align-items:center;gap:5px;color:#10B981;font-size:11px;font-weight:900}.bs-card-top b{background:#fff7ed;color:#c97d10;padding:4px 7px;font-size:10px;border-radius:3px}
+.bs-card h2{font-size:20px;line-height:1.18;margin-bottom:10px;color:#0f1e36}.bs-card h2 a{color:inherit;text-decoration:none}
+.bs-location{display:flex;align-items:flex-start;gap:6px;color:#6b7280;font-size:12px;line-height:1.45;margin-bottom:9px}.bs-location svg{color:#ff9d3b}
+.bs-summary{font-size:12px;line-height:1.6;color:#4a5568;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bs-ask{border-top:1px solid #edf0f5;border-bottom:1px solid #edf0f5;margin:16px 0 12px;padding:11px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.bs-ask span,.bs-metrics span{font-size:11px;text-transform:uppercase;color:#6b7280;font-weight:800}
+.bs-ask strong{font-size:20px;color:#ff9d3b;text-align:right}
+.bs-metrics{display:grid;grid-template-columns:1fr 1fr;margin-bottom:14px}
+.bs-metrics div{padding-right:12px}.bs-metrics div+div{border-left:1px solid #edf0f5;padding-left:12px}
+.bs-metrics strong{display:block;margin-top:4px;color:#6b7280;font-size:15px}
+.bs-view-btn{width:100%;background:#ff9d3b}
+.bs-loading,.bs-empty,.bs-alert{padding:34px;text-align:center;color:#4a5568;font-weight:900}
+.bs-alert{border-color:#fecaca;background:#fef2f2;color:#b91c1c;margin-bottom:14px}
+.spin{animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.bs-pagination{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:22px}.bs-pagination button:disabled{opacity:.45;cursor:not-allowed}.bs-pagination span{font-size:12px;font-weight:900;color:#4a5568}
+@media(max-width:1180px){.bs-grid{grid-template-columns:repeat(2,1fr)}.bs-layout{grid-template-columns:1fr}.bs-filters{position:static}}
+@media(max-width:720px){.bs-page{padding:104px 14px 44px}.bs-hero{flex-direction:column;padding:22px}.bs-hero h1{font-size:28px}.bs-stats,.bs-grid{grid-template-columns:1fr}.bs-results-head{height:auto;align-items:flex-start;flex-direction:column;gap:10px;padding:14px}}
 `;

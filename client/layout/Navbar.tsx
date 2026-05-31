@@ -407,7 +407,6 @@ export default function Navbar() {
 }
 
 const styles = `
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
     --max-w:82rem;
     --bg-nav-dark:#0a1628;
@@ -421,7 +420,7 @@ const styles = `
     --blue-d:#1444B8;
     --green:#10B981;
     --red:#dc2626;
-    --font-sans:'Poppins','Inter',system-ui,sans-serif;
+    --font-sans:var(--font-inter),'Inter',system-ui,-apple-system,sans-serif;
     --r4:4px;
     --shadow-dd:0 20px 48px rgba(15,30,54,.18),0 4px 12px rgba(15,30,54,.08);
     --t:180ms cubic-bezier(.4,0,.2,1)
@@ -525,7 +524,7 @@ const styles = `
   .nav-dd-item span{display:block;color:var(--text);font-weight:900}
   .nav-dd-item small{display:block;color:var(--text-3);font-size:11px;margin-top:2px}
 
-  .nav-link,.nav-link-btn{display:inline-flex;align-items:center;gap:5px;text-decoration:none;font-size:12.5px;font-weight:800;padding:6px 10px;border-radius:var(--r4);background:none;border:none;cursor:pointer;white-space:nowrap;font-family:var(--font-sans);transition:all var(--t)}
+  .nav-link,.nav-link-btn{display:inline-flex;align-items:center;gap:5px;text-decoration:none;font-size:13.5px;font-weight:800;padding:6px 10px;border-radius:var(--r4);background:none;border:none;cursor:pointer;white-space:nowrap;font-family:var(--font-sans);transition:all var(--t)}
   .nav-link.is-light,.nav-link-btn.is-light{color:rgba(255,255,255,.72)}
   .nav-link.is-light:hover,.nav-link-btn.is-light:hover,.nav-link-btn.is-light.is-open{color:#fff;background:rgba(255,255,255,.08)}
   .nav-link.is-dark,.nav-link-btn.is-dark{color:var(--text-2)}

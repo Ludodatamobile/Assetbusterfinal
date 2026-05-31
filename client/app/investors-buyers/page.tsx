@@ -442,9 +442,7 @@ function InvestorCard({ inv }: { inv: Investor }) {
             <span className="ib-for">- {inv.investMax}</span>
           </div>
         </div>
-        <a className="ib-contact-btn" href={`/investors-buyers/${inv.id}`} style={{ background: color }}>
-          Connect
-        </a>
+        <a href={`/investors-buyers/${(inv as any).slug || inv.id}`}>{inv.name}</a>
       </div>
     </article>
   );
