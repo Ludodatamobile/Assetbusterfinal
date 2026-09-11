@@ -171,6 +171,7 @@ model AdminRefreshToken {
   @@index([adminId])
 }
 
+
 model BusinessProfile {
   id           String        @id @default(uuid())
   userId       String
@@ -399,6 +400,9 @@ model Message {
   @@index([senderId])
 }
 
+
+
+
 model Document {
   id         String           @id @default(uuid())
   name       String
@@ -462,6 +466,8 @@ model SavedBusiness {
   @@index([businessId])
 }
 
+
+
 model AuditLog {
   id        String   @id @default(uuid())
   adminId   String
@@ -476,6 +482,7 @@ model AuditLog {
   @@index([entity])
   @@index([createdAt])
 }
+
 
 model BroadcastCampaign {
   id             String          @id @default(uuid())
