@@ -8,6 +8,7 @@ import { socketHandler } from "./modules/messaging/socket.handler.js";
 import { AdminContentService } from "./admin/content/adminContent.service.js";
 import { verifyAccessToken } from "./utils/generateToken.js";
 import { prisma } from "./config/prisma.js";
+import {franchCrawler} from "./modules/crawler/crawler.franch.service.js";
 
 const PORT = process.env.PORT || 5000;
 const CAMPAIGN_POLL_MS = 60_000;
@@ -26,10 +27,20 @@ const startCampaignScheduler = () => {
     console.error("Campaign scheduler boot-run error:", err),
   );
 
-  setInterval(() => {
+  setInterval(async() => {
     AdminContentService.processScheduledCampaigns().catch((err) =>
       console.error("Campaign scheduler error:", err),
     );
+    
+    try{
+     await franchCrawler();
+     
+    }catch(err){
+      console.error("Franchise crawler error:", err);
+    } 
+
+   
+
   }, CAMPAIGN_POLL_MS);
 
   console.log("✓ Campaign scheduler active (60s poll)");
