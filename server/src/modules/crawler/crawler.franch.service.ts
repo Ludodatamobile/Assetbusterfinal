@@ -1,14 +1,10 @@
-import { CheerioCrawler, Dataset, Configuration} from 'crawlee'
+import { CheerioCrawler, Dataset, Configuration, Logger} from 'crawlee'
 import { prisma } from '../../config/prisma.js'
 import { createSlug, parseAmount } from './helperFunctions.js'
-import { Prisma, User } from '@prisma/client'
+
 
 const BASE_URL = 'https://www.smergers.com'
 
-type Metric = {
-  currency?: string
-  value: string
-}
 
 type FranchiseListing = {
   title: string
@@ -44,7 +40,7 @@ const saveSmaggerCralData = async (listing: FranchiseListing )=>{
         return
     }
     
-    const business = await prisma.businessProfile.upsert({
+await prisma.businessProfile.upsert({
   where: {
      // id: user?.id,
       slug:  createSlug(listing.title)
@@ -93,13 +89,6 @@ const saveSmaggerCralData = async (listing: FranchiseListing )=>{
 
     status: 'ACTIVE',
 
- 
-  //updatedAt: (new Date()).toString(),
-
-//   deals:      [],
-//   documents:  [],
-//   valuation:   [],
-//   savedBy:    [],
   },
 
   update: {
@@ -279,28 +268,15 @@ export const franchCrawler = async (): Promise<FranchiseListing[]> => {
 
   // Get the actual scraped objects
   const { items } = await dataset.getData()
-  
+try {
 await Promise.all(
   items.map(item => saveSmaggerCralData(item as unknown as FranchiseListing))
 )
-
-  return items as FranchiseListing[]
+} catch (error) {
+    
 }
 
 
-
-
-// function extractMetric(
-//   item: unknown,
-//   label: string,
-// ) {
-   
-// }
-
-// function extractTextMetric(
-//   item: unknown,
-//   label: string,
-// ) {
-//   console.log(item, label, "ITEMm", "Label")
-// }
+  return items as FranchiseListing[]
+}
 

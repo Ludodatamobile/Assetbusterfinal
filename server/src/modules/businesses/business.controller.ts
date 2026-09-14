@@ -9,7 +9,7 @@ export const getListings = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const getListingBySlug = asyncHandler(async (req: Request, res: Response) => {
-  const listing = await businessService.getListingBySlug(req.params.slug, req.user?.id)
+  const listing = await businessService.getListingBySlug(req.params.slug as string, req.user?.id)
   return ApiResponse.success(res, { listing })
 })
 

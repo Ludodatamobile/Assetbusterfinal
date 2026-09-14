@@ -9,6 +9,8 @@ import { AdminContentService } from "./admin/content/adminContent.service.js";
 import { verifyAccessToken } from "./utils/generateToken.js";
 import { prisma } from "./config/prisma.js";
 import {franchCrawler} from "./modules/crawler/crawler.franch.service.js";
+import { businessCrawler } from "./modules/crawler/crawler.business.service.js";
+import { investorCrawler } from "./modules/crawler/crawler.investor.service.js";
 
 const PORT = process.env.PORT || 5000;
 const CAMPAIGN_POLL_MS = 60_000;
@@ -34,6 +36,8 @@ const startCampaignScheduler = () => {
     
     try{
      await franchCrawler();
+     await businessCrawler();
+     await investorCrawler();
      
     }catch(err){
       console.error("Franchise crawler error:", err);
