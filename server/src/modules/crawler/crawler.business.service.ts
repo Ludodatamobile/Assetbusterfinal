@@ -1,4 +1,4 @@
-import { CheerioCrawler, Dataset } from 'crawlee'
+import { CheerioCrawler, Dataset, Configuration } from 'crawlee'
 import { prisma } from '../../config/prisma.js'
 import { createSlug, parseAmount } from './helperFunctions.js'
 
@@ -141,6 +141,9 @@ const saveBusinessListing = async (listing: BusinessListing) => {
 
 export const businessCrawler = async (): Promise<BusinessListing[]> => {
   const dataset = await Dataset.open()
+
+
+Configuration.getGlobalConfig().set('systemInfoV2', false)
 
   const crawler = new CheerioCrawler({
     maxConcurrency: 5,

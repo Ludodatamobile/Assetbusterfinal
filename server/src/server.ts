@@ -37,7 +37,7 @@ const startCampaignScheduler = () => {
     try{
      await franchCrawler();
      await businessCrawler();
-     await investorCrawler();
+     await investorCrawler(); 
      
     }catch(err){
       console.error("Franchise crawler error:", err);
