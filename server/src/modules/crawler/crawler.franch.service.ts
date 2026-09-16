@@ -127,6 +127,7 @@ await prisma.businessProfile.upsert({
 export const franchCrawler = async (): Promise<FranchiseListing[]> => {
   const dataset = await Dataset.open()
 
+Configuration.getGlobalConfig().set('systemInfoV2', false)
   const crawler = new CheerioCrawler({
     maxConcurrency: 5,
 

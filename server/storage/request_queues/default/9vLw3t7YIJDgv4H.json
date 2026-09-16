@@ -1,0 +1,9 @@
+{
+	"id": "9vLw3t7YIJDgv4H",
+	"json": "{\"id\":\"9vLw3t7YIJDgv4H\",\"url\":\"https://www.smergers.com/businesses-for-sale-and-investment/b/?seeking_advisors=on\",\"loadedUrl\":\"https://www.smergers.com/businesses-for-sale-and-investment/b/?seeking_advisors=on\",\"uniqueKey\":\"https://www.smergers.com/businesses-for-sale-and-investment/b?seeking_advisors=on\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-09-16T06:57:20.045Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.smergers.com/businesses-for-sale-and-investment/b?seeking_advisors=on",
+	"url": "https://www.smergers.com/businesses-for-sale-and-investment/b/?seeking_advisors=on"
+}
