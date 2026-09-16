@@ -1,22 +1,22 @@
 {
-	"title": "Fast Food Restaurant Franchise Opportunity",
-	"url": "https://www.smergers.com/franchise/dumpling-hood/v9fd1/",
-	"sku": "b-v9fd1",
-	"name": "Dumpling Hood, 160 Franchisees, Est'd in 2014, Chandigarh HQ",
-	"brand": "Dumpling Hood",
-	"description": "Dumpling Hood is a premier healthy QSR brand founded in 2014 that has rapidly expanded to over 150+ outlets across India. - The brand uniquely differentiates itself by serving dumplings crafted from 100% whole wheat and ragi (millet) wrapper shells with zero preservatives, MSG, or refined flour. - A master franchisee retains a 60% share (INR 5.40 Lakhs) of the standard INR 9 lakh individual franchise fee, as well as 60% of monthly royalties collected within their exclusive territory. - This generous split allows them to fully break even by selling just 56% to 57% of their store potential, while also receiving two free outlets for direct operational profit. - The franchise partners need an FSSAI license to operate. Monthly sales and profit margins: 1) Format 1 – Takeaway: - INR 12 lakh monthly sales: Achievable with an AOV of INR 200 by generating around 200 orders per day, supported by takeaway, delivery, repeat customers, and a high-volume menu. - 40% margin: Supported by the compact format, low rent, only 3 staff, standardized preparation, controlled food costs, and high order volumes, which help keep operating costs low. 2) Format 2 – Dining: - INR 15 lakh monthly sales: Achievable with an AOV of INR 200 by generating around 250 orders per day, combining dine-in, takeaway, and delivery sales, along with upselling through combos, beverages, and add-ons. - 40% margin: Supported by efficient operations with 5 staff, standardized food preparation, controlled costs, and higher sales volume, allowing fixed costs such as rent and salaries to be spread across more orders.",
-	"image": "https://www.smergers.com/media/cache/2f/1b/2f1b10defc82c848315007169f4c1b05.png",
-	"rating": 8.5,
-	"ratingCount": 2,
-	"expandingIn": "Delhi",
-	"expectedMonthlySales": "16.8-21million NGN",
-	"spaceRequired": "100 - 1200 Sq Ft",
-	"investmentRequired": "19.6 - 70 Mn",
+	"title": "Training Institute Franchise Opportunity",
+	"url": "https://www.smergers.com/franchise/lawrence-keogh/y91zo/",
+	"sku": "b-y91zo",
+	"name": "Lawrence Keogh, 22 Franchisees, Est'd in 2016, London HQ",
+	"brand": "Lawrence Keogh",
+	"description": "The brand is an international bakery school offering a comprehensive one-year professional bakery program for both beginners and experienced professionals. The curriculum covers a wide range of baking skills and culminates in formal certification, providing students with structured training for starting or advancing careers in baking as well as for enthusiasts seeking professional-level skills. The brand currently operates 22 locations across London, the Middle East, and New York, demonstrating an established international footprint and a proven training model. Its business model is based on delivering structured, long-term professional bakery education through dedicated schools in key markets. The brand's competitive differentiation comes from its comprehensive curriculum, certification-driven value, established international presence, and standardized training concept. Franchise partners can benefit from an established brand, proven curriculum, and franchisor support for setting up and operating bakery schools in new territories such as Japan. Operates with a valid business license.",
+	"image": "https://www.smergers.com/media/cache/86/63/8663029a266ccf991f50b6381fac1f8b.jpg",
+	"rating": 8.3,
+	"ratingCount": 1,
+	"expandingIn": "Japan",
+	"expectedMonthlySales": "540million NGN",
+	"spaceRequired": "5000 - 8000 Sq Ft",
+	"investmentRequired": "896 - 1792 Mn",
 	"verification": {
 		"email": true,
 		"phone": true,
-		"linkedin": false,
+		"linkedin": true,
 		"facebook": false,
-		"google": true
+		"google": false
 	}
 }
