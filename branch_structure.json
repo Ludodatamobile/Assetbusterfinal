@@ -1,0 +1,18 @@
+{
+  "default_branch": "master",
+  "branches": [
+    "az-work",
+    "az-work-client",
+    "master"
+  ],
+  "parent": {
+    "az-work": "master",
+    "az-work-client": "az-work",
+    "master": null
+  },
+  "order": [
+    "master",
+    "az-work",
+    "az-work-client"
+  ]
+}
