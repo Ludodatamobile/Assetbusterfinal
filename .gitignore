@@ -9,8 +9,6 @@ dist/
 build/
 
 # env files
-.env
-.env.local
 .env.*.local
 
 # logs
@@ -20,3 +18,4 @@ yarn-debug.log*
 # OS junk
 .DS_Store
 Thumbs.db
+config.bat
