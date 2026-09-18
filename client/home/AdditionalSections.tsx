@@ -515,8 +515,7 @@ export default function AdditionalSections() {
   return (
     <>
       <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+       
         :root {
           --max-w: 82rem;
           --blue: #1A56DB; --blue-d: #1444B8;
