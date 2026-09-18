@@ -7,6 +7,7 @@ import type {
   BusinessListing,
   InvestorProfile,
 } from "@/types/marketplace";
+import "./brand-list.css"
 
 interface BusinessCard {
   id: string;
@@ -355,53 +356,101 @@ function BizCard({ b }: { b: BusinessCard }) {
     Featured: "#10B981",
   };
 
+    const accent = tagColors[b.tag] || "#1F6F4A";
+
   return (
-    <article className="biz-card">
+      <article
+  className="business-card"
+  style={{ "--card-accent": accent } as React.CSSProperties}
+>
+  {/* Header */}
+  <div className="business-card__header">
+    <span className="business-card__industry">
+      {b.industry}
+    </span>
+
+    <div className="business-card__badges">
       {b.premium && (
-        <div className="biz-premium-ribbon">
-          <span>PREMIUM</span>
-        </div>
-      )}
-      <div className="biz-card-head">
-        <span className="biz-industry">{b.industry}</span>
-        <span
-          className="biz-tag"
-          style={{
-            background: `${tagColors[b.tag] || "#1A56DB"}16`,
-            color: tagColors[b.tag] || "#1A56DB",
-          }}
-        >
-          {b.tag}
+        <span className="business-card__premium">
+          <span className="business-card__premium-dot" />
+          Premium
         </span>
-      </div>
-      <h4 className="biz-title">{b.title}</h4>
-      <p className="biz-desc">{b.description}</p>
-      <div className="biz-meta">
-        <span>{b.rating.toFixed(1)} rating</span>
-        <span>{b.location}</span>
-      </div>
-      <div className="biz-stats">
-        <div>
-          <span>Run Rate Sales</span>
-          <strong>{b.runSales}</strong>
-        </div>
-        <div>
-          <span>EBITDA</span>
-          <strong>{b.ebitda}</strong>
-        </div>
-      </div>
-      <div className="biz-footer">
-        <div>
-          <span className="biz-ask-type">{b.type}</span>
-          <strong>{b.askAmount}</strong>
-        </div>
-        <a className="biz-contact-btn" href={`/businesses-for-sale/${b.id}`}>
-          View Details
-        </a>
-      </div>
-    </article>
-  );
+      )}
+
+      <span className="business-card__tag">
+        {b.tag}
+      </span>
+    </div>
+  </div>
+
+  {/* Content */}
+  <div className="business-card__content">
+    <h4 className="business-card__title">
+      {b.title}
+    </h4>
+
+    <p className="business-card__description">
+      {b.description}
+    </p>
+  </div>
+
+  {/* Meta */}
+  <div className="business-card__meta">
+    <span className="business-card__rating">
+      <span className="business-card__star">★</span>
+      <strong>{b.rating.toFixed(1)}</strong>
+    </span>
+
+    <span className="business-card__separator" />
+
+    <span className="business-card__location">
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+        <circle cx="12" cy="10" r="2.5" />
+      </svg>
+
+      {b.location}
+    </span>
+  </div>
+
+  {/* Financials */}
+  <div className="business-card__financials">
+    <div className="business-card__financial">
+      <span>Run rate sales</span>
+      <strong>{b.runSales}</strong>
+    </div>
+
+    <div className="business-card__financial-divider" />
+
+    <div className="business-card__financial">
+      <span>EBITDA</span>
+      <strong>{b.ebitda}</strong>
+    </div>
+  </div>
+
+  {/* Footer */}
+  <div className="business-card__footer">
+    <div className="business-card__asking">
+      <span>{b.type}</span>
+      <strong>{b.askAmount}</strong>
+    </div>
+
+    <a
+      href={`/businesses-for-sale/${b.id}`}
+      className="business-card__link"
+    >
+      <span>View listing</span>
+      <span className="business-card__arrow">→</span>
+    </a>
+  </div>
+</article>
+);
 }
+
+
 
 function BusinessesSection({ businesses }: { businesses: BusinessCard[] }) {
   const { page, prev, next, pageItems, totalPages, canPrev, canNext } =
@@ -475,34 +524,103 @@ function InvestorCardView({
 }) {
   const color = colors[index % colors.length];
 
+  type InvestorCardStyle = React.CSSProperties & {
+  "--investor-color": string;
+  "--investor-color-light": string;
+  "--investor-color-border": string;
+  "--investor-color-button": string;
+};
+
+const investorStyles = {
+  "--investor-color": color,
+  "--investor-color-light": `${color}10`,
+  "--investor-color-border": `${color}24`,
+  "--investor-color-button": `${color}44`,
+} as InvestorCardStyle;
+
   return (
-    <article className="inv-card">
-      <div className="inv-card-top">
-        <div
-          className="avatar"
-          style={{ background: `${color}16`, color, borderColor: `${color}28` }}
-        >
-          {inv.avatar}
-        </div>
-        {inv.verified && <span className="verified">Verified</span>}
-      </div>
-      <h4>{inv.name}</h4>
-      <span className="pill" style={{ color, background: `${color}10` }}>
-        {inv.type}
+   <article
+  className="inv-card"
+  style={investorStyles}
+>
+  {/* Header */}
+  <div className="inv-card-top">
+    <div className="investor-avatar">
+      {inv.avatar}
+    </div>
+
+    {inv.verified && (
+      <span className="verified">
+        <span className="verified-icon">✓</span>
+        Verified
       </span>
-      <p>{inv.location}</p>
-      <div className="range">
-        <span>Investment Range</span>
-        <strong>{inv.investmentRange}</strong>
+    )}
+  </div>
+
+  {/* Investor Info */}
+  <div className="inv-card-content">
+    <div className="inv-title-row">
+      <h4>{inv.name}</h4>
+
+      <span className="investor-arrow">
+        ↗
+      </span>
+    </div>
+
+    <span className="investor-type">
+      {inv.type}
+    </span>
+
+    {/* Location */}
+    <div className="investor-location">
+      <span className="location-icon">⌖</span>
+      <span>{inv.location}</span>
+    </div>
+
+    {/* Investment Range */}
+    <div className="investment-range">
+      <div>
+        <span className="range-label">
+          Investment Range
+        </span>
+
+        <strong>
+          {inv.investmentRange}
+        </strong>
       </div>
-      <div className="chips">
-        {inv.industries.slice(0, 3).map((industry) => (
-          <span key={industry}>{industry}</span>
-        ))}
-      </div>
-      <button style={{ borderColor: `${color}44`, color }}>Connect</button>
-    </article>
-  );
+{/* 
+      <div className="range-icon">
+        ₦
+      </div> */}
+    </div>
+
+    {/* Industries */}
+    <div className="chips">
+      {inv.industries.slice(0, 3).map((industry) => (
+        <span key={industry}>
+          {industry}
+        </span>
+      ))}
+
+      {inv.industries.length > 3 && (
+        <span className="more-chip">
+          +{inv.industries.length - 3}
+        </span>
+      )}
+    </div>
+
+    {/* CTA */}
+    <button
+      type="button"
+      className="connect-btn"
+    >
+      <span>Connect</span>
+      <span className="connect-arrow">
+        →
+      </span>
+    </button>
+  </div>
+</article>  );
 }
 
 function InvestorsSection({ investors }: { investors: InvestorCard[] }) {
@@ -549,42 +667,81 @@ function InvestorsSection({ investors }: { investors: InvestorCard[] }) {
 
 function BrandCardView({ brand }: { brand: BrandCard }) {
   return (
-    <article className="brand-card">
-      <div
-        className="brand-card-top"
-        style={{
-          background: `${brand.color}10`,
-          borderColor: `${brand.color}18`,
-        }}
-      >
-        <span
-          className="brand-icon"
-          style={{ background: `${brand.color}18`, color: brand.color }}
-        >
-          {brand.icon}
+    <article
+  className="brand-card"
+  style={{
+    "--brand-color": brand.color,
+    "--brand-color-light": `${brand.color}12`,
+    "--brand-color-border": `${brand.color}20`,
+  } as React.CSSProperties
+  }
+>
+  {/* Card Header */}
+  <div className="brand-card-top">
+    <div className="brand-icon-wrapper">
+      <span className="brand-icon">{brand.icon}</span>
+    </div>
+
+    <div className="brand-category">
+      <span>{brand.category}</span>
+    </div>
+
+    <span className="brand-arrow">↗</span>
+  </div>
+
+  {/* Card Content */}
+  <div className="brand-card-body">
+    <div className="brand-title">
+      <h4>{brand.name}</h4>
+      <span className="brand-status">
+        <span className="status-dot" />
+        Available
+      </span>
+    </div>
+
+    <p className="brand-description">
+      {brand.description}
+    </p>
+
+    {/* Stats */}
+    <div className="brand-meta">
+      <div className="brand-stat">
+        <strong>{brand.outlets}</strong>
+        <span>Outlets</span>
+      </div>
+
+      <div className="stat-divider" />
+
+      <div className="brand-stat">
+        <strong>{brand.founded}</strong>
+        <span>Founded</span>
+      </div>
+    </div>
+
+    {/* Investment */}
+    <div className="investment-box">
+      <div>
+        <span className="investment-label">
+          Franchise Investment
         </span>
-        <span>{brand.category}</span>
+        <strong className="investment-value">
+          {brand.investmentRange}
+        </strong>
       </div>
-      <div className="brand-card-body">
-        <h4>{brand.name}</h4>
-        <p>{brand.description}</p>
-        <div className="brand-meta">
-          <div>
-            <strong style={{ color: brand.color }}>{brand.outlets}</strong>
-            <span>Outlets</span>
-          </div>
-          <div>
-            <strong style={{ color: brand.color }}>{brand.founded}</strong>
-            <span>Founded</span>
-          </div>
-        </div>
-        <div className="range">
-          <span>Franchise Investment</span>
-          <strong>{brand.investmentRange}</strong>
-        </div>
-        <button style={{ background: brand.color }}>Enquire Now</button>
-      </div>
-    </article>
+
+      <span className="investment-icon">₦</span>
+    </div>
+
+    {/* CTA */}
+    <button
+      className="brand-enquire-btn"
+      type="button"
+    >
+      <span>Enquire Now</span>
+      <span className="btn-arrow">→</span>
+    </button>
+  </div>
+</article>
   );
 }
 
@@ -630,30 +787,88 @@ function AdvisorCardView({ adv, index }: { adv: AdvisorCard; index: number }) {
   const color = colors[index % colors.length];
 
   return (
-    <article className="adv-card">
-      <div className="adv-card-top">
-        <div className="avatar solid" style={{ background: color }}>
-          {adv.avatar}
-        </div>
-        <div>
-          <h4>{adv.name}</h4>
-          <span>{adv.firm}</span>
-        </div>
+    <article
+  className="advisor-card"
+  style={{ "--advisor-accent": color } as React.CSSProperties}
+>
+  {/* Header */}
+  <div className="advisor-card__header">
+    <div
+      className="advisor-card__avatar"
+      style={{ backgroundColor: color }}
+    >
+      {adv.avatar}
+    </div>
+
+    <div className="advisor-card__identity">
+      <h4>{adv.name}</h4>
+      <span>{adv.firm}</span>
+    </div>
+  </div>
+
+  {/* Stats */}
+  <div className="advisor-card__stats">
+    <div className="advisor-card__stat">
+      <span className="advisor-card__stat-icon">★</span>
+
+      <div>
+        <strong>{adv.rating.toFixed(1)}</strong>
+        <span>Rating</span>
       </div>
-      <div className="adv-rating-row">
-        <span>{adv.rating.toFixed(1)} rating</span>
-        <span>{adv.deals} deals</span>
+    </div>
+
+    <div className="advisor-card__stat-divider" />
+
+    <div className="advisor-card__stat">
+      <span className="advisor-card__stat-icon advisor-card__stat-icon--deals">
+        ✓
+      </span>
+
+      <div>
+        <strong>{adv.deals}</strong>
+        <span>Deals</span>
       </div>
-      <p>{adv.location}</p>
-      <div className="chips">
-        {adv.specialties.slice(0, 3).map((specialty) => (
-          <span key={specialty}>{specialty}</span>
-        ))}
-      </div>
-      <button style={{ borderColor: `${color}38`, color }}>
-        Request Consultation
-      </button>
-    </article>
+    </div>
+  </div>
+
+  {/* Location */}
+  <div className="advisor-card__location">
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+
+    <span>{adv.location}</span>
+  </div>
+
+  {/* Specialties */}
+  <div className="advisor-card__specialties">
+    {adv.specialties.slice(0, 3).map((specialty) => (
+      <span key={specialty}>
+        {specialty}
+      </span>
+    ))}
+  </div>
+
+  {/* CTA */}
+  <button
+    className="advisor-card__button"
+    style={
+      {
+        "--button-color": color,
+      } as React.CSSProperties
+    }
+  >
+    <span>Request Consultation</span>
+
+    <span className="advisor-card__button-arrow">
+      →
+    </span>
+  </button>
+</article>
   );
 }
 
