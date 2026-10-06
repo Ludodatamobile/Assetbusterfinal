@@ -696,7 +696,7 @@ function SectionHeader({
         <h2 className="ms-heading">
           {title}
           <br />
-          <span>on ASSET BUSTERS</span>
+          <span>on ASSETBUSTERS</span>
         </h2>
       </div>
       <div className="ms-header-right">
