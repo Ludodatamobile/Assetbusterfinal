@@ -559,5 +559,5 @@ const styles = `
 
   @media(max-width:1100px){.user-name,.user-role{display:none}.user-trigger{min-width:0;padding:4px;gap:0}.user-trigger svg:last-child{display:none}}
   @media(max-width:1024px){.nav-bot-band{display:none}.hamburger{display:flex}.nav-search{max-width:240px}.logo-tagline{display:none}}
-  @media(max-width:640px){.nav-top-inner{padding:0 14px;gap:9px}.cur-wrap{display:none}.nav-actions{display:none}.nav-search{max-width:none}}
+  @media(max-width:640px){.nav-top-inner{padding:0 14px;gap:9px}.cur-wrap{display:none}.nav-actions{display:none}.nav-search{display:none}}
 `;

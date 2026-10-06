@@ -12,6 +12,9 @@ import {franchCrawler} from "./modules/crawler/crawler.franch.service.js";
 
 const PORT = process.env.PORT || 5000;
 const CAMPAIGN_POLL_MS = 60_000;
+const CRAWLER_INTERVAL_MS = Number(
+  process.env.CRAWLER_INTERVAL_MS || 6 * 60 * 60 * 1000,
+);
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
@@ -27,23 +30,23 @@ const startCampaignScheduler = () => {
     console.error("Campaign scheduler boot-run error:", err),
   );
 
-  setInterval(async() => {
-    AdminContentService.processScheduledCampaigns().catch((err) =>
-      console.error("Campaign scheduler error:", err),
+  if (process.env.CRAWLER_ENABLED === "true") {
+    setInterval(async () => {
+      AdminContentService.processScheduledCampaigns().catch((err) =>
+        console.error("Campaign scheduler error:", err),
+      );
+
+      try {
+        await franchCrawler();
+      } catch (err) {
+        console.error("Franchise crawler error:", err);
+      }
+    }, CRAWLER_INTERVAL_MS);
+
+    console.log(
+      `✓ Crawler scheduler active (${Math.round(CRAWLER_INTERVAL_MS / 60_000)} minute interval)`,
     );
-    
-    try{
-     await franchCrawler();
-     
-    }catch(err){
-      console.error("Franchise crawler error:", err);
-    } 
-
-   
-
-  }, CAMPAIGN_POLL_MS);
-
-  console.log("✓ Campaign scheduler active (60s poll)");
+  }
 };
 
 const startServer = async () => {

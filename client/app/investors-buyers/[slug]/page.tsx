@@ -109,7 +109,7 @@ export default function InvestorBuyerDetailPage() {
 
     try {
       const response = await MarketplaceService.getInvestorBySlug(slug);
-      setProfile(response.data.profile || response.data.investor || response.data);
+      setProfile(response.data.investor || response.data);
     } catch (err: any) {
       setLoadError(err?.message || "Investor profile could not be loaded.");
     } finally {

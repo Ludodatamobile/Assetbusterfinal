@@ -33,10 +33,34 @@ function formatEnum(value?: string | null) {
   return value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function formatMoney(value?: string | number | null, currency = "USD") {
-  const amount = Number(value || 0);
-  if (!amount) return "Not disclosed";
-  return `${currency} ${amount.toLocaleString()}`;
+function formatMoney(value?: string | number | null, currency?: string | null) {
+  const raw = String(value ?? "").trim();
+  const numberMatch = raw.replace(/,/g, "").match(/\d+(?:\.\d+)?/);
+
+  if (!numberMatch) return "Not disclosed";
+
+  let amount = Number(numberMatch[0]);
+
+  if (/million|\bm\b/i.test(raw)) amount *= 1_000_000;
+  if (/billion|\bb\b/i.test(raw)) amount *= 1_000_000_000;
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return "Not disclosed";
+  }
+
+  const code = String(currency ?? "").trim().toUpperCase();
+
+  if (/^[A-Z]{3}$/.test(code)) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: code,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  }
+
+  return amount.toLocaleString("en-US", {
+    maximumFractionDigits: 0,
+  });
 }
 
 function getSummary(item: BusinessListing) {
@@ -120,15 +144,14 @@ export default function BusinessesForSalePage() {
       const data = unwrapBusinesses(response);
 
       setItems(data);
-      setMeta(
-        response?.meta ||
-          response?.data?.meta || {
-            total: data.length,
-            page: Number(filters.page || 1),
-            limit: Number(filters.limit || 12),
-            totalPages: Math.max(1, Math.ceil(data.length / Number(filters.limit || 12))),
-          },
-      );
+      const fallbackMeta = {
+        total: data.length,
+        page: Number(filters.page || 1),
+        limit: Number(filters.limit || 12),
+        totalPages: Math.max(1, Math.ceil(data.length / Number(filters.limit || 12))),
+      };
+
+      setMeta(response?.meta || fallbackMeta);
     } catch (err: any) {
       setItems([]);
       setError(err?.message || "Businesses could not be loaded.");

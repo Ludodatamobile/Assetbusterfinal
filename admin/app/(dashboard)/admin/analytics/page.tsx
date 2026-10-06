@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Building2, Globe2, Handshake, Users } from "lucide-react";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { StatCard } from "@/components/admin/StatCard";
@@ -30,11 +30,17 @@ function normalizeRows(
   });
 }
 
-function Shimmer({ className = "" }: { className?: string }) {
+function Shimmer({
+  className = "",
+  style,
+}: {
+  className?: string;
+  style?: CSSProperties;
+}) {
   return (
     <span
       className={`block rounded bg-slate-100 relative overflow-hidden ${className}`}
-      style={{ isolation: "isolate" }}
+      style={{ isolation: "isolate", ...style }}
     >
       <span
         className="absolute inset-0"
@@ -73,7 +79,7 @@ function BarListSkeleton() {
           style={{ animation: `fadeUp 0.3s ease ${i * 0.06}s both` }}
         >
           <Shimmer className="h-3 w-28 flex-shrink-0" />
-          <Shimmer className="h-2 flex-1" style={{ width: `${40 + Math.random() * 50}%` }} />
+          <Shimmer className="h-2 flex-1" style={{ width: `${40 + i * 8}%` }} />
           <Shimmer className="h-3 w-8 flex-shrink-0" />
         </div>
       ))}

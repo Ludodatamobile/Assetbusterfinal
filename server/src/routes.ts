@@ -2,6 +2,7 @@ import { Router } from 'express'
 import authRoutes from './modules/auth/auth.routes.js'
 import userRoutes from './modules/users/user.routes.js'
 import businessRoutes from './modules/businesses/business.routes.js'
+import catalogRoutes from './modules/catalog/catalog.routes.js'
 import investorRoutes from './modules/investors/investor.routes.js'
 import advisorRoutes from './modules/advisors/advisor.routes.js'
 import dealRoutes from './modules/deals/deal.routes.js'
@@ -19,6 +20,7 @@ export const rootRouter = Router()
 rootRouter.use('/auth', authRoutes)
 rootRouter.use('/users', userRoutes)
 rootRouter.use('/businesses', businessRoutes)
+rootRouter.use('/catalog', catalogRoutes)
 rootRouter.use('/investors', investorRoutes)
 rootRouter.use('/advisors', advisorRoutes)
 rootRouter.use('/deals', dealRoutes)

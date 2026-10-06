@@ -1,44 +1,47 @@
-// generateToken.ts
-import jwt from 'jsonwebtoken'
-import { env } from '../config/env.js'
+import jwt, { type SignOptions } from "jsonwebtoken";
+import { env } from "../config/env.js";
 
 export interface TokenPayload {
-  id: string
-  email: string
-  role: string
-  type?: 'user' | 'admin'
+  id: string;
+  email: string;
+  role: string;
+  type?: "user" | "admin";
 }
+
+const accessExpiresIn = env.JWT_EXPIRES_IN as SignOptions["expiresIn"];
+const refreshExpiresIn = env.JWT_REFRESH_EXPIRES_IN as SignOptions["expiresIn"];
 
 export function generateAccessToken(payload: TokenPayload): string {
   return jwt.sign(payload, env.JWT_SECRET, {
-    expiresIn: env.JWT_EXPIRES_IN || '7d',
-  })
+    expiresIn: accessExpiresIn,
+  });
 }
 
 export function generateRefreshToken(payload: TokenPayload): string {
-  const secret = env.JWT_REFRESH_SECRET || env.JWT_SECRET
+  const secret = env.JWT_REFRESH_SECRET || env.JWT_SECRET;
+
   return jwt.sign(payload, secret, {
-    expiresIn: env.JWT_REFRESH_EXPIRES_IN || '30d',
-  })
+    expiresIn: refreshExpiresIn,
+  });
 }
 
 export function verifyAccessToken(token: string): TokenPayload {
-  return jwt.verify(token, env.JWT_SECRET) as TokenPayload
+  return jwt.verify(token, env.JWT_SECRET) as TokenPayload;
 }
 
 export function verifyRefreshToken(token: string): TokenPayload {
-  const secret = env.JWT_REFRESH_SECRET || env.JWT_SECRET
-  return jwt.verify(token, secret) as TokenPayload
+  const secret = env.JWT_REFRESH_SECRET || env.JWT_SECRET;
+  return jwt.verify(token, secret) as TokenPayload;
 }
 
 export function generateVerificationToken(): string {
-  return jwt.sign({ purpose: 'email-verification' }, env.JWT_SECRET, {
-    expiresIn: '24h',
-  })
+  return jwt.sign({ purpose: "email-verification" }, env.JWT_SECRET, {
+    expiresIn: "24h",
+  });
 }
 
 export function generatePasswordResetToken(): string {
-  return jwt.sign({ purpose: 'password-reset' }, env.JWT_SECRET, {
-    expiresIn: '1h',
-  })
+  return jwt.sign({ purpose: "password-reset" }, env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
 }

@@ -1,6 +1,15 @@
 import { prisma } from '../../config/prisma.js'
 import { ApiError } from '../../utils/ApiError.js'
 import { getPaginationParams, buildPaginationMeta } from '../../utils/pagination.js'
+import type { Prisma } from '@prisma/client'
+
+function toJson(
+  value?: Record<string, unknown>,
+): Prisma.InputJsonValue | undefined {
+  return value === undefined
+    ? undefined
+    : (JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue)
+}
 
 export class NotificationService {
   static async getNotifications(userId: string, page?: string, limit?: string, unreadOnly = false) {
@@ -71,7 +80,7 @@ export class NotificationService {
         body: data.body,
         type: data.type || 'GENERAL',
         link: data.link,
-        meta: data.meta,
+        meta: toJson(data.meta),
       },
     })
   }

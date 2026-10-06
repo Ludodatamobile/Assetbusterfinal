@@ -4,7 +4,10 @@ import { ApiError } from '../../utils/ApiError.js'
 // ─── Match businesses to an investor's preferences ────────────────────────────
 
 export const getMatchesForInvestor = async (userId: string) => {
-  const profile = await prisma.investorProfile.findUnique({ where: { userId } })
+  const profile = await prisma.investorProfile.findFirst({
+    where: { userId },
+    orderBy: { updatedAt: 'desc' },
+  })
   if (!profile) throw ApiError.notFound('Investor profile not found. Create one first.')
 
   const where: any = {
@@ -52,7 +55,10 @@ export const getMatchesForInvestor = async (userId: string) => {
 // ─── Match investors to a business listing ────────────────────────────────────
 
 export const getMatchesForBusiness = async (userId: string) => {
-  const business = await prisma.businessProfile.findUnique({ where: { userId } })
+  const business = await prisma.businessProfile.findFirst({
+    where: { userId },
+    orderBy: { updatedAt: 'desc' },
+  })
   if (!business) throw ApiError.notFound('No business listing found. Create one first.')
 
   const investors = await prisma.investorProfile.findMany({
@@ -69,7 +75,7 @@ export const getMatchesForBusiness = async (userId: string) => {
     take:    20,
     include: {
       user: {
-        select: { id: true, firstName: true, lastName: true, country: true, avatarUrl: true },
+        select: { id: true, firstName: true, lastName: true, country: true, profileImage: true },
       },
     },
   })
@@ -111,10 +117,15 @@ export const getRecommendedListings = async (userId?: string) => {
 
   const user = await prisma.user.findUnique({
     where:   { id: userId },
-    include: { investorProfile: true },
+    include: {
+      investorProfiles: {
+        select: { id: true },
+        take: 1,
+      },
+    },
   })
 
-  if (user?.investorProfile) {
+  if (user?.investorProfiles?.length) {
     return getMatchesForInvestor(userId)
   }
 

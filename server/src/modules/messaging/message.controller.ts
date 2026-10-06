@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
@@ -10,7 +11,7 @@ export const getConversations = asyncHandler(async (req: Request, res: Response)
 
 export const getDealMessages = asyncHandler(async (req: Request, res: Response) => {
   const result = await messageService.getDealMessages(
-    req.params.dealId,
+    requiredParam(req, "dealId"),
     req.user!.id,
     req.query.page as string,
     req.query.limit as string,
@@ -21,7 +22,7 @@ export const getDealMessages = asyncHandler(async (req: Request, res: Response) 
 
 export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
   const message = await messageService.sendMessage(
-    req.params.dealId,
+    requiredParam(req, "dealId"),
     req.user!.id,
     req.body.content,
   );
@@ -30,7 +31,7 @@ export const sendMessage = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const markRead = asyncHandler(async (req: Request, res: Response) => {
-  await messageService.markMessagesRead(req.params.dealId, req.user!.id);
+  await messageService.markMessagesRead(requiredParam(req, "dealId"), req.user!.id);
   return ApiResponse.success(res, null, "Messages marked as read.");
 });
 

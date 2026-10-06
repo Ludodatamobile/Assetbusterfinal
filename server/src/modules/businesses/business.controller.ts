@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -9,7 +10,7 @@ export const getListings = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const getListingBySlug = asyncHandler(async (req: Request, res: Response) => {
-  const listing = await businessService.getListingBySlug(req.params.slug, req.user?.id)
+  const listing = await businessService.getListingBySlug(requiredParam(req, "slug"), req.user?.id)
   return ApiResponse.success(res, { listing })
 })
 
@@ -19,12 +20,12 @@ export const createListing = asyncHandler(async (req: Request, res: Response) =>
 })
 
 export const updateListing = asyncHandler(async (req: Request, res: Response) => {
-  const listing = await businessService.updateListing(req.user!.id, req.params.id, req.body)
+  const listing = await businessService.updateListing(req.user!.id, requiredParam(req, "id"), req.body)
   return ApiResponse.success(res, { listing }, 'Listing updated.')
 })
 
 export const deleteListing = asyncHandler(async (req: Request, res: Response) => {
-  await businessService.deleteListing(req.user!.id, req.params.id)
+  await businessService.deleteListing(req.user!.id, requiredParam(req, "id"))
   return ApiResponse.noContent(res)
 })
 
@@ -34,11 +35,11 @@ export const getMyListings = asyncHandler(async (req: Request, res: Response) =>
 })
 
 export const submitForReview = asyncHandler(async (req: Request, res: Response) => {
-  const listing = await businessService.submitForReview(req.user!.id, req.params.id)
+  const listing = await businessService.submitForReview(req.user!.id, requiredParam(req, "id"))
   return ApiResponse.success(res, { listing }, 'Listing submitted for review.')
 })
 
 export const getSimilarListings = asyncHandler(async (req: Request, res: Response) => {
-  const listings = await businessService.getSimilarListings(req.params.id)
+  const listings = await businessService.getSimilarListings(requiredParam(req, "id"))
   return ApiResponse.success(res, listings)
 })

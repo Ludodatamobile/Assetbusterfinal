@@ -1,6 +1,6 @@
 import { env } from '../config/env.js'
 import { ApiError } from '../utils/ApiError.js'
-import { prisma } from '../config/db.js'
+import { prisma } from "../config/prisma.js";
 
 // ─ Paystack API base
 
@@ -138,7 +138,7 @@ const applyPlanBenefit = async (userId: string, planKey: keyof typeof PLANS) => 
     case 'ADVISOR_VERIFIED':
       await prisma.advisorProfile.updateMany({
         where: { userId },
-        data:  { verification: 'VERIFIED' },
+        data: { isVerified: true },
       })
       break
 

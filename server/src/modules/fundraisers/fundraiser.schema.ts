@@ -115,3 +115,9 @@ export const fundraiserSlugParamsSchema = z.object({
     slug: z.string().min(2),
   }),
 });
+
+export type CreateFundraiserInput = z.infer<
+  typeof fundraiserBodySchema
+>;
+
+export type UpdateFundraiserInput = Partial<CreateFundraiserInput>;

@@ -312,18 +312,21 @@ function readDashboardSettings(): DashboardSettings {
     const raw = window.localStorage.getItem(DASHBOARD_SETTINGS_KEY);
     if (!raw) return DEFAULT_DASHBOARD_SETTINGS;
 
-    const saved = JSON.parse(raw) as Partial<DashboardSettings>;
+    const saved = JSON.parse(raw) as Partial<DashboardSettings> | null;
+    if (!saved || typeof saved !== "object") {
+      return DEFAULT_DASHBOARD_SETTINGS;
+    }
 
     return {
       ...DEFAULT_DASHBOARD_SETTINGS,
       ...saved,
       notifications: {
         ...DEFAULT_DASHBOARD_SETTINGS.notifications,
-        ...saved.notifications,
+        ...(saved.notifications ?? {}),
       },
       privacy: {
         ...DEFAULT_DASHBOARD_SETTINGS.privacy,
-        ...saved.privacy,
+        ...(saved.privacy ?? {}),
       },
     };
   } catch {
@@ -589,7 +592,7 @@ function isFundraiserListing(
 
 function isFundingServiceListing(
   listing: BusinessListing,
-): listing is FundingServiceListing {
+): listing is BusinessListing & FundingServiceListing {
   return listing.profileType === "FUNDING_SERVICE";
 }
 
@@ -5199,27 +5202,38 @@ export default function DashboardPage() {
   };
 
   const saveDashboardSettings = (settings: DashboardSettings) => {
-  setDashboardSettings(settings);
-  window.localStorage.setItem(DASHBOARD_SETTINGS_KEY, JSON.stringify(settings));
-  setSettingsSaved("Settings saved successfully.");
+    setDashboardSettings(settings);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        DASHBOARD_SETTINGS_KEY,
+        JSON.stringify(settings),
+      );
+    }
+    setSettingsSaved("Settings saved successfully.");
 
-  window.setTimeout(() => {
-    setSettingsSaved("");
-  }, 2500);
-};
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        setSettingsSaved("");
+      }, 2500);
+    }
+  };
 
-const resetDashboardSettings = () => {
-  setDashboardSettings(DEFAULT_DASHBOARD_SETTINGS);
-  window.localStorage.setItem(
-    DASHBOARD_SETTINGS_KEY,
-    JSON.stringify(DEFAULT_DASHBOARD_SETTINGS),
-  );
-  setSettingsSaved("Settings reset to defaults.");
+  const resetDashboardSettings = () => {
+    setDashboardSettings(DEFAULT_DASHBOARD_SETTINGS);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(
+        DASHBOARD_SETTINGS_KEY,
+        JSON.stringify(DEFAULT_DASHBOARD_SETTINGS),
+      );
+    }
+    setSettingsSaved("Settings reset to defaults.");
 
-  window.setTimeout(() => {
-    setSettingsSaved("");
-  }, 2500);
-};
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        setSettingsSaved("");
+      }, 2500);
+    }
+  };
 
   if (
     !initialized ||

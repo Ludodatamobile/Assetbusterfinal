@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -34,7 +35,7 @@ export const getSavedBusinesses = asyncHandler(async (req: Request, res: Respons
 })
 
 export const toggleSaveBusiness = asyncHandler(async (req: Request, res: Response) => {
-  const result = await userService.saveBusinessToggle(req.user!.id, req.params.businessId)
+  const result = await userService.saveBusinessToggle(req.user!.id, requiredParam(req, "businessId"))
   return ApiResponse.success(
     res,
     result,

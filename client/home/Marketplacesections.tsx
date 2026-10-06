@@ -405,62 +405,39 @@ function BizCard({ b }: { b: BusinessCard }) {
 
 function BusinessesSection({ businesses }: { businesses: BusinessCard[] }) {
   const { page, prev, next, pageItems, totalPages, canPrev, canNext } =
-    usePageNav(businesses, 2);
+    usePageNav(businesses, 3);
 
   return (
     <section className="ms-section bg-surface">
-      <div className="ms-inner ms-split">
-        <div className="ms-card-col">
-          <div className="ms-card-nav">
-            <Arrow onClick={prev} disabled={!canPrev} dir="prev" />
-            <Arrow onClick={next} disabled={!canNext} dir="next" />
-          </div>
-          <div className="ms-float-grid ms-grid-1col" key={page}>
-            {pageItems.length ? (
-              pageItems.map((business) => (
-                <BizCard key={business.id} b={business} />
-              ))
-            ) : (
-              <EmptyState label="No active business listings yet." />
-            )}
-          </div>
-          <Dots total={totalPages} current={page} />
+      <div className="ms-inner">
+        <SectionHeader
+          eyebrow="Marketplace"
+          title="Businesses for Sale"
+          desc="Explore pre-screened businesses for sale, partial stakes, and acquisition opportunities across active markets."
+          prev={prev}
+          next={next}
+          canPrev={canPrev}
+          canNext={canNext}
+        />
+
+        <div className="ms-float-grid ms-grid-3col" key={page}>
+          {pageItems.length ? (
+            pageItems.map((business) => (
+              <BizCard key={business.id} b={business} />
+            ))
+          ) : (
+            <EmptyState label="No active business listings yet." />
+          )}
         </div>
 
-        <div className="ms-info-side">
-          <span className="ms-eyebrow">Marketplace</span>
-          <h2 className="ms-heading">
-            Businesses for Sale
-            <br />
-            <span>on ASSET BUSTERS</span>
-          </h2>
-          <p className="ms-body">
-            Explore pre-screened businesses for sale, partial stake
-            opportunities, business loans, and capital raises.
-          </p>
-          <div className="ms-inline-stats">
-            <div>
-              <strong>{businesses.length}+</strong>
-              <span>Listed</span>
-            </div>
-            <div>
-              <strong>900+</strong>
-              <span>Industries</span>
-            </div>
-            <div>
-              <strong>100+</strong>
-              <span>Countries</span>
-            </div>
-          </div>
-          <div className="ms-cta-row">
-            <a href="/businesses-for-sale" className="ms-cta-primary">
-              View All
-            </a>
-            <a href="/add-profile?as=investor" className="ms-cta-ghost">
-              Register as Investor
-            </a>
-          </div>
-        </div>
+        <SectionFooter
+          total={totalPages}
+          current={page}
+          primaryHref="/businesses-for-sale"
+          primaryLabel="View All Businesses"
+          secondaryHref="/add-profile?as=business"
+          secondaryLabel="List Your Business"
+        />
       </div>
     </section>
   );
@@ -853,4 +830,220 @@ const styles = `
   .ms-empty{grid-column:1/-1;border:1px dashed var(--border);background:#fff;padding:26px;text-align:center;color:var(--text-3);font-size:13px;font-weight:800}
   @media(max-width:1024px){.ms-split,.why-inner{grid-template-columns:1fr}.ms-info-side{order:-1}.ms-grid-3col{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:640px){.why-inner,.ms-inner{padding:0 16px}.ms-section-header{flex-direction:column;gap:14px}.ms-header-right{align-items:flex-start;text-align:left}.ms-section-footer{flex-direction:column;gap:14px;align-items:flex-start}.ms-grid-3col,.why-cards,.why-meta-row{grid-template-columns:1fr}.ms-section,.why-section{padding:38px 0}}
+
+  /* Marketplace card repair: consistent dimensions and content hierarchy */
+  .ms-float-grid {
+    align-items: stretch;
+  }
+
+  .biz-card,
+  .brand-card,
+  .inv-card,
+  .adv-card {
+    min-width: 0;
+    height: 100%;
+  }
+
+  .biz-card {
+    min-height: 340px;
+    padding: 18px;
+  }
+
+  .biz-card-head {
+    min-height: 25px;
+  }
+
+  .biz-title {
+    min-height: 40px;
+    margin: 2px 0 0;
+    overflow: hidden;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1.28;
+  }
+
+  .biz-desc {
+    min-height: 58px;
+    margin: 2px 0;
+    -webkit-line-clamp: 3;
+  }
+
+  .biz-meta {
+    min-height: 20px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
+  }
+
+  .biz-meta span:last-child {
+    overflow: hidden;
+    text-align: right;
+    text-overflow: ellipsis;
+  }
+
+  .biz-stats {
+    margin-top: auto;
+  }
+
+  .biz-footer {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 2px;
+  }
+
+  .biz-footer > div {
+    min-width: 0;
+  }
+
+  .biz-ask-type {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--text-3);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .biz-footer strong {
+    display: block;
+    overflow: hidden;
+    color: var(--text);
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .biz-contact-btn {
+    flex: 0 0 auto;
+  }
+
+  /* Franchise cards: these rules were missing, causing the scattered raw layout */
+  .brand-card {
+    display: flex;
+    min-height: 386px;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .brand-card-top {
+    display: flex;
+    min-height: 104px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand-card-top > span:last-child {
+    max-width: 150px;
+    color: var(--text-2);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.07em;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .brand-icon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .brand-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .brand-card-body h4 {
+    min-height: 42px;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.3;
+  }
+
+  .brand-card-body > p {
+    display: -webkit-box;
+    min-height: 58px;
+    overflow: hidden;
+    color: var(--text-2);
+    font-size: 12px;
+    line-height: 1.62;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .brand-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin: 16px 0 12px;
+    background: var(--border);
+  }
+
+  .brand-meta > div {
+    display: flex;
+    min-height: 58px;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    background: var(--bg);
+  }
+
+  .brand-meta strong {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-meta span {
+    margin-top: 3px;
+    color: var(--text-3);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .brand-card .range {
+    margin-top: auto;
+  }
+
+  .brand-card button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 11px 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .ms-grid-3col {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ms-grid-3col {
+      grid-template-columns: 1fr;
+    }
+
+    .biz-card,
+    .brand-card {
+      min-height: auto;
+    }
+  }
 `;

@@ -1,7 +1,6 @@
-import { CheerioCrawler, Dataset, Configuration} from 'crawlee'
-import { prisma } from '../../config/prisma.js'
-import { createSlug, parseAmount } from './helperFunctions.js'
-import { Prisma, User } from '@prisma/client'
+import { CheerioCrawler, Dataset } from 'crawlee'
+import { prisma } from "../../config/prisma.js";
+import { importCrawledListing } from "./crawlImport.service.js";
 
 const BASE_URL = 'https://www.smergers.com'
 
@@ -33,107 +32,37 @@ type FranchiseListing = {
   }
 }
 
+const SOURCE_NAME = "SMERGERS Franchise Opportunities";
+const SOURCE_URL = "https://www.smergers.com";
 
+function parseCrawlerAmount(value?: string | null): number | undefined {
+  if (!value) return undefined;
 
+  const cleaned = value.replace(/,/g, "").trim();
+  const number = Number(cleaned.match(/\d+(?:\.\d+)?/)?.[0]);
 
-const saveSmaggerCralData = async (listing: FranchiseListing )=>{
+  if (!Number.isFinite(number)) return undefined;
+  if (/billion|bn/i.test(cleaned)) return number * 1_000_000_000;
+  if (/million|mn/i.test(cleaned)) return number * 1_000_000;
 
-    const user  = await prisma.user.findFirst();
-
-    if(!user){
-        return
-    }
-    
-    const business = await prisma.businessProfile.upsert({
-  where: {
-     // id: user?.id,
-      slug:  createSlug(listing.title)
-    },
-  
-
-
-  
-  create: {
-    userId:  user?.id as string,
-    //user: user as unknown as User,
-  
-    title: listing.title,
-    slug: createSlug(listing.title),
-
-    description: listing.description,
-     profileType: "FRANCHISE_BRAND",
-
-    industry: 'Franchise',
-    country: 'Nigeria',
-
-    currency: listing.expectedMonthlySales?.split(' ')?.[0] ?? 'NGN',
-
-    askAmount: parseAmount(
-      listing.investmentRequired as string,
-    ),
-
-    monthlyRevenue: parseAmount(
-      listing.expectedMonthlySales as string,
-    ),
-
-    businessName: listing.name,
-    website: listing.url,
-
-    facilities: listing.spaceRequired,
-
-    imageUrls: listing.image
-      ? [listing.image]
-      : [],
-
-    rating: listing.rating ?? 0,
-
-    isVerified:
-      listing.verification.email ||
-      listing.verification.phone,
-
-    status: 'ACTIVE',
-
- 
-  //updatedAt: (new Date()).toString(),
-
-//   deals:      [],
-//   documents:  [],
-//   valuation:   [],
-//   savedBy:    [],
-  },
-
-  update: {
-    website: listing.url,
-
-    title: listing.title,
-    description: listing.description,
-
-    businessName: listing.name,
-
-    monthlyRevenue: parseAmount(
-      listing.expectedMonthlySales as string,
-    ),
-
-    askAmount: parseAmount(
-      listing.investmentRequired as string,
-    ),
-
-    facilities: listing.spaceRequired,
-
-    imageUrls: listing.image
-      ? [listing.image]
-      : [],
-
-    rating: listing.rating ?? 0,
-
-    isVerified:
-      listing.verification.email ||
-      listing.verification.phone,
-  },
-})
-
+  return number;
 }
 
+async function getOrCreateCrawlSource() {
+  return prisma.crawlSource.upsert({
+    where: { baseUrl: SOURCE_URL },
+    update: {
+      name: SOURCE_NAME,
+      isActive: true,
+    },
+    create: {
+      name: SOURCE_NAME,
+      baseUrl: SOURCE_URL,
+      isActive: true,
+      rateLimitMs: 5_000,
+    },
+  });
+}
 
 export const franchCrawler = async (): Promise<FranchiseListing[]> => {
   const dataset = await Dataset.open()
@@ -279,12 +208,72 @@ export const franchCrawler = async (): Promise<FranchiseListing[]> => {
 
   // Get the actual scraped objects
   const { items } = await dataset.getData()
-  
-await Promise.all(
-  items.map(item => saveSmaggerCralData(item as unknown as FranchiseListing))
-)
+  const source = await getOrCreateCrawlSource();
 
-  return items as FranchiseListing[]
+  const run = await prisma.crawlRun.create({
+    data: {
+      sourceId: source.id,
+      status: "RUNNING",
+      discovered: items.length,
+    },
+  });
+
+  let created = 0;
+  let updated = 0;
+  let rejected = 0;
+
+  try {
+    for (const item of items as FranchiseListing[]) {
+      if (!item.title || !item.url) {
+        rejected += 1;
+        continue;
+      }
+
+      const result = await importCrawledListing(source.id, {
+        externalId: item.sku || item.url,
+        sourceUrl: item.url,
+        contactUrl: item.url,
+        title: item.title,
+        description: item.description,
+        industry: "Franchise",
+        country: item.expandingIn || "Nigeria",
+        currency: "NGN",
+        askingPrice: parseCrawlerAmount(item.investmentRequired),
+        imageUrl: item.image,
+        rawPayload: item as unknown as Record<string, unknown>,
+      });
+
+      if (result.action === "created") created += 1;
+      if (result.action === "updated") updated += 1;
+    }
+
+    await prisma.crawlRun.update({
+      where: { id: run.id },
+      data: {
+        status: "COMPLETED",
+        finishedAt: new Date(),
+        created,
+        updated,
+        rejected,
+      },
+    });
+
+    return items as FranchiseListing[];
+  } catch (error) {
+    await prisma.crawlRun.update({
+      where: { id: run.id },
+      data: {
+        status: "FAILED",
+        finishedAt: new Date(),
+        created,
+        updated,
+        rejected,
+        errorMessage: error instanceof Error ? error.message : "Unknown crawl error",
+      },
+    });
+
+    throw error;
+  }
 }
 
 

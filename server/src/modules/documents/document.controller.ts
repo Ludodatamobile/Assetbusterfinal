@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -23,7 +24,7 @@ export const uploadDocument = asyncHandler(async (req: Request, res: Response) =
 })
 
 export const getDealDocuments = asyncHandler(async (req: Request, res: Response) => {
-  const docs = await documentService.getDealDocuments(req.params.dealId, req.user!.id)
+  const docs = await documentService.getDealDocuments(requiredParam(req, "dealId"), req.user!.id)
   return ApiResponse.success(res, docs, 'Documents retrieved.')
 })
 
@@ -33,6 +34,6 @@ export const getMyDocuments = asyncHandler(async (req: Request, res: Response) =
 })
 
 export const deleteDocument = asyncHandler(async (req: Request, res: Response) => {
-  await documentService.deleteDocument(req.params.id, req.user!.id)
+  await documentService.deleteDocument(requiredParam(req, "id"), req.user!.id)
   return ApiResponse.noContent(res)
 })

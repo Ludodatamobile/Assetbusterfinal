@@ -1,125 +1,125 @@
+import {
+  apiRequest,
+  type ApiSuccessResponse,
+} from "@/lib/api";
+
 import type {
-  ApiSuccessResponse,
   CreateFundingSourcePayload,
   FundingSourceFilters,
   FundingSourceListing,
   UpdateFundingSourcePayload,
 } from "@/types/funding-service";
 
-const rawBase =
-  process.env.NEXT_PUBLIC_API_URL ||
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "http://localhost:5000/api/v1";
+import type { DealListItem } from "@/types/marketplace";
 
-const normalizedBase = rawBase.replace(/\/$/, "");
-const API_BASE_URL = normalizedBase.endsWith("/api/v1")
-  ? normalizedBase
-  : `${normalizedBase}/api/v1`;
+function toQuery(filters: FundingSourceFilters = {}) {
+  const params = new URLSearchParams();
 
-function toQuery(params: Record<string, unknown>) {
-  const query = new URLSearchParams();
-
-  Object.entries(params).forEach(([key, value]) => {
+  Object.entries(filters).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {
-      query.set(key, String(value));
+      params.set(key, String(value));
     }
   });
 
-  const text = query.toString();
-  return text ? `?${text}` : "";
-}
-
-async function apiRequest<T>(
-  path: string,
-  options: RequestInit = {},
-): Promise<ApiSuccessResponse<T>> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      ...(options.body instanceof FormData
-        ? {}
-        : { "Content-Type": "application/json" }),
-      ...(options.headers || {}),
-    },
-  });
-
-  const payload = await response.json().catch(() => null);
-
-  if (!response.ok || payload?.success === false) {
-    throw new Error(
-      payload?.error ||
-        payload?.message ||
-        `Request failed with status ${response.status}`,
-    );
-  }
-
-  return payload as ApiSuccessResponse<T>;
-}
-
-function authHeaders(accessToken?: string | null) {
-  return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+  const query = params.toString();
+  return query ? `?${query}` : "";
 }
 
 export class FundingSourcesService {
   static getFundingSources(filters: FundingSourceFilters = {}) {
-    const params = {
-      ...filters,
-      sortBy: filters.sortBy === "ticketMax" ? "askAmount" : filters.sortBy,
-    };
-
-    return apiRequest<FundingSourceListing[]>(
-      `/funding-services${toQuery(params)}`,
+    return apiRequest<ApiSuccessResponse<FundingSourceListing[]>>(
+      `/funding-services${toQuery(filters)}`,
     );
   }
 
   static getFundingSourceBySlug(slug: string) {
-    return apiRequest<FundingSourceListing>(
+    return apiRequest<ApiSuccessResponse<FundingSourceListing>>(
       `/funding-services/${encodeURIComponent(slug)}`,
     );
   }
 
   static createFundingSource(
-    accessToken: string | null | undefined,
+    token: string | null | undefined,
     payload: CreateFundingSourcePayload,
   ) {
-    return apiRequest<FundingSourceListing>("/funding-services", {
-      method: "POST",
-      headers: authHeaders(accessToken),
-      body: JSON.stringify(payload),
-    });
+    return apiRequest<ApiSuccessResponse<FundingSourceListing>>(
+      "/funding-services",
+      {
+        method: "POST",
+        token,
+        body: payload,
+      },
+    );
   }
 
   static updateFundingSource(
-    accessToken: string | null | undefined,
+    token: string | null | undefined,
     id: string,
     payload: UpdateFundingSourcePayload,
   ) {
-    return apiRequest<FundingSourceListing>(`/funding-services/${id}`, {
-      method: "PATCH",
-      headers: authHeaders(accessToken),
-      body: JSON.stringify(payload),
-    });
+    return apiRequest<ApiSuccessResponse<FundingSourceListing>>(
+      `/funding-services/${encodeURIComponent(id)}`,
+      {
+        method: "PATCH",
+        token,
+        body: payload,
+      },
+    );
   }
 
-  static submitFundingSource(accessToken: string | null | undefined, id: string) {
-    return apiRequest<FundingSourceListing>(`/funding-services/${id}/submit`, {
-      method: "POST",
-      headers: authHeaders(accessToken),
-    });
+  static submitFundingSource(
+    token: string | null | undefined,
+    id: string,
+  ) {
+    return apiRequest<ApiSuccessResponse<FundingSourceListing>>(
+      `/funding-services/${encodeURIComponent(id)}/submit`,
+      {
+        method: "POST",
+        token,
+      },
+    );
   }
 
-  static deleteFundingSource(accessToken: string | null | undefined, id: string) {
-    return apiRequest<{ id: string }>(`/funding-services/${id}`, {
-      method: "DELETE",
-      headers: authHeaders(accessToken),
-    });
+  static deleteFundingSource(
+    token: string | null | undefined,
+    id: string,
+  ) {
+    return apiRequest<ApiSuccessResponse<{ id: string }>>(
+      `/funding-services/${encodeURIComponent(id)}`,
+      {
+        method: "DELETE",
+        token,
+      },
+    );
   }
 
-  /* Backwards-compatible method names. */
+  static enquire(
+    token: string | null | undefined,
+    fundingServiceId: string,
+    message: string,
+  ) {
+    return apiRequest<ApiSuccessResponse<{ deal: DealListItem }>>(
+      `/funding-services/${encodeURIComponent(fundingServiceId)}/enquire`,
+      {
+        method: "POST",
+        token,
+        body: { message },
+      },
+    );
+  }
+
+  // Compatibility aliases for code using the older names.
   static getFundingServices = FundingSourcesService.getFundingSources;
-  static getFundingServiceBySlug = FundingSourcesService.getFundingSourceBySlug;
-  static createFundingService = FundingSourcesService.createFundingSource;
-  static updateFundingService = FundingSourcesService.updateFundingSource;
-  static submitFundingService = FundingSourcesService.submitFundingSource;
-  static deleteFundingService = FundingSourcesService.deleteFundingSource;
+  static getFundingServiceBySlug =
+    FundingSourcesService.getFundingSourceBySlug;
+  static createFundingService =
+    FundingSourcesService.createFundingSource;
+  static updateFundingService =
+    FundingSourcesService.updateFundingSource;
+  static submitFundingService =
+    FundingSourcesService.submitFundingSource;
+  static deleteFundingService =
+    FundingSourcesService.deleteFundingSource;
 }
+
+export const FundingServiceService = FundingSourcesService;

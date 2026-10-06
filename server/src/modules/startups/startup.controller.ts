@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
@@ -21,7 +22,7 @@ export const StartupController = {
   }),
 
   getBySlug: asyncHandler(async (req: Request, res: Response) => {
-    const startup = await StartupService.getBySlug(req.params.slug);
+    const startup = await StartupService.getBySlug(requiredParam(req, "slug"));
 
     return ApiResponse.success(
       res,
@@ -43,7 +44,7 @@ export const StartupController = {
   update: asyncHandler(async (req: Request, res: Response) => {
     const startup = await StartupService.update(
       userIdFrom(req)!,
-      req.params.id,
+      requiredParam(req, "id"),
       req.body,
     );
 
@@ -55,7 +56,7 @@ export const StartupController = {
   }),
 
   submit: asyncHandler(async (req: Request, res: Response) => {
-    const startup = await StartupService.submit(userIdFrom(req)!, req.params.id);
+    const startup = await StartupService.submit(userIdFrom(req)!, requiredParam(req, "id"));
 
     return ApiResponse.success(
       res,
@@ -65,7 +66,7 @@ export const StartupController = {
   }),
 
   delete: asyncHandler(async (req: Request, res: Response) => {
-    const data = await StartupService.delete(userIdFrom(req)!, req.params.id);
+    const data = await StartupService.delete(userIdFrom(req)!, requiredParam(req, "id"));
 
     return ApiResponse.success(
       res,

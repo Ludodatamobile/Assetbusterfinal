@@ -15,16 +15,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LOGO_PATH = path.resolve(__dirname, "../assets/ab.png");
 const LOGO_CID  = "logo-ab@assetbusters";
 
-const hasSmtpConfig = Boolean(env.SMTP_HOST && env.SMTP_USER && env.SMTP_PASS);
+const smtpHost = env.SMTP_HOST ?? "";
+const smtpUser = env.SMTP_USER ?? "";
+const smtpPass = env.SMTP_PASS ?? "";
+
+const hasSmtpConfig = Boolean(smtpHost && smtpUser && smtpPass);
 
 const transporter = hasSmtpConfig
   ? nodemailer.createTransport({
-      host: env.SMTP_HOST,
+      host: smtpHost,
       port: Number(env.SMTP_PORT) || 587,
       secure: Number(env.SMTP_PORT) === 465,
       auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASS.replace(/\s/g, ""),
+        user: smtpUser,
+        pass: smtpPass.replace(/\s/g, ""),
       },
       connectionTimeout: 8000,
       greetingTimeout: 8000,

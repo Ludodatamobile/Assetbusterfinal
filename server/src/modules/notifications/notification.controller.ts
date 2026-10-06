@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -22,7 +23,7 @@ export class NotificationController {
   })
 
   static markOneRead = asyncHandler(async (req: Request, res: Response) => {
-    const notification = await NotificationService.markOneRead(req.params.id, req.user!.id)
+    const notification = await NotificationService.markOneRead(requiredParam(req, "id"), req.user!.id)
     return ApiResponse.success(res, { notification }, 'Notification marked as read.')
   })
 
@@ -32,7 +33,7 @@ export class NotificationController {
   })
 
   static deleteNotification = asyncHandler(async (req: Request, res: Response) => {
-    await NotificationService.deleteNotification(req.params.id, req.user!.id)
+    await NotificationService.deleteNotification(requiredParam(req, "id"), req.user!.id)
     return ApiResponse.noContent(res)
   })
 }

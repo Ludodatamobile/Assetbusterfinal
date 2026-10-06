@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
@@ -20,7 +21,7 @@ export const FundingServiceController = {
   }),
 
   getBySlug: asyncHandler(async (req: Request, res: Response) => {
-    const fundingService = await FundingServiceService.getBySlug(req.params.slug);
+    const fundingService = await FundingServiceService.getBySlug(requiredParam(req, "slug"));
     return ApiResponse.success(
       res,
       fundingService,
@@ -40,7 +41,7 @@ export const FundingServiceController = {
   update: asyncHandler(async (req: Request, res: Response) => {
     const fundingService = await FundingServiceService.update(
       userIdFrom(req)!,
-      req.params.id,
+      requiredParam(req, "id"),
       req.body
     );
 
@@ -52,7 +53,7 @@ export const FundingServiceController = {
   }),
 
   submit: asyncHandler(async (req: Request, res: Response) => {
-    const fundingService = await FundingServiceService.submit(userIdFrom(req)!, req.params.id);
+    const fundingService = await FundingServiceService.submit(userIdFrom(req)!, requiredParam(req, "id"));
     return ApiResponse.success(
       res,
       fundingService,
@@ -61,14 +62,14 @@ export const FundingServiceController = {
   }),
 
   delete: asyncHandler(async (req: Request, res: Response) => {
-    const data = await FundingServiceService.delete(userIdFrom(req)!, req.params.id);
+    const data = await FundingServiceService.delete(userIdFrom(req)!, requiredParam(req, "id"));
     return ApiResponse.success(res, data, "Funding service deleted successfully.");
   }),
 
   enquire: asyncHandler(async (req: Request, res: Response) => {
     const deal = await FundingServiceService.enquire(
       userIdFrom(req)!,
-      req.params.id,
+      requiredParam(req, "id"),
       req.body.message
     );
 

@@ -628,11 +628,12 @@ function ResourceCard({ resource }: { resource: { title: string; description: st
     template: "Template",
     guide: "Guide"
   };
+  const resourceType = resource.type as keyof typeof icons;
   return (
     <div className="ht-resource-card">
       <div className="ht-resource-header">
-        <span className="ht-resource-icon">{icons[resource.type]}</span>
-        <span className="ht-resource-type">{labels[resource.type]}</span>
+        <span className="ht-resource-icon">{icons[resourceType]}</span>
+        <span className="ht-resource-type">{labels[resourceType]}</span>
       </div>
       <h4 className="ht-resource-title">{resource.title}</h4>
       <p className="ht-resource-desc">{resource.description}</p>

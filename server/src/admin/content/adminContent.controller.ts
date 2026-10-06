@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -14,22 +15,22 @@ export class AdminContentController {
   })
 
   static featureListing = asyncHandler(async (req: Request, res: Response) => {
-    await AdminContentService.setListingFeatured(req.params.id, req.admin!.id, true)
+    await AdminContentService.setListingFeatured(requiredParam(req, "id"), req.admin!.id, true)
     return ApiResponse.success(res, null, 'Listing featured')
   })
 
   static unfeatureListing = asyncHandler(async (req: Request, res: Response) => {
-    await AdminContentService.setListingFeatured(req.params.id, req.admin!.id, false)
+    await AdminContentService.setListingFeatured(requiredParam(req, "id"), req.admin!.id, false)
     return ApiResponse.success(res, null, 'Listing unfeatured')
   })
 
   static setPremiumListing = asyncHandler(async (req: Request, res: Response) => {
-    await AdminContentService.setPremiumListing(req.params.id, req.admin!.id, req.body.isPremium === true)
+    await AdminContentService.setPremiumListing(requiredParam(req, "id"), req.admin!.id, req.body.isPremium === true)
     return ApiResponse.success(res, null, 'Listing premium status updated')
   })
 
   static setPremiumInvestor = asyncHandler(async (req: Request, res: Response) => {
-    await AdminContentService.setPremiumInvestor(req.params.id, req.admin!.id, req.body.isPremium === true)
+    await AdminContentService.setPremiumInvestor(requiredParam(req, "id"), req.admin!.id, req.body.isPremium === true)
     return ApiResponse.success(res, null, 'Investor premium status updated')
   })
 
@@ -58,7 +59,7 @@ export class AdminContentController {
   })
 
   static cancelCampaign = asyncHandler(async (req: Request, res: Response) => {
-    await AdminContentService.cancelCampaign(req.params.id, req.admin!.id)
+    await AdminContentService.cancelCampaign(requiredParam(req, "id"), req.admin!.id)
     return ApiResponse.success(res, null, 'Campaign cancelled')
   })
 }

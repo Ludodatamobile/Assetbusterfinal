@@ -11,6 +11,7 @@ import adminListingRoutes from './listings/adminListings.routes.js'
 import adminDealRoutes from './deals/adminDeals.routes.js'
 import adminAnalytics from './analytics/adminAnalytics.routes.js'
 import adminContent from './content/adminContent.routes.js'
+import adminCrawlerRoutes from '../modules/crawler/adminCrawler.routes.js'
 
 const router = Router()
 
@@ -28,5 +29,6 @@ router.use('/listings',  adminGuard, adminListingRoutes)
 router.use('/deals',     adminGuard, adminDealRoutes)
 router.use('/analytics', adminGuard, adminAnalytics)
 router.use('/content',   adminGuard, adminContent)
+router.use('/crawler',   adminGuard, adminCrawlerRoutes)
 
 export default router

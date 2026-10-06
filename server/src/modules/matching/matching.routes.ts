@@ -12,6 +12,6 @@ router.get('/recommended', authenticateOptional, controller.getRecommended)
 router.get('/for-investor', authenticate, authorize(['INVESTOR', 'BUYER']), controller.getMatchesForInvestor)
 
 // Seller: get matched investors for their listing
-router.get('/for-business', authenticate, authorize(['SELLER']), controller.getMatchesForBusiness)
+router.get('/for-business', authenticate, authorize(['BUSINESS_OWNER']), controller.getMatchesForBusiness)
 
 export default router

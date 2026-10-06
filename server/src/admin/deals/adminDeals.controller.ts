@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -12,13 +13,13 @@ export class AdminDealsController {
   })
 
   static getById = asyncHandler(async (req: Request, res: Response) => {
-    const deal = await AdminDealsService.getDealById(req.params.id)
+    const deal = await AdminDealsService.getDealById(requiredParam(req, "id"))
     return ApiResponse.success(res, deal)
   })
 
   static updateStatus = asyncHandler(async (req: Request, res: Response) => {
     const { status, notes } = req.body
-    await AdminDealsService.updateDealStatus(req.params.id, req.admin!.id, status as DealStatus, notes)
+    await AdminDealsService.updateDealStatus(requiredParam(req, "id"), req.admin!.id, status as DealStatus, notes)
     return ApiResponse.success(res, null, 'Deal status updated')
   })
 

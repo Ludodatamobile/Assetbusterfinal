@@ -14,6 +14,7 @@ const BRAND = {
   navy2: "#1a2d4a",
   blue: "#1A56DB",
   blueD: "#1444B8",
+  t3: "#8896a8",
   amber: "#F5A623",
   green: "#10B981",
   purple: "#7C3AED",

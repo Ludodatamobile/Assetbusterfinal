@@ -1,3 +1,4 @@
+import { requiredParam } from "../../utils/requestParam.js";
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
@@ -9,7 +10,7 @@ export const getAdvisors = asyncHandler(async (req: Request, res: Response) => {
 })
 
 export const getAdvisorById = asyncHandler(async (req: Request, res: Response) => {
-  const advisor = await advisorService.getAdvisorById(req.params.id)
+  const advisor = await advisorService.getAdvisorById(requiredParam(req, "id"))
   return ApiResponse.success(res, { advisor })
 })
 
@@ -24,6 +25,6 @@ export const createProfile = asyncHandler(async (req: Request, res: Response) =>
 })
 
 export const updateProfile = asyncHandler(async (req: Request, res: Response) => {
-  const profile = await advisorService.updateAdvisorProfile(req.user!.id, req.params.id, req.body)
+  const profile = await advisorService.updateAdvisorProfile(req.user!.id, requiredParam(req, "id"), req.body)
   return ApiResponse.success(res, { profile }, 'Advisor profile updated.')
 })

@@ -1,27 +1,68 @@
 {
-  "requestsFinished": 2,
-  "requestsFailed": 0,
-  "requestsRetries": 0,
-  "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 21,
-  "requestMinDurationMillis": 766,
-  "requestMaxDurationMillis": 2359,
-  "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 3125,
-  "crawlerStartedAt": "2026-09-08T08:18:38.321Z",
-  "crawlerFinishedAt": "2026-09-08T08:18:43.788Z",
-  "statsPersistedAt": "2026-09-08T08:18:43.788Z",
-  "crawlerRuntimeMillis": 5596,
-  "crawlerLastStartTimestamp": 1788855518192,
+  "requestsFinished": 0,
+  "requestsFailed": 1,
+  "requestsRetries": 1,
+  "requestsFailedPerMinute": 10,
+  "requestsFinishedPerMinute": 0,
+  "requestMinDurationMillis": null,
+  "requestMaxDurationMillis": 0,
+  "requestTotalFailedDurationMillis": 12,
+  "requestTotalFinishedDurationMillis": 0,
+  "crawlerStartedAt": "2026-10-06T11:21:17.083Z",
+  "crawlerFinishedAt": "2026-10-06T11:21:21.165Z",
+  "statsPersistedAt": "2026-10-06T11:21:21.165Z",
+  "crawlerRuntimeMillis": 5558,
+  "crawlerLastStartTimestamp": 1791285675608,
   "requestRetryHistogram": [
-    2
+    null,
+    null,
+    null,
+    1
   ],
   "statsId": "0",
-  "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 1563,
-  "requestTotalDurationMillis": 3125,
-  "requestsTotal": 2,
+  "requestAvgFailedDurationMillis": 12,
+  "requestAvgFinishedDurationMillis": null,
+  "requestTotalDurationMillis": 12,
+  "requestsTotal": 1,
   "requestsWithStatusCode": {},
-  "errors": {},
-  "retryErrors": {}
+  "errors": {
+    "file:///C:/Users/elija/Assetbusterfinal/server/node_modules/got-scraping/node_modules/got/dist/source/core/index.js:198:21": {
+      "ENOTFOUND": {
+        "RequestError": {
+          "getaddrinfo ENOTFOUND www.smergers.com": {
+            "count": 1
+          }
+        }
+      }
+    },
+    "node:dns:122:26": {
+      "ENOTFOUND": {
+        "Error": {
+          "getaddrinfo ENOTFOUND www.smergers.com": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  "retryErrors": {
+    "file:///C:/Users/elija/Assetbusterfinal/server/node_modules/got-scraping/node_modules/got/dist/source/core/index.js:198:21": {
+      "ENOTFOUND": {
+        "RequestError": {
+          "getaddrinfo ENOTFOUND www.smergers.com": {
+            "count": 3
+          }
+        }
+      }
+    },
+    "node:dns:122:26": {
+      "ENOTFOUND": {
+        "Error": {
+          "getaddrinfo ENOTFOUND www.smergers.com": {
+            "count": 3
+          }
+        }
+      }
+    }
+  }
 }
