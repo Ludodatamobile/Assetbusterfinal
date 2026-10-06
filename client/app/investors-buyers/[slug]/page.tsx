@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   BadgeCheck,
@@ -74,7 +74,7 @@ function DetailRow({ label, value }: { label: string; value?: string | number | 
   );
 }
 
-function Section({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode }) {
+function Section({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
   return (
     <section className="id-panel">
       <div className="id-panel-head">
@@ -125,7 +125,8 @@ export default function InvestorBuyerDetailPage() {
 
   const name = useMemo(() => {
     if (!profile) return "";
-    return raw.title || raw.name || raw.firmName || [raw.user?.firstName, raw.user?.lastName].filter(Boolean).join(" ") || "Investor Profile";
+    const userName = [raw?.user?.firstName, raw?.user?.lastName].filter(Boolean).join(" ");
+    return raw?.title || raw?.name || raw?.firmName || userName || "Investor Profile";
   }, [profile, raw]);
 
   const industries = listFrom(raw?.industries || raw?.industryFocus || raw?.industry);
