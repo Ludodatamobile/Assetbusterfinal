@@ -24,7 +24,12 @@ export const updateListing = asyncHandler(async (req: Request, res: Response) =>
 })
 
 export const deleteListing = asyncHandler(async (req: Request, res: Response) => {
-  await businessService.deleteListing(req.user!.id, req.params.id)
+  const {id}  =  req.params;
+  
+  if (typeof id !== "string") {
+    throw new Error("Invalid listing ID")
+  }
+  await businessService.deleteListing(req.user!.id, id)
   return ApiResponse.noContent(res)
 })
 
@@ -42,3 +47,14 @@ export const getSimilarListings = asyncHandler(async (req: Request, res: Respons
   const listings = await businessService.getSimilarListings(req.params.id)
   return ApiResponse.success(res, listings)
 })
+
+export const getBusinessById =  asyncHandler(async (req: Request, res: Response) =>{
+     const {id}  =  req.params;
+  
+  if (typeof id !== "string") {
+    throw new Error("Invalid listing ID")
+  }
+
+   const data  = await businessService.getBusinessById(id);
+   return ApiResponse.success(res, data);
+});

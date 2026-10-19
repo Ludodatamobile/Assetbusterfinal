@@ -1,10 +1,9 @@
 {
-	"title": "Medical Supplies Company for Sale in Mohali, India",
-	"url": "https://www.smergers.com/business/medical-supplies-company-for-sale-in-mohali-india/1zpx5/",
-	"sku": "b-1zpx5",
-	"tagline": "Established medical equipment manufacturer based in Mohali, Punjab, specializing in Medical X-ray, C-arm image intensifier, and ESWL Lithotripter equipment. - The company has been operating for over three decades and serves doctors, hospitals, and healthcare institutions. - The business has 100+ customers, with a significant portion of sales coming from exports, supported by local dealers across North India. - Dealers assist customers with equipment installation and after-sales maintenance, providing an established distribution and service network. - The company operates from a self-owned 500 sq. yard, double-storey factory in Mohali, equipped with fabrication, powder coating, electronic, and electrical production infrastructure. - The facility has an expected monthly production capacity of approximately INR 20 lakh. - The business currently has 10 employees and is operated as a family-owned Private Limited Company with two directors. - Current sales are below historical potential due to zero marketing expenditure, presenting an opportunity for growth through stronger marketing and management.",
+	"title": "Enterprise Software Company Equity Stake For Sale in Geneva, Switzerland",
+	"url": "https://www.smergers.com/business/enterprise-software-company-equity-stake-for-sale-in-geneva-switzerland/ivp60/",
+	"sku": "b-ivp60",
+	"tagline": "The business is developing an ERP-based technology platform for healthcare and professional-services groups. - It employs 10 people and is currently focused on product development and implementation readiness. - The platform is designed to support multi-entity organizations through standardized workflows and automated administrative controls. - The planned revenue model includes software licensing, implementation fees, managed back-office services, part-time CFO services, and fixed-price industry-specific packages. - The initial strategy is to deploy the platform within affiliated healthcare and accounting networks before offering it to external customers. - The technology includes a configurable code base, eight modules, 13 adaptations, and a capital-management engine. - The business plans to expand alongside its affiliated groups into Switzerland, Luxembourg, France, Belgium, Monaco, Spain, Portugal, and the United Arab Emirates. Future target markets include Canada, Brazil, and the United States. - The first third-party deployment and go-live activities are planned for next year. - The business is currently in the development phase and has not yet started generating revenue. - The business has a business registration certificate.",
 	"description": "",
-	"image": "/media/cache/2e/09/2e09bf098476486a1c99c160e7e42c61.webp",
 	"rating": null,
 	"city": null,
 	"runRateSales": null,
@@ -14,8 +13,8 @@
 	"verification": {
 		"email": true,
 		"phone": true,
-		"linkedin": false,
+		"linkedin": true,
 		"facebook": false,
-		"google": true
+		"google": false
 	}
 }

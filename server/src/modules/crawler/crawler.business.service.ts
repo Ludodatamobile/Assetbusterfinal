@@ -3,7 +3,7 @@ import { prisma } from '../../config/prisma.js'
 import { createSlug, parseAmount } from './helperFunctions.js'
 
 const BASE_URL = 'https://www.smergers.com'
-const START_URL = 'https://www.smergers.com/businesses-for-sale-and-investment/b/'
+const START_URL = 'https://www.smergers.com/businesses-for-sale-and-investment'
 
 type BusinessListing = {
   title: string

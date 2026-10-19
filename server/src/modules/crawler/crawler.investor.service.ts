@@ -3,7 +3,7 @@ import { prisma } from '../../config/prisma.js'
 import { parseAmount } from './helperFunctions.js'
 
 const BASE_URL = 'https://www.smergers.com'
-const START_URL = 'https://www.smergers.com/investors/i/'
+const START_URL = 'https://www.smergers.com/investors'
 
 type InvestorListing = {
   // e.g. "Regional Sales Head, Retail Company" — the person/company headline shown above the main title
@@ -85,6 +85,7 @@ const saveInvestorListing = async (listing: InvestorListing) => {
     ? parseAmount(`${listing.currency} ${listing.investmentMax}`)
     : minTicket
 
+    
   await prisma.investorProfile.upsert({
     where: {
       // There's no unique slug column on InvestorProfile, so we key off userId + title
@@ -102,7 +103,7 @@ const saveInvestorListing = async (listing: InvestorListing) => {
 
       title: listing.title,
       firmName: listing.headline || null,
-      investorType: listing.investorType,
+      investorType: listing.investorType??"",
       bio: listing.headline || null,
 
       currency,
@@ -119,7 +120,7 @@ const saveInvestorListing = async (listing: InvestorListing) => {
 
     update: {
       firmName: listing.headline || null,
-      investorType: listing.investorType,
+      investorType: listing.investorType|| "",
       bio: listing.headline || null,
 
       currency,
