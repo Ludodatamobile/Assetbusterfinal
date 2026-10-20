@@ -11,6 +11,9 @@ router.get('/mine', authenticate, controller.getMyListings)
 router.get('/slug/:slug', authenticateOptional, controller.getListingBySlug)
 router.get('/:id/similar', controller.getSimilarListings)
 
+
+router.get('/:id',  controller.getBusinessById)
+
 router.post('/', authenticate, validateRequest(createBusinessSchema), controller.createListing)
 router.patch('/:id', authenticate, validateRequest(updateBusinessSchema), controller.updateListing)
 router.delete('/:id', authenticate, controller.deleteListing)
