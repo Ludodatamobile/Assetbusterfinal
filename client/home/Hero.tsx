@@ -175,8 +175,7 @@ export default function HeroSection() {
   return (
     <>
       <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+     
         :root {
           --max-w: 82rem;
           --accent:   #F5A623;
