@@ -113,7 +113,7 @@ function ValuationSimulator() {
         <div className="val-sim-dots-row">
           <span className="val-sim-dot-r"/><span className="val-sim-dot-y"/><span className="val-sim-dot-g"/>
         </div>
-        <span className="val-sim-title-bar">SMERGERS Valuation Engine</span>
+        <span className="val-sim-title-bar">Asset Busters Valuation Preview</span>
         <span className="val-sim-live">● LIVE</span>
       </div>
 
@@ -147,7 +147,7 @@ function ValuationSimulator() {
             {[
               { label: "Listed cos.", pct: demo.bar, color: demo.color },
               { label: "Private M&A", pct: demo.bar - 8, color: demo.color + "bb" },
-              { label: "SMERGERS DB", pct: demo.bar + 10, color: demo.color + "77" },
+              { label: "Asset Busters signals", pct: demo.bar + 10, color: demo.color + "77" },
             ].map(({ label, pct, color }) => (
               <div key={label} className="val-sim-bar-row">
                 <span className="val-sim-bar-lbl">{label}</span>
@@ -224,10 +224,9 @@ function ValuationSection() {
             <span className="val-heading-accent">Calculator</span>
           </h2>
           <p className="val-body">
-            At SMERGERS, we define Business Valuation as a technique used to capture the
-            true value of a business based on similar comparable companies. Our comparable
-            data includes publicly trading companies across all stock exchanges in the world
-            and private transactions of thousands of small businesses on SMERGERS.
+            Asset Busters helps business owners form an initial view of value using the
+            information they provide, relevant market context, and comparable transaction
+            signals. A professional valuation may still be required before a transaction.
           </p>
           <p className="val-body val-body-2">
             Curious to know the valuation of your business? Try our simple, yet one of the
@@ -333,7 +332,8 @@ function IndustryWatch() {
         </div>
 
         <div className="iw-footer-note">
-          Data sourced from SMERGERS platform listings and verified transactions. Updated weekly.
+          Marketplace insights are based on Asset Busters platform activity and approved
+          data sources. Figures are indicative and updated as new data becomes available.
           <a href="/blog/industry-trends" className="iw-more-link">View full report →</a>
         </div>
       </div>
@@ -361,14 +361,14 @@ const GUIDE_RESOURCES = [
   { icon: "🤝", label: "Franchise Your Brand", href: "/how-to/franchise-business" },
 ];
 
-function SMERGERSGuide() {
+function AssetBustersGuide() {
   return (
     <section className="guide-section">
       <div className="guide-inner">
         <div className="guide-header">
           <div>
             <span className="guide-eyebrow">Platform Guide</span>
-            <h2 className="guide-heading">How SMERGERS Works</h2>
+            <h2 className="guide-heading">How Asset Busters Works</h2>
             <p className="guide-subhead">From discovery to deal close — four focused steps.</p>
           </div>
           <a href="/company/how-it-works" className="guide-header-link">
@@ -422,11 +422,11 @@ function SMERGERSGuide() {
 // ══════════════════════════════════════════════════════════════════════════════
 
 const TESTIMONIALS = [
-  { id: 1, quote: "SMERGERS connected us with a strategic buyer in Dubai within 3 weeks of listing. The process was transparent and confidential — exactly what we needed.", name: "Taiwo Adeyemi", role: "Founder & CEO", company: "TechBridge Nigeria Ltd", avatar: "TA", color: "#1A56DB", deal: "Full Sale · NGN 2.4 Bn", flag: "🇳🇬" },
-  { id: 2, quote: "We found our ideal manufacturing investment through SMERGERS. The pre-screening saved us months of due diligence — every lead was serious and well-documented.", name: "Rajesh Pillai", role: "Managing Director", company: "Meridian Capital Partners", avatar: "RP", color: "#F5A623", deal: "Investment · USD 3.2 Mn", flag: "🇮🇳" },
-  { id: 3, quote: "As an M&A advisor, SMERGERS has become my primary deal flow source for African SME transactions. The quality of listings is consistently high.", name: "Adaeze Okafor", role: "Senior M&A Advisor", company: "Okafor & Partners", avatar: "AO", color: "#10B981", deal: "Advisory · 14 closed deals", flag: "🇳🇬" },
+  { id: 1, quote: "Asset Busters connected us with a strategic buyer in Dubai within 3 weeks of listing. The process was transparent and confidential — exactly what we needed.", name: "Taiwo Adeyemi", role: "Founder & CEO", company: "TechBridge Nigeria Ltd", avatar: "TA", color: "#1A56DB", deal: "Full Sale · NGN 2.4 Bn", flag: "🇳🇬" },
+  { id: 2, quote: "We found our ideal manufacturing investment through Asset Busters. The pre-screening saved us months of due diligence — every lead was serious and well-documented.", name: "Rajesh Pillai", role: "Managing Director", company: "Meridian Capital Partners", avatar: "RP", color: "#F5A623", deal: "Investment · USD 3.2 Mn", flag: "🇮🇳" },
+  { id: 3, quote: "As an M&A advisor, Asset Busters has become my primary deal-flow source for African SME transactions. The quality of listings is consistently high.", name: "Adaeze Okafor", role: "Senior M&A Advisor", company: "Okafor & Partners", avatar: "AO", color: "#10B981", deal: "Advisory · 14 closed deals", flag: "🇳🇬" },
   { id: 4, quote: "We raised growth capital from an investor in Riyadh for our Lagos food business. The platform made cross-border transactions feel simple and secure.", name: "Kolade Benson", role: "Co-founder", company: "QuickBite Express", avatar: "KB", color: "#7C3AED", deal: "Partial Stake · NGN 800 Mn", flag: "🇳🇬" },
-  { id: 5, quote: "SMERGERS helped us franchise our brand into three new countries in under a year. The investor-matching is genuinely precise — not just noise.", name: "Priya Sharma", role: "Head of Expansion", company: "EduBridge Academy", avatar: "PS", color: "#F97316", deal: "Franchise · 12 new units", flag: "🇬🇭" },
+  { id: 5, quote: "Asset Busters helped us franchise our brand into three new countries in under a year. The investor matching was precise and relevant.", name: "Priya Sharma", role: "Head of Expansion", company: "EduBridge Academy", avatar: "PS", color: "#F97316", deal: "Franchise · 12 new units", flag: "🇬🇭" },
   { id: 6, quote: "The valuation tool gave us a realistic benchmark before negotiations. We closed 8% above our initial ask. That's real value.", name: "James Whitfield", role: "Principal", company: "Whitfield Capital Group", avatar: "JW", color: "#0EA5E9", deal: "Business Loan · GBP 4.5 Mn", flag: "🇬🇧" },
 ];
 
@@ -466,7 +466,7 @@ function TestimonialsSection() {
           <div>
             <span className="tst-eyebrow">Success Stories</span>
             <h2 className="tst-heading">What Our Members Say</h2>
-            <p className="tst-subhead">2,800+ deals closed. Real outcomes from real businesses.</p>
+            <p className="tst-subhead">Sample/demo content only — illustrative examples, not approved customer testimonials.</p>
           </div>
           <div className="tst-nav">
             <Arrow onClick={prev} disabled={!canPrev} dir="prev"/>
@@ -984,7 +984,7 @@ export default function AdditionalSections() {
 
       <ValuationSection/>
       <IndustryWatch/>
-      <SMERGERSGuide/>
+      <AssetBustersGuide/>
       <TestimonialsSection/>
     </>
   );

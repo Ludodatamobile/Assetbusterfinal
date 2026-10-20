@@ -596,8 +596,8 @@ export default function HeroSection() {
               </h1>
 
               <p className="hero-body">
-                Thousands of business owners franchise, sell, or raise growth capital through SMERGERS —
-                the trusted platform built for SMEs worldwide.
+                Business owners use Asset Busters to franchise, sell, acquire, or raise growth
+                capital through a confidential marketplace built for SMEs.
               </p>
 
               <div className="hero-ctas">
