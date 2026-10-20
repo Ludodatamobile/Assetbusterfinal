@@ -313,14 +313,16 @@ model BusinessProfile {
   @@index([isFeatured])
 }
 
+
 model InvestorProfile {
   id           String      @id @default(uuid())
   userId       String
   user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   profileType  ProfileType @default(INVEST)
+  
   title        String
   firmName     String?
-  investorType String
+  investorType String?
   bio          String?
   currency     String      @default("USD")
   minTicket    Decimal     @db.Decimal(18, 2)
@@ -333,7 +335,8 @@ model InvestorProfile {
   dealsCount   Int         @default(0)
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-
+  
+  @@unique([userId, title], name: "userId_title")
   @@index([userId])
   @@index([profileType])
   @@index([investorType])

@@ -9,8 +9,6 @@ dist/
 build/
 
 # env files
-.env
-.env.local
 .env.*.local
 
 # logs
@@ -26,3 +24,4 @@ temp_interactive_push.bat
 
 # Crawlee runtime data
 server/storage/
+config.bat

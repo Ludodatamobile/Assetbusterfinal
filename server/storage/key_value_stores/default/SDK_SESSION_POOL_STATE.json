@@ -1,0 +1,582 @@
+{
+  "usableSessionsCount": 8,
+  "retiredSessionsCount": 0,
+  "sessions": [
+    {
+      "id": "session_Xohhlf1bUz",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:31.572Z",
+            "lastAccessed": "2026-10-19T21:29:31.572Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:33.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:31.573Z",
+            "lastAccessed": "2026-10-19T21:29:31.573Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/franchise-opportunities/t11b/\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:31.573Z",
+            "lastAccessed": "2026-10-19T21:29:31.573Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445373",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:31.573Z",
+            "lastAccessed": "2026-10-19T21:29:31.573Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "nfXtPh8teLrw2Zw7ZhSSmCTNFZuf6sns",
+            "expires": "2027-10-18T21:29:33.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:31.573Z",
+            "lastAccessed": "2026-10-19T21:29:31.573Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:27.908Z",
+      "createdAt": "2026-10-19T21:29:27.908Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_fqAdfJntC3",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:32.828Z",
+            "lastAccessed": "2026-10-19T21:29:32.828Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:34.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:32.828Z",
+            "lastAccessed": "2026-10-19T21:29:32.828Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/franchise-opportunities/t11b/?ref=plus\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:32.828Z",
+            "lastAccessed": "2026-10-19T21:29:32.828Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445374",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:32.828Z",
+            "lastAccessed": "2026-10-19T21:29:32.828Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "xHwSdlfSDGQMcsqdTxN4zYSe1EOyIZKg",
+            "expires": "2027-10-18T21:29:34.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:32.829Z",
+            "lastAccessed": "2026-10-19T21:29:32.829Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:31.957Z",
+      "createdAt": "2026-10-19T21:29:31.957Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_BgGmobD6Za",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.179Z",
+            "lastAccessed": "2026-10-19T21:29:36.179Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:37.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.179Z",
+            "lastAccessed": "2026-10-19T21:29:36.179Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/businesses-for-sale-and-investment/b/\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.179Z",
+            "lastAccessed": "2026-10-19T21:29:36.179Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445377",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.179Z",
+            "lastAccessed": "2026-10-19T21:29:36.179Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "TjVVS2RvDIXfvVuqWQQu9KXx3DdJ58fz",
+            "expires": "2027-10-18T21:29:37.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.179Z",
+            "lastAccessed": "2026-10-19T21:29:36.179Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:35.397Z",
+      "createdAt": "2026-10-19T21:29:35.397Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_V1SXsbjvoi",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.744Z",
+            "lastAccessed": "2026-10-19T21:29:37.509Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/businesses-for-sale-and-investment/t5t11x74b/\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.744Z",
+            "lastAccessed": "2026-10-19T21:29:36.745Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445378",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.744Z",
+            "lastAccessed": "2026-10-19T21:29:36.745Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:39.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.509Z",
+            "lastAccessed": "2026-10-19T21:29:37.509Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "rFVfLez9szAHysW9DC9V4mKta51GTRtF",
+            "expires": "2027-10-18T21:29:39.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.509Z",
+            "lastAccessed": "2026-10-19T21:29:37.509Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:36.367Z",
+      "createdAt": "2026-10-19T21:29:36.367Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_a2LMkUQlGM",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.737Z",
+            "lastAccessed": "2026-10-19T21:29:37.705Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/businesses-for-sale-and-investment/x63b/\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.737Z",
+            "lastAccessed": "2026-10-19T21:29:36.738Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445378",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:36.737Z",
+            "lastAccessed": "2026-10-19T21:29:36.738Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:39.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.705Z",
+            "lastAccessed": "2026-10-19T21:29:37.705Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "d1gniuEGWyaVdV9Gq80CQLE56Ecaa99K",
+            "expires": "2027-10-18T21:29:39.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.705Z",
+            "lastAccessed": "2026-10-19T21:29:37.705Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:36.380Z",
+      "createdAt": "2026-10-19T21:29:36.380Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_WLLaPNlbVk",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.169Z",
+            "lastAccessed": "2026-10-19T21:29:37.169Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:38.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.169Z",
+            "lastAccessed": "2026-10-19T21:29:37.169Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/businesses-for-sale-and-investment/b/?seeking_advisors=on\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.169Z",
+            "lastAccessed": "2026-10-19T21:29:37.169Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445378",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.169Z",
+            "lastAccessed": "2026-10-19T21:29:37.169Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "nK7cwRPhLmXeE3kae3xleuMtqgdPtgOj",
+            "expires": "2027-10-18T21:29:38.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:37.169Z",
+            "lastAccessed": "2026-10-19T21:29:37.169Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:36.411Z",
+      "createdAt": "2026-10-19T21:29:36.411Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_LWGki4Id5Z",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:41.972Z",
+            "lastAccessed": "2026-10-19T21:29:41.972Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:43.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:41.972Z",
+            "lastAccessed": "2026-10-19T21:29:41.972Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/investors/i/\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:41.972Z",
+            "lastAccessed": "2026-10-19T21:29:41.972Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445383",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:41.972Z",
+            "lastAccessed": "2026-10-19T21:29:41.972Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "Udns1XZ5pjAeoSqiUlzp2idu6TGktoBx",
+            "expires": "2027-10-18T21:29:43.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:41.972Z",
+            "lastAccessed": "2026-10-19T21:29:41.972Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:41.179Z",
+      "createdAt": "2026-10-19T21:29:41.179Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_Nryji0UfXd",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": [
+          {
+            "key": "browser_view_log",
+            "value": "\"\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:42.917Z",
+            "lastAccessed": "2026-10-19T21:29:42.917Z"
+          },
+          {
+            "key": "free_profile_views",
+            "value": "0",
+            "expires": "2026-10-20T09:29:44.000Z",
+            "maxAge": 43200,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:42.917Z",
+            "lastAccessed": "2026-10-19T21:29:42.917Z"
+          },
+          {
+            "key": "landingpage",
+            "value": "\"/investors/i/?ref=plus\"",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:42.917Z",
+            "lastAccessed": "2026-10-19T21:29:42.917Z"
+          },
+          {
+            "key": "landingpage_time",
+            "value": "1792445384",
+            "domain": "www.smergers.com",
+            "path": "/",
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:42.917Z",
+            "lastAccessed": "2026-10-19T21:29:42.917Z"
+          },
+          {
+            "key": "csrftoken",
+            "value": "IplSy6mzsOchXHfHhWNYdzgSRGWugJpl",
+            "expires": "2027-10-18T21:29:44.000Z",
+            "maxAge": 31449600,
+            "domain": "www.smergers.com",
+            "path": "/",
+            "secure": true,
+            "hostOnly": true,
+            "creation": "2026-10-19T21:29:42.917Z",
+            "lastAccessed": "2026-10-19T21:29:42.917Z",
+            "sameSite": "lax"
+          }
+        ]
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-19T22:19:42.134Z",
+      "createdAt": "2026-10-19T21:29:42.134Z",
+      "usageCount": 1,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    }
+  ]
+}
