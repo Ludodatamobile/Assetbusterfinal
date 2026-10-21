@@ -11,6 +11,7 @@ import { prisma } from "./config/prisma.js";
 import {franchCrawler} from "./modules/crawler/crawler.franch.service.js";
 import { businessCrawler } from "./modules/crawler/crawler.business.service.js";
 import { investorCrawler } from "./modules/crawler/crawler.investor.service.js";
+import { bizBuySellCrawler, businessesForSaleCrawler, loopNetCrawler } from "./modules/crawler/crawler.external-business.service.js";
 
 const PORT = process.env.PORT || 5000;
 const CAMPAIGN_POLL_MS = 60_000;
@@ -34,16 +35,26 @@ const startCampaignScheduler = () => {
       console.error("Campaign scheduler error:", err),
     );
     
-    try{
-     await franchCrawler();
-     await businessCrawler();
-     await investorCrawler(); 
      
-    }catch(err){
-      console.error("Franchise crawler error:", err);
-    } 
+    const crawlers = {
+  franchCrawler,
+  businessCrawler,
+  investorCrawler,
+  businessesForSaleCrawler,
+  bizBuySellCrawler,
+  loopNetCrawler,
+};
 
-   
+const results = await Promise.allSettled(
+  Object.entries(crawlers).map(async ([name, fn]) => {
+    try {
+      return await fn();
+    } catch (err) {
+      console.error(`Franchise crawler error (${name}):`, err);
+      throw err;
+    }
+  })
+);
 
   }, CAMPAIGN_POLL_MS);
 
