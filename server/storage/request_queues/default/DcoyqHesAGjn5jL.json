@@ -1,0 +1,9 @@
+{
+	"id": "DcoyqHesAGjn5jL",
+	"json": "{\"id\":\"DcoyqHesAGjn5jL\",\"url\":\"https://www.smergers.com/investors\",\"loadedUrl\":\"https://www.smergers.com/investors/i/\",\"uniqueKey\":\"https://www.smergers.com/investors\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2026-10-22T18:46:16.694Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.smergers.com/investors",
+	"url": "https://www.smergers.com/investors"
+}

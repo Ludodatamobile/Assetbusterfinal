@@ -1,0 +1,9 @@
+{
+	"id": "BdvHkt64IO1HY6U",
+	"json": "{\"id\":\"BdvHkt64IO1HY6U\",\"url\":\"https://www.smergers.com/franchise-opportunities/t11b/?page=4\",\"loadedUrl\":\"https://www.smergers.com/franchise-opportunities/t11b/?page=4\",\"uniqueKey\":\"https://www.smergers.com/franchise-opportunities/t11b?page=4\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":3,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-22T18:46:19.101Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.smergers.com/franchise-opportunities/t11b?page=4",
+	"url": "https://www.smergers.com/franchise-opportunities/t11b/?page=4"
+}

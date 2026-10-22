@@ -1,22 +1,21 @@
 {
-	"title": "Food Processing Franchise Opportunity",
-	"url": "https://www.smergers.com/franchise/menjus/9tvny/",
-	"sku": "b-9tvny",
-	"name": "Menjus, 1 Franchisee, Est'd in 2023, Mumbai HQ",
-	"brand": "Menjus",
-	"description": "Tellicherry Spicelabs Pvt. Ltd. is a research-based food and spices company expanding its products across Indian cities under the FOCO (Franchisee Owned, Company Operated) model. We also have our own food brand, which is successfully operating on Swiggy and Zomato, and we are now looking to expand our presence across India. Under this model, franchise owners are responsible only for processing the spices at their factory, while the company manages the franchise operations. The company is seeking franchise investors for single or multiple outlets. The franchisee owns the outlet, while the company takes complete responsibility for its operations and maintenance. The monthly revenue and EBITDA margin may appear high because the business has a vast network of distributors, restaurants, and hotels. Once the spices are processed, the products are supplied to these established clients, supporting strong sales and profitability. The business holds a valid GST certificate and incorporation certificate.",
-	"image": "https://www.smergers.com/media/cache/68/35/683521b46cd30c54d72a3990d08d6a42.png",
-	"rating": 7.9,
-	"ratingCount": 5,
-	"expandingIn": "Delhi",
-	"expectedMonthlySales": "70million NGN",
-	"spaceRequired": "1500 - 2500 Sq Ft",
-	"investmentRequired": "70 - 105 Mn",
+	"title": "IT Services Franchise Opportunity",
+	"url": "https://www.smergers.com/franchise/webllisto/t5089/",
+	"sku": "b-t5089",
+	"tagline": "Indian IT services company headquartered in Indore, Madhya Pradesh, offering coding and software development services. - The company has built a strong local brand and is expanding internationally through franchise partners. - The franchise model is designed for international partners, primarily in the US and UK, to represent the brand and develop local business on a profit-sharing basis. - The financial commitment is flexible and can be structured based on the partner's approach and business model. - Franchise partners receive comprehensive support from the company to establish and grow operations in their respective markets. - The company has completed 100+ software projects for clients across Japan, China and the US. - Currently serves 10+ clients across its international markets. - The company is looking to onboard 1–2 committed franchise partners initially for international expansion. - The business is incorporated with the MCA and has been operating for approximately 8 years.",
+	"description": "",
+	"image": "/media/cache/a1/b1/a1b1f66fa2918ec810533ff8091d302b.webp",
+	"rating": null,
+	"city": null,
+	"runRateSales": null,
+	"ebitdaMargin": null,
+	"dealTypeLabel": null,
+	"dealAmountText": null,
 	"verification": {
 		"email": true,
 		"phone": true,
 		"linkedin": false,
 		"facebook": false,
-		"google": true
+		"google": false
 	}
 }
