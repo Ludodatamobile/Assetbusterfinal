@@ -1,10 +1,10 @@
 {
-	"title": "Jewellery Company for Sale in Bangkok, Thailand",
-	"url": "https://www.smergers.com/business/jewellery-company-for-sale-in-bangkok-thailand/ovn5d/",
-	"sku": "b-ovn5d",
-	"tagline": "Located in Bangkok, this is a fully integrated jewelry manufacturing and e-commerce business ready for takeover. - We specialize in creating stunning sterling silver, gold, gemstone, and diamond jewelry with a focus on in-house production. - The business generates high revenue with a lean team of 10 employees through in-house manufacturing, reusable master molds, streamlined production processes, and global direct-to-consumer sales via our website, Amazon, Etsy, and Shopify. - With a manufacturing capacity of 2,000 pieces a month, there's potential to boost that to 10,000 as we scale up. - Our unique designs and intellectual property make us stand out in the market. - We sell globally, tapping into major markets like North America and Europe through platforms like Amazon, Etsy, and our own Shopify store. - This business presents excellent opportunities for growth and profitability, thanks to our integrated approach to manufacturing and direct sales. - You'll get all the perks of established international channels, making it easier to serve consumers worldwide. - The business operates with a valid registration certificate.",
+	"title": "Playschool for Sale in Dubai, UAE",
+	"url": "https://www.smergers.com/business/playschool-for-sale-in-dubai-uae/ovpty/",
+	"sku": "b-ovpty",
+	"tagline": "The beginning of this academic year in September started with 70 child enrolled children, with new registrations continuing throughout the year. Our private nursery has a capacity of 160 children per shift, with the possibility of operating two shifts daily. In addition, we manage a government nursery branch with 50 children under an annual government contract. Across both branches, we currently employ 29 staff members, including management, teachers, teaching assistants, and support staff. We are proud to have a multicultural and inclusive nursery environment, welcoming children and families from approximately 34 different nationalities. Our main focus is to continue increasing enrolment while maintaining high standards of education, child development, safety, and parent satisfaction. Our nursery operates under the supervision and regulations of the Knowledge and Human Development Authority (KHDA), Dubai. KHDA Educational Permit.",
 	"description": "",
-	"image": "/media/cache/f8/2e/f82ebf5493603b37871da0394f7852e5.webp",
+	"image": "/media/cache/89/65/896516603d71ef1a9aaf21046e5ccfe7.webp",
 	"rating": null,
 	"city": null,
 	"runRateSales": null,
@@ -13,9 +13,9 @@
 	"dealAmountText": null,
 	"verification": {
 		"email": true,
-		"phone": true,
-		"linkedin": true,
-		"facebook": true,
-		"google": false
+		"phone": false,
+		"linkedin": false,
+		"facebook": false,
+		"google": true
 	}
 }

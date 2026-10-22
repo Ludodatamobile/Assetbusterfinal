@@ -1,6 +1,6 @@
 {
 	"id": "z9zNzJ7iitLrih8",
-	"json": "{\"id\":\"z9zNzJ7iitLrih8\",\"url\":\"https://www.smergers.com/investors/i/\",\"loadedUrl\":\"https://www.smergers.com/investors/i/\",\"uniqueKey\":\"https://www.smergers.com/investors/i\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2026-10-19T21:29:42.059Z\"}",
+	"json": "{\"id\":\"z9zNzJ7iitLrih8\",\"url\":\"https://www.smergers.com/investors/i/\",\"loadedUrl\":\"https://www.smergers.com/investors/i/\",\"uniqueKey\":\"https://www.smergers.com/investors/i\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":4,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-22T18:46:20.622Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

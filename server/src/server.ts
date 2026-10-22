@@ -45,7 +45,7 @@ const startCampaignScheduler = () => {
   loopNetCrawler,
 };
 
-const results = await Promise.allSettled(
+ await Promise.allSettled(
   Object.entries(crawlers).map(async ([name, fn]) => {
     try {
       return await fn();

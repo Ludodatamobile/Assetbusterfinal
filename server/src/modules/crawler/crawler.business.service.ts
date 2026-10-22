@@ -77,6 +77,7 @@ const saveBusinessListing = async (listing: BusinessListing) => {
 
   const ebitdaMarginMatch = listing.ebitdaMargin?.match(/([\d.]+)/)
   const ebitdaMargin = ebitdaMarginMatch ? Number(ebitdaMarginMatch[1]) : null
+  const description = listing.description?.trim() || listing.tagline?.trim() || listing.title
 
   await prisma.businessProfile.upsert({
     where: {
@@ -90,7 +91,7 @@ const saveBusinessListing = async (listing: BusinessListing) => {
       title: listing.title,
       slug: createSlug(listing.title),
 
-      description: listing.description || listing.tagline,
+      description,
       shortSummary: listing.tagline,
 
       industry: 'General',
@@ -117,7 +118,7 @@ const saveBusinessListing = async (listing: BusinessListing) => {
 
     update: {
       title: listing.title,
-      description: listing.description || listing.tagline,
+      description,
       shortSummary: listing.tagline,
 
       city: listing.city,

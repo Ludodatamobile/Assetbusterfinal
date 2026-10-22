@@ -1,0 +1,9 @@
+{
+	"id": "pPb4JRfnUk0oKkY",
+	"json": "{\"id\":\"pPb4JRfnUk0oKkY\",\"url\":\"https://www.loopnet.com/biz/florida/orlando-businesses-for-sale/\",\"loadedUrl\":\"https://www.loopnet.com/biz/florida/orlando-businesses-for-sale/\",\"uniqueKey\":\"https://www.loopnet.com/biz/florida/orlando-businesses-for-sale\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":1,\"errorMessages\":[\"Error: Request blocked - received 403 status code.\\n    at CheerioCrawler._throwOnBlockedRequest (D:\\\\ludo-data\\\\asset-booster\\\\asset_final\\\\server\\\\node_modules\\\\@crawlee\\\\basic\\\\internals\\\\basic-crawler.js:954:19)\\n    at CheerioCrawler._runRequestHandler (D:\\\\ludo-data\\\\asset-booster\\\\asset_final\\\\server\\\\node_modules\\\\@crawlee\\\\http\\\\internals\\\\http-crawler.js:324:22)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\\n    at async CheerioCrawler._runRequestHandler (D:\\\\ludo-data\\\\asset-booster\\\\asset_final\\\\server\\\\node_modules\\\\@crawlee\\\\cheerio\\\\internals\\\\cheerio-crawler.js:155:9)\\n    at async wrap (D:\\\\ludo-data\\\\asset-booster\\\\asset_final\\\\server\\\\node_modules\\\\@apify\\\\src\\\\index.ts:94:27)\"],\"headers\":{},\"userData\":{\"__crawlee\":{\"state\":4}},\"handledAt\":\"2026-10-22T18:46:14.422Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 1,
+	"uniqueKey": "https://www.loopnet.com/biz/florida/orlando-businesses-for-sale",
+	"url": "https://www.loopnet.com/biz/florida/orlando-businesses-for-sale/"
+}

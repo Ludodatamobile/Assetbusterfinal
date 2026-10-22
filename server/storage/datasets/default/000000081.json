@@ -1,10 +1,9 @@
 {
-	"title": "Playschool for Sale in Dubai, UAE",
-	"url": "https://www.smergers.com/business/playschool-for-sale-in-dubai-uae/ovpty/",
-	"sku": "b-ovpty",
-	"tagline": "The beginning of this academic year in September started with 70 child enrolled children, with new registrations continuing throughout the year. Our private nursery has a capacity of 160 children per shift, with the possibility of operating two shifts daily. In addition, we manage a government nursery branch with 50 children under an annual government contract. Across both branches, we currently employ 29 staff members, including management, teachers, teaching assistants, and support staff. We are proud to have a multicultural and inclusive nursery environment, welcoming children and families from approximately 34 different nationalities. Our main focus is to continue increasing enrolment while maintaining high standards of education, child development, safety, and parent satisfaction. Our nursery operates under the supervision and regulations of the Knowledge and Human Development Authority (KHDA), Dubai. KHDA Educational Permit.",
+	"title": "Enterprise Software Company Equity Stake For Sale in Geneva, Switzerland",
+	"url": "https://www.smergers.com/business/enterprise-software-company-equity-stake-for-sale-in-geneva-switzerland/ivp60/",
+	"sku": "b-ivp60",
+	"tagline": "The business is developing an ERP-based technology platform for healthcare and professional-services groups. - It employs 10 people and is currently focused on product development and implementation readiness. - The platform is designed to support multi-entity organizations through standardized workflows and automated administrative controls. - The planned revenue model includes software licensing, implementation fees, managed back-office services, part-time CFO services, and fixed-price industry-specific packages. - The initial strategy is to deploy the platform within affiliated healthcare and accounting networks before offering it to external customers. - The technology includes a configurable code base, eight modules, 13 adaptations, and a capital-management engine. - The business plans to expand alongside its affiliated groups into Switzerland, Luxembourg, France, Belgium, Monaco, Spain, Portugal, and the United Arab Emirates. Future target markets include Canada, Brazil, and the United States. - The first third-party deployment and go-live activities are planned for next year. - The business is currently in the development phase and has not yet started generating revenue. - The business has a business registration certificate.",
 	"description": "",
-	"image": "/media/cache/89/65/896516603d71ef1a9aaf21046e5ccfe7.webp",
 	"rating": null,
 	"city": null,
 	"runRateSales": null,
@@ -13,9 +12,9 @@
 	"dealAmountText": null,
 	"verification": {
 		"email": true,
-		"phone": false,
-		"linkedin": false,
+		"phone": true,
+		"linkedin": true,
 		"facebook": false,
-		"google": true
+		"google": false
 	}
 }
