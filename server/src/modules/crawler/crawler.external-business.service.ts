@@ -3,7 +3,7 @@ import { prisma } from '../../config/prisma.js'
 import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 const BUSINESS_FOR_SALE_URL =
-  'https://www.businessesforsale.com/search/businesses-for-sale-in-belize'
+  `https://www.businessesforsale.com/search?Keywords=United+States&Page=2`
 const BIZBUYSELL_URL = 'https://www.bizbuysell.com/florida/orlando-businesses-for-sale/'
 const LOOPNET_URL = 'https://www.loopnet.com/biz/florida/orlando-businesses-for-sale/'
 
