@@ -120,7 +120,7 @@ const runCrawler = async (
   startUrl: string,
 ): Promise<ExternalBusinessListing[]> => {
   const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
-  const dataset = await Dataset.open(null, { config: crawlerConfig })
+  const dataset = await Dataset.open(undefined, { config: crawlerConfig })
   const crawler = new CheerioCrawler({
     maxConcurrency: 1,
     maxRequestRetries: 1,

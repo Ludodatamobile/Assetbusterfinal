@@ -138,7 +138,7 @@ const saveInvestorListing = async (listing: InvestorListing) => {
 
 export const investorCrawler = async (): Promise<InvestorListing[]> => {
   const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
-  const dataset = await Dataset.open(null, { config: crawlerConfig })
+  const dataset = await Dataset.open(undefined, { config: crawlerConfig })
   const crawler = new CheerioCrawler({
     maxConcurrency: 5,
 
