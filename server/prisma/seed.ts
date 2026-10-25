@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs'
+import { randomBytes } from 'node:crypto'
 import { Role, UserStatus } from '@prisma/client'
 import { prisma } from '../src/config/prisma.js'
 
@@ -9,6 +10,30 @@ async function main() {
 
   console.log('Admin seeding skipped.')
   console.log('Create the first SUPER_ADMIN through the one-time admin bootstrap page.')
+
+  const crawlerOwnerPassword = randomBytes(32).toString('hex')
+  const crawlerOwner = await prisma.user.upsert({
+    where: { email: 'crawler-owner@assetbusters.invalid' },
+    update: {},
+    create: {
+      email: 'crawler-owner@assetbusters.invalid',
+      password: await hash(crawlerOwnerPassword),
+      firstName: 'Crawler',
+      lastName: 'Import',
+      role: Role.BUSINESS_OWNER,
+      status: UserStatus.ACTIVE,
+      isEmailVerified: true,
+      verified: true,
+      verificationStatus: 'VERIFIED',
+    },
+  })
+  console.log(`Crawler owner ready: ${crawlerOwner.id}`)
+
+  if (process.env.SEED_DEMO_USERS !== 'true') {
+    console.log('Demo users skipped. Set SEED_DEMO_USERS=true to create local test accounts.')
+    console.log('Seed complete.')
+    return
+  }
 
   const seller = await prisma.user.upsert({
     where: { email: 'seller@test.com' },
