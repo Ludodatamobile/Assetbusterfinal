@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { Building2, Globe2, Handshake, Users } from "lucide-react";
 import { PageHeader } from "@/components/admin/PageHeader";
 import { StatCard } from "@/components/admin/StatCard";
@@ -30,11 +31,16 @@ function normalizeRows(
   });
 }
 
-function Shimmer({ className = "" }: { className?: string }) {
+function Shimmer({
+  className = "",
+  style,
+  ...props
+}: ComponentPropsWithoutRef<"span">) {
   return (
     <span
       className={`block rounded bg-slate-100 relative overflow-hidden ${className}`}
-      style={{ isolation: "isolate" }}
+      style={{ isolation: "isolate", ...style }}
+      {...props}
     >
       <span
         className="absolute inset-0"
