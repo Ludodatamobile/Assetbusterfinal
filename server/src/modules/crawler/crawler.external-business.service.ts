@@ -122,7 +122,8 @@ const runCrawler = async (
   Configuration.getGlobalConfig().set('systemInfoV2', false)
   const dataset = await Dataset.open()
   const crawler = new CheerioCrawler({
-    maxConcurrency: 3,
+    maxConcurrency: 1,
+    maxRequestRetries: 1,
     async requestHandler({ $, request, log, enqueueLinks }) {
       log.info(`Scraping ${request.url}`)
 
@@ -217,6 +218,9 @@ const runCrawler = async (
         selector: 'a[rel="next"], .pagination a[href], .pager a[href], [class*="pagination"] a[href]',
         baseUrl: request.url,
       })
+    },
+    failedRequestHandler({ request, log }) {
+      log.warning(`Giving up on ${source} request after its retry limit: ${request.url}`)
     },
   })
 

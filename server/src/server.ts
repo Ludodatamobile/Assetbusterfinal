@@ -15,6 +15,11 @@ import { bizBuySellCrawler, businessesForSaleCrawler, loopNetCrawler } from "./m
 
 const PORT = process.env.PORT || 5000;
 const CAMPAIGN_POLL_MS = 60_000;
+const CRAWLER_ENABLED = process.env.CRAWLER_ENABLED !== "false";
+const configuredCrawlerInterval = Number(process.env.CRAWLER_INTERVAL_MS);
+const CRAWLER_INTERVAL_MS = Number.isFinite(configuredCrawlerInterval) && configuredCrawlerInterval > 0
+  ? configuredCrawlerInterval
+  : 6 * 60 * 60 * 1000;
 
 const allowedOrigins = [
   process.env.CLIENT_URL,
@@ -34,31 +39,55 @@ const startCampaignScheduler = () => {
     AdminContentService.processScheduledCampaigns().catch((err) =>
       console.error("Campaign scheduler error:", err),
     );
-    
-     
-    const crawlers = {
-  franchCrawler,
-  businessCrawler,
-  investorCrawler,
-  businessesForSaleCrawler,
-  bizBuySellCrawler,
-  loopNetCrawler,
-};
-
- await Promise.allSettled(
-  Object.entries(crawlers).map(async ([name, fn]) => {
-    try {
-      return await fn();
-    } catch (err) {
-      console.error(`Franchise crawler error (${name}):`, err);
-      throw err;
-    }
-  })
-);
-
   }, CAMPAIGN_POLL_MS);
 
   console.log("✓ Campaign scheduler active (60s poll)");
+};
+
+let crawlerBatchActive = false;
+
+const runScheduledCrawlers = async () => {
+  if (!CRAWLER_ENABLED) {
+    console.log("Crawler scheduler disabled (CRAWLER_ENABLED=false)");
+    return;
+  }
+  if (crawlerBatchActive) {
+    console.warn("Crawler batch skipped because the previous batch is still running");
+    return;
+  }
+
+  crawlerBatchActive = true;
+  const crawlers = {
+    franchCrawler,
+    businessCrawler,
+    investorCrawler,
+    businessesForSaleCrawler,
+    bizBuySellCrawler,
+    loopNetCrawler,
+  };
+
+  try {
+    for (const [name, crawler] of Object.entries(crawlers)) {
+      try {
+        await crawler();
+      } catch (error) {
+        console.error(`Crawler failed (${name}); continuing with other sources:`, error);
+      }
+    }
+  } finally {
+    crawlerBatchActive = false;
+  }
+};
+
+const startCrawlerScheduler = () => {
+  if (!CRAWLER_ENABLED) {
+    console.log("Crawler scheduler disabled (CRAWLER_ENABLED=false)");
+    return;
+  }
+
+  console.log(`✓ Crawler scheduler active (${CRAWLER_INTERVAL_MS}ms interval)`);
+  void runScheduledCrawlers();
+  setInterval(() => void runScheduledCrawlers(), CRAWLER_INTERVAL_MS);
 };
 
 const startServer = async () => {
@@ -138,6 +167,7 @@ const startServer = async () => {
   });
 
   startCampaignScheduler();
+  startCrawlerScheduler();
 };
 
 startServer();
