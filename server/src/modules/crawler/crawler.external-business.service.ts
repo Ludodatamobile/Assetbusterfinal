@@ -1,6 +1,6 @@
 import { CheerioCrawler, Configuration, Dataset } from 'crawlee'
 import { prisma } from '../../config/prisma.js'
-import { createSlug, parseAmount } from './helperFunctions.js'
+import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 const BUSINESS_FOR_SALE_URL =
   'https://www.businessesforsale.com/search/businesses-for-sale-in-belize'
@@ -230,10 +230,21 @@ const runCrawler = async (
 
   await crawler.run([startUrl])
   const { items } = await dataset.getData()
-  const user = await prisma.user.findFirst()
-  if (user) {
-    await Promise.all(items.map((item) => saveListing(item as ExternalBusinessListing, user.id)))
+  console.info(`[${source}] Parsed ${items.length} listings`)
+  if (items.length === 0) {
+    console.warn(`[${source}] No listings matched the configured selectors; the page may have changed or returned a non-listing response`)
   }
+
+  const user = items.length > 0 ? await getCrawlerOwner() : null
+
+  const saveResults = await Promise.allSettled(
+    items.map((item) => saveListing(item as ExternalBusinessListing, user!.id)),
+  )
+  const saveFailures = saveResults.filter((result) => result.status === 'rejected')
+  for (const result of saveFailures) {
+    if (result.status === 'rejected') console.error(`[${source}] Listing save failed:`, result.reason)
+  }
+  console.info(`[${source}] Saved ${saveResults.length - saveFailures.length}/${items.length} listings`)
   return items as ExternalBusinessListing[]
 }
 

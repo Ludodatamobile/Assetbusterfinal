@@ -1,6 +1,6 @@
 import { CheerioCrawler, Dataset, Configuration } from 'crawlee'
 import { prisma } from '../../config/prisma.js'
-import { parseAmount } from './helperFunctions.js'
+import { getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 const BASE_URL = 'https://www.smergers.com'
 const START_URL = 'https://www.smergers.com/investors'
@@ -67,11 +67,7 @@ const splitInvestmentRange = (
 }
 
 const saveInvestorListing = async (listing: InvestorListing) => {
-  const user = await prisma.user.findFirst()
-
-  if (!user) {
-    return
-  }
+  const user = await getCrawlerOwner()
 
   const { currency, min, max } = splitInvestmentRange(
     `${listing.currency} ${listing.investmentMin ?? ''} ${listing.investmentMax ?? ''}`.trim(),
@@ -270,15 +266,19 @@ export const investorCrawler = async (): Promise<InvestorListing[]> => {
   await crawler.run([START_URL])
 
   const { items } = await dataset.getData()
-
-  try {
-    await Promise.all(
-      items.map((item) => saveInvestorListing(item as unknown as InvestorListing)),
-    )
-  } catch (error) {
-    // Swallow, matching the franchise crawler's behaviour — individual save failures
-    // shouldn't abort the whole run. Consider logging `error` if you need visibility.
+  console.info(`[investorCrawler] Parsed ${items.length} listings`)
+  if (items.length === 0) {
+    console.warn('[investorCrawler] No listings matched .listing-item; selectors or upstream page markup may have changed')
   }
+
+  const saveResults = await Promise.allSettled(
+    items.map((item) => saveInvestorListing(item as unknown as InvestorListing)),
+  )
+  const saveFailures = saveResults.filter((result) => result.status === 'rejected')
+  for (const result of saveFailures) {
+    if (result.status === 'rejected') console.error('[investorCrawler] Listing save failed:', result.reason)
+  }
+  console.info(`[investorCrawler] Saved ${saveResults.length - saveFailures.length}/${items.length} listings`)
 
   return items as InvestorListing[]
 }

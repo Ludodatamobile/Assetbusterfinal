@@ -1,6 +1,6 @@
 import { CheerioCrawler, Dataset, Configuration, Logger} from 'crawlee'
 import { prisma } from '../../config/prisma.js'
-import { createSlug, parseAmount } from './helperFunctions.js'
+import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 
 const BASE_URL = 'https://www.smergers.com'
@@ -34,11 +34,7 @@ type FranchiseListing = {
 
 const saveSmaggerCralData = async (listing: FranchiseListing )=>{
 
-    const user  = await prisma.user.findFirst();
-
-    if(!user){
-        return
-    }
+    const user = await getCrawlerOwner()
     
 await prisma.businessProfile.upsert({
   where: {
@@ -271,13 +267,19 @@ export const franchCrawler = async (): Promise<FranchiseListing[]> => {
 
   // Get the actual scraped objects
   const { items } = await dataset.getData()
-try {
-await Promise.all(
-  items.map(item => saveSmaggerCralData(item as unknown as FranchiseListing))
-)
-} catch (error) {
-    
+  console.info(`[franchCrawler] Parsed ${items.length} listings`)
+  if (items.length === 0) {
+    console.warn('[franchCrawler] No listings matched .listing-item; selectors or upstream page markup may have changed')
+  }
+
+  const saveResults = await Promise.allSettled(
+    items.map((item) => saveSmaggerCralData(item as unknown as FranchiseListing)),
+  )
+  const saveFailures = saveResults.filter((result) => result.status === 'rejected')
+  for (const result of saveFailures) {
+    if (result.status === 'rejected') console.error('[franchCrawler] Listing save failed:', result.reason)
 }
+  console.info(`[franchCrawler] Saved ${saveResults.length - saveFailures.length}/${items.length} listings`)
 
 
   return items as FranchiseListing[]
