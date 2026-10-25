@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "http://localhost:5000/api/v1";
+  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "/api/v1";
 
 export const ADMIN_ACCESS_TOKEN_KEY = "asset_busters_admin_access_token";
 export const ADMIN_REFRESH_TOKEN_KEY = "asset_busters_admin_refresh_token";
