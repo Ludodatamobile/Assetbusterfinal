@@ -10,6 +10,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Activity,
@@ -589,7 +590,7 @@ function isFundraiserListing(
 
 function isFundingServiceListing(
   listing: BusinessListing,
-): listing is FundingServiceListing {
+): listing is BusinessListing & FundingServiceListing {
   return listing.profileType === "FUNDING_SERVICE";
 }
 
@@ -4676,7 +4677,7 @@ function EmptyPanel({ label }: { label: string }) {
   return <div className="db-empty">{label}</div>;
 }
 
-export default function DashboardPage() {
+function DashboardContent() {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -5438,6 +5439,14 @@ const resetDashboardSettings = () => {
         </div>
       </div>
     </>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<div className="db-loading">Loading member workspace</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }
 

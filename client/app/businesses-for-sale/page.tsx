@@ -121,8 +121,7 @@ export default function BusinessesForSalePage() {
 
       setItems(data);
       setMeta(
-        response?.meta ||
-          response?.data?.meta || {
+        response?.meta || {
             total: data.length,
             page: Number(filters.page || 1),
             limit: Number(filters.limit || 12),

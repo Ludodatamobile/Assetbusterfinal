@@ -56,7 +56,7 @@ async function apiRequest<T>(
   return payload as ApiSuccessResponse<T>;
 }
 
-function authHeaders(accessToken?: string | null) {
+function authHeaders(accessToken?: string | null): Record<string, string> {
   return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
 }
 

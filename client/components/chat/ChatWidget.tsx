@@ -179,7 +179,7 @@ const DotSpinner = () => (
     {[0, 1, 2].map((i) => (
       <span key={i} style={{
         width: 5, height: 5, borderRadius: "50%",
-        background: BRAND.t3 ?? "#8896a8",
+        background: "#8896a8",
         display: "inline-block",
         animation: `ab-dot 1.3s ${i * 0.22}s infinite ease-in-out`,
       }}/>

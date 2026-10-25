@@ -617,7 +617,7 @@ function StepCard({ step, color }: { step: { number: number; title: string; cont
   );
 }
 
-function ResourceCard({ resource }: { resource: { title: string; description: string; type: string } }) {
+function ResourceCard({ resource }: { resource: { title: string; description: string; type: "download" | "template" | "guide" } }) {
   const icons = {
     download: "⬇️",
     template: "📄",
