@@ -2,10 +2,15 @@ import { CheerioCrawler, Configuration, Dataset } from 'crawlee'
 import { prisma } from '../../config/prisma.js'
 import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
+const page = Math.floor(Math.random() * 100 + 1)
+const location = ['orlando', 'california', 'delaware']
+
+const locationIndex = Math.floor(Math.random() * location.length + 1)
+
 const BUSINESS_FOR_SALE_URL =
-  `https://www.businessesforsale.com/search?Keywords=United+States&Page=2`
-const BIZBUYSELL_URL = 'https://www.bizbuysell.com/florida/orlando-businesses-for-sale/'
-const LOOPNET_URL = 'https://www.loopnet.com/biz/florida/orlando-businesses-for-sale/'
+  `https://www.businessesforsale.com/search?Keywords=United+States&Page=${page}`
+const BIZBUYSELL_URL = `https://www.bizbuysell.com/${location[locationIndex]}-businesses-for-sale/`
+const LOOPNET_URL = 'https://www.loopnet.com/biz/businesses-for-sale/'
 
 type ExternalBusinessListing = {
   source: 'businessesforsale' | 'bizbuysell' | 'loopnet'
