@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
+import { routeParam } from '../../utils/routeParam.js'
 import { AdminUsersService } from './adminUsers.service.js'
 
 export class AdminUsersController {
@@ -11,27 +12,27 @@ export class AdminUsersController {
   })
 
   static getById = asyncHandler(async (req: Request, res: Response) => {
-    const user = await AdminUsersService.getUserById(req.params.id)
+    const user = await AdminUsersService.getUserById(routeParam(req.params.id))
     return ApiResponse.success(res, user)
   })
 
   static suspend = asyncHandler(async (req: Request, res: Response) => {
-    await AdminUsersService.suspendUser(req.params.id, req.admin!.id, req.body.reason)
+    await AdminUsersService.suspendUser(routeParam(req.params.id), req.admin!.id, req.body.reason)
     return ApiResponse.success(res, null, 'User suspended successfully')
   })
 
   static reactivate = asyncHandler(async (req: Request, res: Response) => {
-    await AdminUsersService.reactivateUser(req.params.id, req.admin!.id)
+    await AdminUsersService.reactivateUser(routeParam(req.params.id), req.admin!.id)
     return ApiResponse.success(res, null, 'User reactivated successfully')
   })
 
   static verify = asyncHandler(async (req: Request, res: Response) => {
-    await AdminUsersService.verifyUser(req.params.id, req.admin!.id)
+    await AdminUsersService.verifyUser(routeParam(req.params.id), req.admin!.id)
     return ApiResponse.success(res, null, 'User verified successfully')
   })
 
   static remove = asyncHandler(async (req: Request, res: Response) => {
-    await AdminUsersService.deleteUser(req.params.id, req.admin!.id)
+    await AdminUsersService.deleteUser(routeParam(req.params.id), req.admin!.id)
     return ApiResponse.success(res, null, 'User deleted successfully')
   })
 

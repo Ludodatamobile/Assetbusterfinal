@@ -1,21 +1,20 @@
 {
-	"headline": "",
-	"title": "Beauty Salon Franchise Opportunity",
-	"url": "https://www.smergers.com/franchise/kq-beauty-studio/v9yzx/",
-	"investorType": "Beauty Salon Franchise Opportunity",
-	"location": null,
+	"title": "Newly Established Medical Tourism Company for Sale in Dubai, UAE",
+	"url": "https://www.smergers.com/business/newly-established-medical-tourism-company-for-sale-in-dubai-uae/yrxzo/",
+	"sku": "b-yrxzo",
+	"tagline": "* Early-stage medical tourism marketplace registered in the UAE, connecting GCC patients with accredited clinics in Egypt for dental, cosmetic, and specialized procedures. * Operates through a live, custom-built platform featuring AI-powered specialist matching, online consultations, a support ticketing system, and admin and SEO dashboards. * Holds signed partnership agreements with prestigious clinics in Cairo, with contracts held by the company entity and transferable through a share sale. * Revenue model is commission per completed patient case, charged to the provider, with an additional broker referral program in place. * Has completed its first paying patient cases, validating the full funnel from paid acquisition to lead, quotation, travel, and commission collection. * Generates inbound leads through established social media channels and paid campaigns on Meta and TikTok, supported by growing organic traffic. * Registered as a free zone LLC in Ras Al Khaimah with a Trade license valid until June next year and a clean compliance record, including a filed UAE Corporate Tax return. * Promoter brings 15+ years of product leadership experience across GCC healthcare, fintech, and marketplace businesses, including national-scale government platforms. * The company is offered as a full sale of the entity, including the license, platform, brand, clinic agreements, lead database, and social media accounts.",
+	"description": "",
 	"rating": null,
-	"dealsCount": null,
-	"locations": [],
-	"industries": [],
-	"investmentMin": null,
-	"investmentMax": null,
-	"currency": "USD",
+	"city": null,
+	"runRateSales": null,
+	"ebitdaMargin": null,
+	"dealTypeLabel": null,
+	"dealAmountText": null,
 	"verification": {
 		"email": true,
-		"phone": true,
+		"phone": false,
 		"linkedin": false,
 		"facebook": false,
-		"google": false
+		"google": true
 	}
 }

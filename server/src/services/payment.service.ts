@@ -1,6 +1,6 @@
 import { env } from '../config/env.js'
 import { ApiError } from '../utils/ApiError.js'
-import { prisma } from '../config/db.js'
+import { prisma } from '../config/prisma.js'
 
 // ─ Paystack API base
 

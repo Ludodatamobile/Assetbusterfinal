@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
+import { routeParam } from '../../utils/routeParam.js'
 import { NotificationService } from './notification.services.js'
 
 export class NotificationController {
@@ -22,7 +23,7 @@ export class NotificationController {
   })
 
   static markOneRead = asyncHandler(async (req: Request, res: Response) => {
-    const notification = await NotificationService.markOneRead(req.params.id, req.user!.id)
+    const notification = await NotificationService.markOneRead(routeParam(req.params.id), req.user!.id)
     return ApiResponse.success(res, { notification }, 'Notification marked as read.')
   })
 
@@ -32,7 +33,7 @@ export class NotificationController {
   })
 
   static deleteNotification = asyncHandler(async (req: Request, res: Response) => {
-    await NotificationService.deleteNotification(req.params.id, req.user!.id)
+    await NotificationService.deleteNotification(routeParam(req.params.id), req.user!.id)
     return ApiResponse.noContent(res)
   })
 }

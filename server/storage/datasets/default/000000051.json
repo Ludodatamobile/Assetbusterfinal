@@ -1,10 +1,9 @@
 {
-	"title": "Hospital for Sale in Kumbla (Kumble), India",
-	"url": "https://www.smergers.com/business/hospital-for-sale-in-kumbla-kumble-india/0933y/",
-	"sku": "b-0933y",
-	"tagline": "Located in Kumbla, Kasaragod district, our maternity and general hospital is currently operating as a small-scale nursing home. - We specialize in obstetrics and gynecology (OB-GYN), providing outpatient care to women and mothers in the local community. - We currently operate exclusively on an outpatient (OP) basis and generate monthly revenue of approximately INR 2–2.5 lakh from these services. - Approximately three years ago, the facility also provided inpatient services, pharmacy services, and laboratory facilities, generating monthly revenue of around INR 4–5 lakh. - The hospital has a capacity of 25 beds, which are currently not operational. - The business holds an FTE and OS licence issued by Kumbla Gram Panchayat, a registration certificate from the Labour Department, Government of Kerala, under the Kerala Shops and Commercial Establishments Act, and a Certificate of Registration for Private Hospitals and Private Paramedical Institutions under Rule 5 of the Kerala Panchayat Raj Rules, 1997. - The business also has MTP and PCPNDT ACT Licenses. - The hospital is not currently accredited by the National Accreditation Board for Hospitals and Healthcare Providers (NABH).",
+	"title": "Holding Company Equity Stake For Sale in Geneva, Switzerland",
+	"url": "https://www.smergers.com/business/holding-company-equity-stake-for-sale-in-geneva-switzerland/jrp10/",
+	"sku": "b-jrp10",
+	"tagline": "Swiss-sponsored permanent-capital holding (no fixed liquidation date) that acquires and builds profitable service businesses for the long term (20-30 year horizon). - Two anchor programmes run in parallel: (A) an integrated Swiss healthcare network expanding to the Gulf and Europe, and (B) a majority investment in a leading independent European accounting & advisory network. - Two enabling programmes: a proprietary technology layer (ERP, billing and capital-management tools) and a healthcare real-estate company holding the clinic premises. - One SPV per programme: investors can back the whole platform or a single programme. - Built IPO-ready from day one (IFRS, Big 4 audit, listed-company governance). IPO remains an option, never an obligation. - First closing targeted H1 2027; closings are modular (one programme or several).",
 	"description": "",
-	"image": "/media/cache/5e/46/5e46d551c2dae7217c009c26b558e065.webp",
 	"rating": null,
 	"city": null,
 	"runRateSales": null,
@@ -14,8 +13,8 @@
 	"verification": {
 		"email": true,
 		"phone": true,
-		"linkedin": false,
+		"linkedin": true,
 		"facebook": false,
-		"google": true
+		"google": false
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"id": "oeWry693kxqXAdb",
-	"json": "{\"id\":\"oeWry693kxqXAdb\",\"url\":\"https://www.smergers.com/investors/i/?ref=plus\",\"loadedUrl\":\"https://www.smergers.com/investors/i/?ref=plus\",\"uniqueKey\":\"https://www.smergers.com/investors/i?ref=plus\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":4,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-22T18:46:20.726Z\"}",
+	"json": "{\"id\":\"oeWry693kxqXAdb\",\"url\":\"https://www.smergers.com/investors/i/?ref=plus\",\"loadedUrl\":\"https://www.smergers.com/investors/i/?ref=plus\",\"uniqueKey\":\"https://www.smergers.com/investors/i?ref=plus\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-22T21:04:58.236Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,

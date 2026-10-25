@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
+import { routeParam } from '../../utils/routeParam.js'
 import * as userService from './user.service.js'
 
 export const getMyProfile = asyncHandler(async (req: Request, res: Response) => {
@@ -34,7 +35,7 @@ export const getSavedBusinesses = asyncHandler(async (req: Request, res: Respons
 })
 
 export const toggleSaveBusiness = asyncHandler(async (req: Request, res: Response) => {
-  const result = await userService.saveBusinessToggle(req.user!.id, req.params.businessId)
+  const result = await userService.saveBusinessToggle(req.user!.id, routeParam(req.params.businessId))
   return ApiResponse.success(
     res,
     result,

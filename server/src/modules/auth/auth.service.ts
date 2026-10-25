@@ -361,6 +361,9 @@ export class AuthService {
   }
 
   static async refreshAccessToken(data: RefreshTokenInput) {
+    if (!data.refreshToken) {
+      throw ApiError.unauthorized("Invalid refresh token")
+    }
     try {
       verifyRefreshToken(data.refreshToken);
     } catch {

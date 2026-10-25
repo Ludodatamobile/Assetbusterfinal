@@ -1,21 +1,20 @@
 {
-	"headline": "",
-	"title": "Restaurant Franchise Opportunity",
-	"url": "https://www.smergers.com/franchise/a-la-maison-grand/v97o9/",
-	"investorType": "Restaurant Franchise Opportunity",
-	"location": null,
+	"title": "Newly Established Waste Management Company Equity Stake For Sale in England, UK",
+	"url": "https://www.smergers.com/business/newly-established-waste-management-company-equity-stake-for-sale-in-england-uk/z50d1/",
+	"sku": "b-z50d1",
+	"tagline": "We’re launching a start-up in the UK, focused on recycling end-of-life solar panels. - We have already registered the business and have a Certificate of Incorporation. - Once the business is commenced, we plan to process around 10,000 metric tonnes per annum, equivalent to about 430,000 solar panels! - We specialize in decommissioning solar panels and turning them back into raw materials like Aluminum, Copper, Glass, Plastics, and Silicone. - The need for recycling solar panels is growing in the UK, and it’s now a mandatory requirement! - Our founder has a solid background, having built a successful solar panel manufacturing facility in Texas, recognized as the EnergyTech company of the year. - We estimate the business can bring investors a healthy return of over 100% in just 5 years, with demand expected to raise tenfold in the next four years! - We’re seeking investment primarily to secure top-notch machinery to jumpstart our recycling operations.",
+	"description": "",
 	"rating": null,
-	"dealsCount": null,
-	"locations": [],
-	"industries": [],
-	"investmentMin": null,
-	"investmentMax": null,
-	"currency": "USD",
+	"city": null,
+	"runRateSales": null,
+	"ebitdaMargin": null,
+	"dealTypeLabel": null,
+	"dealAmountText": null,
 	"verification": {
 		"email": true,
 		"phone": true,
-		"linkedin": false,
+		"linkedin": true,
 		"facebook": false,
-		"google": false
+		"google": true
 	}
 }

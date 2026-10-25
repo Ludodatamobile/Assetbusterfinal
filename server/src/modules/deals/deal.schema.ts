@@ -26,18 +26,14 @@ export const createInvestorDealSchema = z.object({
 
 export const updateDealStatusSchema = z.object({
   body: z.object({
-    status: z.nativeEnum(DealStatus, {
-      errorMap: () => ({ message: 'Invalid deal status.' }),
-    }),
+    status: z.nativeEnum(DealStatus, { error: 'Invalid deal status.' }),
     notes: z.string().max(500).optional(),
   }),
 })
 
 export const signNdaSchema = z.object({
   body: z.object({
-    agreed: z.literal(true, {
-      errorMap: () => ({ message: 'You must agree to the NDA.' }),
-    }),
+    agreed: z.literal(true, { error: 'You must agree to the NDA.' }),
   }),
 })
 

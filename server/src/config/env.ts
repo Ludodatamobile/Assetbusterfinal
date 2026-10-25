@@ -33,6 +33,12 @@ const envSchema = z.object({
   CLOUDINARY_API_KEY: optionalString,
   CLOUDINARY_API_SECRET: optionalString,
 
+  // AWS S3
+  AWS_BUCKET_NAME: optionalString,
+  AWS_ACCESS_KEY_ID: optionalString,
+  AWS_SECRET_ACCESS_KEY: optionalString,
+  AWS_REGION: optionalString,
+
   // Email - optional in development
   SMTP_HOST: optionalString,
   SMTP_PORT: z.preprocess(emptyToUndefined, z.string().default("587")),

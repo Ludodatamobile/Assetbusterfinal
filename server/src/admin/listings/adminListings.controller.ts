@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
+import { routeParam } from '../../utils/routeParam.js'
 import { AdminListingsService } from './adminListings.service.js'
 
 export class AdminListingsController {
@@ -11,37 +12,37 @@ export class AdminListingsController {
   })
 
   static getById = asyncHandler(async (req: Request, res: Response) => {
-    const listing = await AdminListingsService.getListingById(req.params.id)
+    const listing = await AdminListingsService.getListingById(routeParam(req.params.id))
     return ApiResponse.success(res, listing)
   })
 
   static approve = asyncHandler(async (req: Request, res: Response) => {
-    await AdminListingsService.approveListing(req.params.id, req.admin!.id)
+    await AdminListingsService.approveListing(routeParam(req.params.id), req.admin!.id)
     return ApiResponse.success(res, null, 'Listing approved and published')
   })
 
   static reject = asyncHandler(async (req: Request, res: Response) => {
-    await AdminListingsService.rejectListing(req.params.id, req.admin!.id, req.body.reason)
+    await AdminListingsService.rejectListing(routeParam(req.params.id), req.admin!.id, req.body.reason)
     return ApiResponse.success(res, null, 'Listing rejected')
   })
 
   static suspend = asyncHandler(async (req: Request, res: Response) => {
-    await AdminListingsService.suspendListing(req.params.id, req.admin!.id)
+    await AdminListingsService.suspendListing(routeParam(req.params.id), req.admin!.id)
     return ApiResponse.success(res, null, 'Listing suspended')
   })
 
   static feature = asyncHandler(async (req: Request, res: Response) => {
-    await AdminListingsService.featureListing(req.params.id, req.admin!.id, true)
+    await AdminListingsService.featureListing(routeParam(req.params.id), req.admin!.id, true)
     return ApiResponse.success(res, null, 'Listing featured')
   })
 
   static unfeature = asyncHandler(async (req: Request, res: Response) => {
-    await AdminListingsService.featureListing(req.params.id, req.admin!.id, false)
+    await AdminListingsService.featureListing(routeParam(req.params.id), req.admin!.id, false)
     return ApiResponse.success(res, null, 'Listing unfeatured')
   })
 
   static setPremium = asyncHandler(async (req: Request, res: Response) => {
-    await AdminListingsService.setPremium(req.params.id, req.admin!.id, req.body.isPremium === true)
+    await AdminListingsService.setPremium(routeParam(req.params.id), req.admin!.id, req.body.isPremium === true)
     return ApiResponse.success(res, null, 'Premium status updated')
   })
 

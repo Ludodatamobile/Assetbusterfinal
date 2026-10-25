@@ -24,7 +24,7 @@ const transporter = hasSmtpConfig
       secure: Number(env.SMTP_PORT) === 465,
       auth: {
         user: env.SMTP_USER,
-        pass: env.SMTP_PASS.replace(/\s/g, ""),
+        pass: env.SMTP_PASS!.replace(/\s/g, ""),
       },
       connectionTimeout: 8000,
       greetingTimeout: 8000,

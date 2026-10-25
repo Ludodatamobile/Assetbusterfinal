@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client'
 import { prisma } from '../../config/prisma.js'
 import { ApiError } from '../../utils/ApiError.js'
 import { getPaginationParams, buildPaginationMeta } from '../../utils/pagination.js'
@@ -71,7 +72,7 @@ export class NotificationService {
         body: data.body,
         type: data.type || 'GENERAL',
         link: data.link,
-        meta: data.meta,
+        meta: data.meta as Prisma.InputJsonValue | undefined,
       },
     })
   }

@@ -1,70 +1,9 @@
 {
-  "usableSessionsCount": 5,
+  "usableSessionsCount": 4,
   "retiredSessionsCount": 0,
   "sessions": [
     {
-      "id": "session_vhh73DDoJv",
-      "cookieJar": {
-        "version": "tough-cookie@6.0.2",
-        "storeType": "MemoryCookieStore",
-        "rejectPublicSuffixes": true,
-        "enableLooseMode": false,
-        "allowSpecialUseDomain": true,
-        "prefixSecurity": "silent",
-        "cookies": [
-          {
-            "key": "csrftoken",
-            "value": "Bfqj0DwKEvFDtr3ct3b9UPKfQ8eDuqO3",
-            "expires": "2027-10-21T18:46:15.000Z",
-            "maxAge": 31449600,
-            "domain": "www.smergers.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:14.212Z",
-            "lastAccessed": "2026-10-22T18:46:14.212Z",
-            "sameSite": "lax"
-          },
-          {
-            "key": "browser_view_log",
-            "value": "\"\"",
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:14.213Z",
-            "lastAccessed": "2026-10-22T18:46:14.213Z"
-          },
-          {
-            "key": "landingpage",
-            "value": "\"/businesses-for-sale-and-investment\"",
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:14.213Z",
-            "lastAccessed": "2026-10-22T18:46:14.213Z"
-          },
-          {
-            "key": "landingpage_time",
-            "value": "1792694775",
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:14.213Z",
-            "lastAccessed": "2026-10-22T18:46:14.213Z"
-          }
-        ]
-      },
-      "userData": {},
-      "maxErrorScore": 3,
-      "errorScoreDecrement": 0.5,
-      "expiresAt": "2026-10-22T19:36:12.262Z",
-      "createdAt": "2026-10-22T18:46:12.262Z",
-      "usageCount": 1,
-      "maxUsageCount": 50,
-      "errorScore": 0
-    },
-    {
-      "id": "session_diKMbktG9h",
+      "id": "session_h6fXZdFPvi",
       "cookieJar": {
         "version": "tough-cookie@6.0.2",
         "storeType": "MemoryCookieStore",
@@ -77,86 +16,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2026-10-22T19:36:12.316Z",
-      "createdAt": "2026-10-22T18:46:12.316Z",
+      "expiresAt": "2026-10-22T21:54:53.286Z",
+      "createdAt": "2026-10-22T21:04:53.286Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_kEo90fkdVX",
-      "cookieJar": {
-        "version": "tough-cookie@6.0.2",
-        "storeType": "MemoryCookieStore",
-        "rejectPublicSuffixes": true,
-        "enableLooseMode": false,
-        "allowSpecialUseDomain": true,
-        "prefixSecurity": "silent",
-        "cookies": [
-          {
-            "key": "browser_view_log",
-            "value": "\"\"",
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:15.914Z",
-            "lastAccessed": "2026-10-22T18:46:15.914Z"
-          },
-          {
-            "key": "free_profile_views",
-            "value": "0",
-            "expires": "2026-10-23T06:46:16.000Z",
-            "maxAge": 43200,
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:15.914Z",
-            "lastAccessed": "2026-10-22T18:46:15.914Z"
-          },
-          {
-            "key": "landingpage",
-            "value": "\"/franchise-opportunities/t11b/?ref=plus\"",
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:15.914Z",
-            "lastAccessed": "2026-10-22T18:46:15.914Z"
-          },
-          {
-            "key": "landingpage_time",
-            "value": "1792694776",
-            "domain": "www.smergers.com",
-            "path": "/",
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:15.914Z",
-            "lastAccessed": "2026-10-22T18:46:15.914Z"
-          },
-          {
-            "key": "csrftoken",
-            "value": "9XkoCPjZnpBguxr7eI5jN3ukiQKFpxMr",
-            "expires": "2027-10-21T18:46:16.000Z",
-            "maxAge": 31449600,
-            "domain": "www.smergers.com",
-            "path": "/",
-            "secure": true,
-            "hostOnly": true,
-            "creation": "2026-10-22T18:46:15.914Z",
-            "lastAccessed": "2026-10-22T18:46:15.914Z",
-            "sameSite": "lax"
-          }
-        ]
-      },
-      "userData": {},
-      "maxErrorScore": 3,
-      "errorScoreDecrement": 0.5,
-      "expiresAt": "2026-10-22T19:36:14.272Z",
-      "createdAt": "2026-10-22T18:46:14.272Z",
-      "usageCount": 1,
-      "maxUsageCount": 50,
-      "errorScore": 0
-    },
-    {
-      "id": "session_VolpJ5nNPz",
+      "id": "session_aEIIJBYTbZ",
       "cookieJar": {
         "version": "tough-cookie@6.0.2",
         "storeType": "MemoryCookieStore",
@@ -169,14 +36,14 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2026-10-22T19:36:15.014Z",
-      "createdAt": "2026-10-22T18:46:15.014Z",
+      "expiresAt": "2026-10-22T21:54:55.090Z",
+      "createdAt": "2026-10-22T21:04:55.090Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0
     },
     {
-      "id": "session_tEkdk1TfHv",
+      "id": "session_Sq5qZLxv8q",
       "cookieJar": {
         "version": "tough-cookie@6.0.2",
         "storeType": "MemoryCookieStore",
@@ -189,8 +56,28 @@
       "userData": {},
       "maxErrorScore": 3,
       "errorScoreDecrement": 0.5,
-      "expiresAt": "2026-10-22T19:36:19.187Z",
-      "createdAt": "2026-10-22T18:46:19.187Z",
+      "expiresAt": "2026-10-22T21:54:56.820Z",
+      "createdAt": "2026-10-22T21:04:56.820Z",
+      "usageCount": 0,
+      "maxUsageCount": 50,
+      "errorScore": 0
+    },
+    {
+      "id": "session_eUO1T752hn",
+      "cookieJar": {
+        "version": "tough-cookie@6.0.2",
+        "storeType": "MemoryCookieStore",
+        "rejectPublicSuffixes": true,
+        "enableLooseMode": false,
+        "allowSpecialUseDomain": true,
+        "prefixSecurity": "silent",
+        "cookies": []
+      },
+      "userData": {},
+      "maxErrorScore": 3,
+      "errorScoreDecrement": 0.5,
+      "expiresAt": "2026-10-22T21:55:01.551Z",
+      "createdAt": "2026-10-22T21:05:01.551Z",
       "usageCount": 0,
       "maxUsageCount": 50,
       "errorScore": 0

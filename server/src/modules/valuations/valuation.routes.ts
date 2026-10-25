@@ -11,8 +11,8 @@ router.use(authenticate)
 router.post('/estimate', controller.estimateValuation)
 
 // Owner-specific routes
-router.post('/',                         authorize(['SELLER']), controller.runValuation)
-router.get('/business/:businessId',      authorize(['SELLER']), controller.getValuations)
-router.delete('/:id',                    authorize(['SELLER']), controller.deleteValuation)
+router.post('/',                         authorize(['BUSINESS_OWNER']), controller.runValuation)
+router.get('/business/:businessId',      authorize(['BUSINESS_OWNER']), controller.getValuations)
+router.delete('/:id',                    authorize(['BUSINESS_OWNER']), controller.deleteValuation)
 
 export default router

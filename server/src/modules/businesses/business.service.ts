@@ -453,7 +453,7 @@ export const getSimilarListings = async (listingId: string) => {
 }
 
 
-export const getBusinessById = async(id)=>{
+export const getBusinessById = async (id: string) => {
   const profile = await prisma.businessProfile.findUnique({
   where: { id },
 })

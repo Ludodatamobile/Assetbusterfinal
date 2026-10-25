@@ -1,21 +1,21 @@
 {
-	"headline": "",
-	"title": "Bakery Franchise Opportunity",
-	"url": "https://www.smergers.com/franchise/shri-sai-ganesh-homemade-cakes/d9tli/",
-	"investorType": "Bakery Franchise Opportunity",
-	"location": null,
+	"title": "Fire Protection Business for Sale in Accra, Ghana",
+	"url": "https://www.smergers.com/business/fire-protection-business-for-sale-in-accra-ghana/9rnyf/",
+	"sku": "b-9rnyf",
+	"tagline": "Our services include fire safety engineering, equipment supply, installation, commissioning, inspection, maintenance, and training. - We focus on offering comprehensive fire protection safety solutions, ensuring our clients are well-prepared for emergencies. - We have solid partnerships with international manufacturers, which helps us provide high-quality products and services. - Our local inventory and workshop capabilities mean we can handle projects efficiently, serving a wide range of customers. - Our extensive installed customer base ensures a steady stream of recurring service revenue. - We are committed to compliance support, helping businesses meet safety regulations. - Our experienced team of 20 employees is dedicated to delivering top-notch service and ensuring the safety of our clients.",
+	"description": "",
+	"image": "/media/cache/c9/da/c9dacebaa4e77da13c38e54fd4dd618a.webp",
 	"rating": null,
-	"dealsCount": null,
-	"locations": [],
-	"industries": [],
-	"investmentMin": null,
-	"investmentMax": null,
-	"currency": "USD",
+	"city": null,
+	"runRateSales": null,
+	"ebitdaMargin": null,
+	"dealTypeLabel": null,
+	"dealAmountText": null,
 	"verification": {
 		"email": true,
 		"phone": true,
 		"linkedin": false,
 		"facebook": false,
-		"google": false
+		"google": true
 	}
 }

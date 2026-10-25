@@ -1,42 +1,40 @@
 {
-  "requestsFinished": 4,
-  "requestsFailed": 1,
-  "requestsRetries": 1,
-  "requestsFailedPerMinute": 4,
-  "requestsFinishedPerMinute": 18,
-  "requestMinDurationMillis": 1076,
-  "requestMaxDurationMillis": 2470,
-  "requestTotalFailedDurationMillis": 294,
-  "requestTotalFinishedDurationMillis": 6431,
-  "crawlerStartedAt": "2026-10-22T18:46:09.058Z",
-  "crawlerFinishedAt": "2026-10-22T18:46:22.133Z",
-  "statsPersistedAt": "2026-10-22T18:46:22.134Z",
-  "crawlerRuntimeMillis": 13234,
-  "crawlerLastStartTimestamp": 1792694768900,
+  "requestsFinished": 6,
+  "requestsFailed": 0,
+  "requestsRetries": 0,
+  "requestsFailedPerMinute": 0,
+  "requestsFinishedPerMinute": 25,
+  "requestMinDurationMillis": 876,
+  "requestMaxDurationMillis": 5211,
+  "requestTotalFailedDurationMillis": 0,
+  "requestTotalFinishedDurationMillis": 18922,
+  "crawlerStartedAt": "2026-10-22T21:04:48.809Z",
+  "crawlerFinishedAt": "2026-10-22T21:05:03.093Z",
+  "statsPersistedAt": "2026-10-22T21:05:03.094Z",
+  "crawlerRuntimeMillis": 14610,
+  "crawlerLastStartTimestamp": 1792703088484,
   "requestRetryHistogram": [
-    4,
-    null,
-    null,
-    1
+    6
   ],
   "statsId": "2",
-  "requestAvgFailedDurationMillis": 294,
-  "requestAvgFinishedDurationMillis": 1608,
-  "requestTotalDurationMillis": 6725,
-  "requestsTotal": 5,
+  "requestAvgFailedDurationMillis": null,
+  "requestAvgFinishedDurationMillis": 3154,
+  "requestTotalDurationMillis": 18922,
+  "requestsTotal": 6,
   "requestsWithStatusCode": {
-    "403": 1
+    "403": 3,
+    "404": 1
   },
-  "errors": {
+  "errors": {},
+  "retryErrors": {
     "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
       "missing error code": {
         "Error": {
           "Request blocked - received 403 status code.": {
-            "count": 1
+            "count": 3
           }
         }
       }
     }
-  },
-  "retryErrors": {}
+  }
 }

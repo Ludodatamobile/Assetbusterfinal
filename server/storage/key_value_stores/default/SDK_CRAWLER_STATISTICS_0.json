@@ -1,29 +1,52 @@
 {
-  "requestsFinished": 2,
-  "requestsFailed": 0,
-  "requestsRetries": 0,
-  "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 9,
-  "requestMinDurationMillis": 1768,
-  "requestMaxDurationMillis": 1987,
-  "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 3755,
-  "crawlerStartedAt": "2026-10-22T18:46:09.058Z",
-  "crawlerFinishedAt": "2026-10-22T18:46:22.675Z",
-  "statsPersistedAt": "2026-10-22T18:46:22.675Z",
-  "crawlerRuntimeMillis": 13782,
-  "crawlerLastStartTimestamp": 1792694768893,
+  "requestsFinished": 0,
+  "requestsFailed": 1,
+  "requestsRetries": 1,
+  "requestsFailedPerMinute": 4,
+  "requestsFinishedPerMinute": 0,
+  "requestMinDurationMillis": null,
+  "requestMaxDurationMillis": 0,
+  "requestTotalFailedDurationMillis": 253,
+  "requestTotalFinishedDurationMillis": 0,
+  "crawlerStartedAt": "2026-10-22T21:04:48.808Z",
+  "crawlerFinishedAt": "2026-10-22T21:05:03.418Z",
+  "statsPersistedAt": "2026-10-22T21:05:03.419Z",
+  "crawlerRuntimeMillis": 14938,
+  "crawlerLastStartTimestamp": 1792703088481,
   "requestRetryHistogram": [
-    2
+    null,
+    null,
+    null,
+    1
   ],
   "statsId": "0",
-  "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 1878,
-  "requestTotalDurationMillis": 3755,
-  "requestsTotal": 2,
+  "requestAvgFailedDurationMillis": 253,
+  "requestAvgFinishedDurationMillis": null,
+  "requestTotalDurationMillis": 253,
+  "requestsTotal": 1,
   "requestsWithStatusCode": {
-    "404": 1
+    "403": 2
   },
-  "errors": {},
-  "retryErrors": {}
+  "errors": {
+    "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  },
+  "retryErrors": {
+    "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 403 status code.": {
+            "count": 1
+          }
+        }
+      }
+    }
+  }
 }

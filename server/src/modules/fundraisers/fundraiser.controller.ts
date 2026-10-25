@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
+import { routeParam } from "../../utils/routeParam.js";
 import { FundraiserService } from "./fundraiser.service.js";
 
 function userIdFrom(req: Request) {
@@ -20,7 +21,7 @@ export const FundraiserController = {
   }),
 
   getBySlug: asyncHandler(async (req: Request, res: Response) => {
-    const fundraiser = await FundraiserService.getBySlug(req.params.slug);
+    const fundraiser = await FundraiserService.getBySlug(routeParam(req.params.slug));
     return ApiResponse.success(
       res,
       fundraiser,
@@ -40,7 +41,7 @@ export const FundraiserController = {
   update: asyncHandler(async (req: Request, res: Response) => {
     const fundraiser = await FundraiserService.update(
       userIdFrom(req)!,
-      req.params.id,
+      routeParam(req.params.id),
       req.body
     );
 
@@ -52,7 +53,7 @@ export const FundraiserController = {
   }),
 
   submit: asyncHandler(async (req: Request, res: Response) => {
-    const fundraiser = await FundraiserService.submit(userIdFrom(req)!, req.params.id);
+    const fundraiser = await FundraiserService.submit(userIdFrom(req)!, routeParam(req.params.id));
     return ApiResponse.success(
       res,
       fundraiser,
@@ -61,7 +62,7 @@ export const FundraiserController = {
   }),
 
   delete: asyncHandler(async (req: Request, res: Response) => {
-    const data = await FundraiserService.delete(userIdFrom(req)!, req.params.id);
+    const data = await FundraiserService.delete(userIdFrom(req)!, routeParam(req.params.id));
     return ApiResponse.success(res, data, "Fund raiser deleted successfully.");
   }),
 };

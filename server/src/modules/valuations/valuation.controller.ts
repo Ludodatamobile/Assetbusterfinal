@@ -2,6 +2,7 @@ import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
 import { ApiError } from '../../utils/ApiError.js'
+import { routeParam } from '../../utils/routeParam.js'
 import * as valuationService from './valuation.service.js'
 
 export const runValuation = asyncHandler(async (req: Request, res: Response) => {
@@ -10,7 +11,7 @@ export const runValuation = asyncHandler(async (req: Request, res: Response) => 
 })
 
 export const getValuations = asyncHandler(async (req: Request, res: Response) => {
-  const valuations = await valuationService.getValuations(req.params.businessId, req.user!.id)
+  const valuations = await valuationService.getValuations(routeParam(req.params.businessId), req.user!.id)
   ApiResponse.success(res, valuations, `${valuations.length} valuations found.`)
 })
 
@@ -30,6 +31,6 @@ export const estimateValuation = asyncHandler(async (req: Request, res: Response
 })
 
 export const deleteValuation = asyncHandler(async (req: Request, res: Response) => {
-  await valuationService.deleteValuation(req.params.id, req.user!.id)
+  await valuationService.deleteValuation(routeParam(req.params.id), req.user!.id)
   ApiResponse.noContent(res)
 })

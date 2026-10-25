@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express'
 import { asyncHandler } from '../../utils/asyncHandler.js'
 import { ApiResponse } from '../../utils/ApiResponse.js'
+import { routeParam } from '../../utils/routeParam.js'
 import * as investorService from './investor.service.js'
 
 export const getInvestors = asyncHandler(async (req: Request, res: Response) => {
@@ -9,7 +10,7 @@ export const getInvestors = asyncHandler(async (req: Request, res: Response) => 
 })
 
 export const getInvestorById = asyncHandler(async (req: Request, res: Response) => {
-  const investor = await investorService.getInvestorById(req.params.id)
+  const investor = await investorService.getInvestorById(routeParam(req.params.id))
   return ApiResponse.success(res, { investor })
 })
 
@@ -24,6 +25,6 @@ export const createProfile = asyncHandler(async (req: Request, res: Response) =>
 })
 
 export const updateProfile = asyncHandler(async (req: Request, res: Response) => {
-  const profile = await investorService.updateInvestorProfile(req.user!.id, req.params.id, req.body)
+  const profile = await investorService.updateInvestorProfile(req.user!.id, routeParam(req.params.id), req.body)
   return ApiResponse.success(res, { profile }, 'Investor profile updated.')
 })

@@ -104,6 +104,9 @@ export const updateFundraiserSchema = z.object({
   body: fundraiserBodySchema.partial(),
 });
 
+export type CreateFundraiserInput = z.infer<typeof fundraiserBodySchema>;
+export type UpdateFundraiserInput = z.infer<typeof fundraiserBodySchema>;
+
 export const fundraiserIdParamsSchema = z.object({
   params: z.object({
     id: z.string().uuid(),

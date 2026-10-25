@@ -1,4 +1,5 @@
 import slugify from "slugify";
+import type { Prisma } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 import { prisma } from "../../config/prisma.js";
 import { ApiError } from "../../utils/ApiError.js";
@@ -74,7 +75,7 @@ const detailInclude = {
       savedBy: true,
     },
   },
-};
+} satisfies Prisma.BusinessProfileInclude;
 
 export class StartupService {
   static async list(query: any) {
