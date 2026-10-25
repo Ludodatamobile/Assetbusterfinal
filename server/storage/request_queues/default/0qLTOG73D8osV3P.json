@@ -1,0 +1,9 @@
+{
+	"id": "0qLTOG73D8osV3P",
+	"json": "{\"id\":\"0qLTOG73D8osV3P\",\"url\":\"https://www.businessesforsale.com/search/businesses-for-sale-in-belize-2\",\"loadedUrl\":\"https://www.businessesforsale.com/search/businesses-for-sale-in-belize-2\",\"uniqueKey\":\"https://www.businessesforsale.com/search/businesses-for-sale-in-belize-2\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":1,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-25T12:47:26.003Z\"}",
+	"method": "GET",
+	"orderNo": null,
+	"retryCount": 0,
+	"uniqueKey": "https://www.businessesforsale.com/search/businesses-for-sale-in-belize-2",
+	"url": "https://www.businessesforsale.com/search/businesses-for-sale-in-belize-2"
+}

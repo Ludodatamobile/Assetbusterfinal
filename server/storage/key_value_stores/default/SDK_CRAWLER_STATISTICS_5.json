@@ -1,36 +1,49 @@
 {
-  "requestsFinished": 1,
-  "requestsFailed": 0,
-  "requestsRetries": 0,
-  "requestsFailedPerMinute": 0,
-  "requestsFinishedPerMinute": 4,
-  "requestMinDurationMillis": 1602,
-  "requestMaxDurationMillis": 1602,
-  "requestTotalFailedDurationMillis": 0,
-  "requestTotalFinishedDurationMillis": 1602,
-  "crawlerStartedAt": "2026-10-22T21:04:48.811Z",
-  "crawlerFinishedAt": "2026-10-22T21:05:03.221Z",
-  "statsPersistedAt": "2026-10-22T21:05:03.221Z",
-  "crawlerRuntimeMillis": 14728,
-  "crawlerLastStartTimestamp": 1792703088493,
+  "requestsFinished": 6,
+  "requestsFailed": 3,
+  "requestsRetries": 3,
+  "requestsFailedPerMinute": 12,
+  "requestsFinishedPerMinute": 24,
+  "requestMinDurationMillis": 683,
+  "requestMaxDurationMillis": 1049,
+  "requestTotalFailedDurationMillis": 646,
+  "requestTotalFinishedDurationMillis": 4886,
+  "crawlerStartedAt": "2026-10-25T12:47:16.849Z",
+  "crawlerFinishedAt": "2026-10-25T12:47:31.589Z",
+  "statsPersistedAt": "2026-10-25T12:47:31.590Z",
+  "crawlerRuntimeMillis": 14948,
+  "crawlerLastStartTimestamp": 1792932436642,
   "requestRetryHistogram": [
-    1
+    6,
+    null,
+    null,
+    3
   ],
   "statsId": "5",
-  "requestAvgFailedDurationMillis": null,
-  "requestAvgFinishedDurationMillis": 1602,
-  "requestTotalDurationMillis": 1602,
-  "requestsTotal": 1,
+  "requestAvgFailedDurationMillis": 215,
+  "requestAvgFinishedDurationMillis": 814,
+  "requestTotalDurationMillis": 5532,
+  "requestsTotal": 9,
   "requestsWithStatusCode": {
-    "403": 1
+    "429": 12
   },
-  "errors": {},
+  "errors": {
+    "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
+      "missing error code": {
+        "Error": {
+          "Request blocked - received 429 status code.": {
+            "count": 3
+          }
+        }
+      }
+    }
+  },
   "retryErrors": {
     "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
       "missing error code": {
         "Error": {
-          "Request blocked - received 403 status code.": {
-            "count": 1
+          "Request blocked - received 429 status code.": {
+            "count": 9
           }
         }
       }

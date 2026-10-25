@@ -1,9 +1,0 @@
-{
-	"id": "iRwv2Gn2qD8oa2z",
-	"json": "{\"id\":\"iRwv2Gn2qD8oa2z\",\"url\":\"https://www.smergers.com/investors/i/?page=4\",\"loadedUrl\":\"https://www.smergers.com/investors/i/?page=4\",\"uniqueKey\":\"https://www.smergers.com/investors/i?page=4\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":4,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-22T21:05:03.046Z\"}",
-	"method": "GET",
-	"orderNo": null,
-	"retryCount": 0,
-	"uniqueKey": "https://www.smergers.com/investors/i?page=4",
-	"url": "https://www.smergers.com/investors/i/?page=4"
-}

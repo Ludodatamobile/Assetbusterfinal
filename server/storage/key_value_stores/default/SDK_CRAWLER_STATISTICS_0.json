@@ -1,38 +1,39 @@
 {
-  "requestsFinished": 0,
-  "requestsFailed": 1,
-  "requestsRetries": 1,
-  "requestsFailedPerMinute": 4,
-  "requestsFinishedPerMinute": 0,
-  "requestMinDurationMillis": null,
-  "requestMaxDurationMillis": 0,
-  "requestTotalFailedDurationMillis": 253,
-  "requestTotalFinishedDurationMillis": 0,
-  "crawlerStartedAt": "2026-10-22T21:04:48.808Z",
-  "crawlerFinishedAt": "2026-10-22T21:05:03.418Z",
-  "statsPersistedAt": "2026-10-22T21:05:03.419Z",
-  "crawlerRuntimeMillis": 14938,
-  "crawlerLastStartTimestamp": 1792703088481,
+  "requestsFinished": 1,
+  "requestsFailed": 2,
+  "requestsRetries": 2,
+  "requestsFailedPerMinute": 7,
+  "requestsFinishedPerMinute": 4,
+  "requestMinDurationMillis": 1014,
+  "requestMaxDurationMillis": 1014,
+  "requestTotalFailedDurationMillis": 451,
+  "requestTotalFinishedDurationMillis": 1014,
+  "crawlerStartedAt": "2026-10-25T12:47:16.848Z",
+  "crawlerFinishedAt": "2026-10-25T12:47:31.648Z",
+  "statsPersistedAt": "2026-10-25T12:47:31.648Z",
+  "crawlerRuntimeMillis": 15024,
+  "crawlerLastStartTimestamp": 1792932436624,
   "requestRetryHistogram": [
+    1,
     null,
     null,
-    null,
-    1
+    2
   ],
   "statsId": "0",
-  "requestAvgFailedDurationMillis": 253,
-  "requestAvgFinishedDurationMillis": null,
-  "requestTotalDurationMillis": 253,
-  "requestsTotal": 1,
+  "requestAvgFailedDurationMillis": 226,
+  "requestAvgFinishedDurationMillis": 1014,
+  "requestTotalDurationMillis": 1465,
+  "requestsTotal": 3,
   "requestsWithStatusCode": {
-    "403": 2
+    "403": 4,
+    "429": 5
   },
   "errors": {
     "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
       "missing error code": {
         "Error": {
-          "Request blocked - received 403 status code.": {
-            "count": 1
+          "Request blocked - received _ status code.": {
+            "count": 2
           }
         }
       }
@@ -42,8 +43,8 @@
     "D:\\ludo-data\\asset-booster\\asset_final\\server\\node_modules\\@crawlee\\basic\\internals\\basic-crawler.js:954:19": {
       "missing error code": {
         "Error": {
-          "Request blocked - received 403 status code.": {
-            "count": 1
+          "Request blocked - received _ status code.": {
+            "count": 7
           }
         }
       }

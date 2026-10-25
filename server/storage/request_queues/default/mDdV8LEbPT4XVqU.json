@@ -1,6 +1,6 @@
 {
 	"id": "mDdV8LEbPT4XVqU",
-	"json": "{\"id\":\"mDdV8LEbPT4XVqU\",\"url\":\"https://www.smergers.com/businesses-for-sale-and-investment/b/\",\"loadedUrl\":\"https://www.smergers.com/businesses-for-sale-and-investment/b/\",\"uniqueKey\":\"https://www.smergers.com/businesses-for-sale-and-investment/b\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":2,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-22T21:04:59.581Z\"}",
+	"json": "{\"id\":\"mDdV8LEbPT4XVqU\",\"url\":\"https://www.smergers.com/businesses-for-sale-and-investment/b/\",\"loadedUrl\":\"https://www.smergers.com/businesses-for-sale-and-investment/b/\",\"uniqueKey\":\"https://www.smergers.com/businesses-for-sale-and-investment/b\",\"method\":\"GET\",\"noRetry\":false,\"retryCount\":0,\"errorMessages\":[],\"headers\":{},\"userData\":{\"__crawlee\":{\"crawlDepth\":3,\"enqueueStrategy\":\"same-hostname\",\"state\":4}},\"handledAt\":\"2026-10-25T12:47:28.990Z\"}",
 	"method": "GET",
 	"orderNo": null,
 	"retryCount": 0,
