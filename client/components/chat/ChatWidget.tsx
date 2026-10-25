@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 // ─── Config ───────────────────────────────────────────────────────────────────
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_CHAT_API_URL || "";
 const SESSION_KEY = "ab_chat_sid";
 const WA_BASE = "https://wa.me";
 
