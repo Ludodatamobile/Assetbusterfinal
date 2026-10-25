@@ -119,13 +119,15 @@ const runCrawler = async (
   source: ExternalBusinessListing['source'],
   startUrl: string,
 ): Promise<ExternalBusinessListing[]> => {
-  Configuration.getGlobalConfig().set('systemInfoV2', false)
-  const dataset = await Dataset.open()
+  const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
+  const dataset = await Dataset.open(null, { config: crawlerConfig })
   const crawler = new CheerioCrawler({
     maxConcurrency: 1,
     maxRequestRetries: 1,
+    useSessionPool: false,
     async requestHandler({ $, request, log, enqueueLinks }) {
       log.info(`Scraping ${request.url}`)
+      const pageListings: ExternalBusinessListing[] = []
 
       if (source === 'businessesforsale') {
         $('.result-table').each((_, element) => {
@@ -150,7 +152,7 @@ const runCrawler = async (
           ).find('td').text()
           const imageSrc = item.find('.result-middle-image img').first().attr('src')
 
-          void dataset.pushData({
+          pageListings.push({
             source,
             title,
             url,
@@ -177,7 +179,7 @@ const runCrawler = async (
           const askingPrice = firstText(card, '.asking-price')
           const cashFlowText = firstText(card, '.cash-flow, .cash-flow-on-mobile')
 
-          void dataset.pushData({
+          pageListings.push({
             source,
             title,
             url: listingUrl(details, request.url),
@@ -199,7 +201,7 @@ const runCrawler = async (
           const imageSrc = item.find('.image-container img').first().attr('src')
           const cashFlowText = firstText(item, '.cash-flow, .cash-flow-on-mobile')
 
-          void dataset.pushData({
+          pageListings.push({
             source,
             title,
             url: listingUrl(item, request.url),
@@ -214,6 +216,8 @@ const runCrawler = async (
         })
       }
 
+      if (pageListings.length > 0) await dataset.pushData(pageListings)
+
       await enqueueLinks({
         selector: 'a[rel="next"], .pagination a[href], .pager a[href], [class*="pagination"] a[href]',
         baseUrl: request.url,
@@ -222,7 +226,7 @@ const runCrawler = async (
     failedRequestHandler({ request, log }) {
       log.warning(`Giving up on ${source} request after its retry limit: ${request.url}`)
     },
-  })
+  }, crawlerConfig)
 
   await crawler.run([startUrl])
   const { items } = await dataset.getData()

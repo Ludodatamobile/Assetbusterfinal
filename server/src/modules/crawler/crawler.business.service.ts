@@ -141,16 +141,15 @@ const saveBusinessListing = async (listing: BusinessListing) => {
 }
 
 export const businessCrawler = async (): Promise<BusinessListing[]> => {
-  const dataset = await Dataset.open()
-
-
-Configuration.getGlobalConfig().set('systemInfoV2', false)
+  const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
+  const dataset = await Dataset.open(null, { config: crawlerConfig })
 
   const crawler = new CheerioCrawler({
     maxConcurrency: 5,
 
     async requestHandler({ $, request, log, enqueueLinks }) {
       log.info(`Scraping ${request.url}`)
+      const pageListings: BusinessListing[] = []
 
       // NOTE: as with the franchise/investor crawlers, `.listing-item` is assumed to be
       // the shared card container across all three SMERGERS listing pages. The field
@@ -246,8 +245,10 @@ Configuration.getGlobalConfig().set('systemInfoV2', false)
           verification,
         }
 
-        void dataset.pushData(listing)
+        pageListings.push(listing)
       })
+
+      if (pageListings.length > 0) await dataset.pushData(pageListings)
 
       // Follow pagination links, e.g. https://www.smergers.com/businesses-for-sale-and-investment/b/?page=2
       await enqueueLinks({
@@ -255,7 +256,7 @@ Configuration.getGlobalConfig().set('systemInfoV2', false)
         baseUrl: BASE_URL,
       })
     },
-  })
+  }, crawlerConfig)
 
   await crawler.run([START_URL])
 

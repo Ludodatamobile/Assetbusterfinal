@@ -125,14 +125,14 @@ await prisma.businessProfile.upsert({
 
 
 export const franchCrawler = async (): Promise<FranchiseListing[]> => {
-  const dataset = await Dataset.open()
-
-Configuration.getGlobalConfig().set('systemInfoV2', false)
+  const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
+  const dataset = await Dataset.open(null, { config: crawlerConfig })
   const crawler = new CheerioCrawler({
     maxConcurrency: 5,
 
     async requestHandler({ $, request, log, enqueueLinks }) {
       log.info(`Scraping ${request.url}`)
+      const pageListings: FranchiseListing[] = []
 
       $('.listing-item').each((_, element) => {
         const item = $(element)
@@ -252,15 +252,17 @@ Configuration.getGlobalConfig().set('systemInfoV2', false)
         }
 
         // Save the actual object
-        void dataset.pushData(listing)
+        pageListings.push(listing)
       })
+
+      if (pageListings.length > 0) await dataset.pushData(pageListings)
 
       await enqueueLinks({
         selector: 'a[href*="/franchise-opportunities/"]',
         baseUrl: BASE_URL,
       })
     },
-  })
+  }, crawlerConfig)
 
  // 
   await crawler.run([

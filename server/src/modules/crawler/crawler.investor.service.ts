@@ -137,14 +137,14 @@ const saveInvestorListing = async (listing: InvestorListing) => {
 }
 
 export const investorCrawler = async (): Promise<InvestorListing[]> => {
-  const dataset = await Dataset.open()
-
-Configuration.getGlobalConfig().set('systemInfoV2', false)
+  const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
+  const dataset = await Dataset.open(null, { config: crawlerConfig })
   const crawler = new CheerioCrawler({
     maxConcurrency: 5,
 
     async requestHandler({ $, request, log, enqueueLinks }) {
       log.info(`Scraping ${request.url}`)
+      const pageListings: InvestorListing[] = []
 
       // NOTE: `.listing-item` is the same card container used on the franchise page.
       // The investor page appears to reuse the same listing component, but the fields
@@ -254,8 +254,10 @@ Configuration.getGlobalConfig().set('systemInfoV2', false)
           verification,
         }
 
-        void dataset.pushData(listing)
+        pageListings.push(listing)
       })
+
+      if (pageListings.length > 0) await dataset.pushData(pageListings)
 
       // Follow pagination links, e.g. https://www.smergers.com/investors/i/?page=2
       await enqueueLinks({
@@ -263,7 +265,7 @@ Configuration.getGlobalConfig().set('systemInfoV2', false)
         baseUrl: BASE_URL,
       })
     },
-  })
+  }, crawlerConfig)
 
   await crawler.run([START_URL])
 
