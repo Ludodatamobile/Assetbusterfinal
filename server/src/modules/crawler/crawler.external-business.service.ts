@@ -3,14 +3,14 @@ import { prisma } from '../../config/prisma.js'
 import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 const page = Math.floor(Math.random() * 100 + 1)
-const location = ['orlando', 'california', 'delaware']
+const location = ['orlando', 'california', 'delaware', 'canada']
 
 const locationIndex = Math.floor(Math.random() * location.length + 1)
 
 const BUSINESS_FOR_SALE_URL =
   `https://www.businessesforsale.com/search?Keywords=United+States&Page=${page}`
 const BIZBUYSELL_URL = `https://www.bizbuysell.com/${location[locationIndex]}-businesses-for-sale/`
-const LOOPNET_URL = 'https://www.loopnet.com/biz/businesses-for-sale/'
+const LOOPNET_URL = `https://www.loopnet.com/biz/${location[locationIndex]}-businesses-for-sale/`
 
 type ExternalBusinessListing = {
   source: 'businessesforsale' | 'bizbuysell' | 'loopnet'
@@ -75,6 +75,8 @@ const saveListing = async (listing: ExternalBusinessListing, userId: string) => 
   const revenue = parseMoney(listing.revenue)
   const cashFlow = parseMoney(listing.cashFlow)
   const description = listing.description || listing.title
+
+if (/Nigeria/i.test(country)) return;
 
   await prisma.businessProfile.upsert({
     where: { slug },

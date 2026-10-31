@@ -3,26 +3,30 @@ import { prisma } from '../../config/prisma.js'
 import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 const BASE_URL = 'https://www.smergers.com'
-const START_URL = 'https://www.smergers.com/businesses-for-sale-and-investment'
+const page = Math.floor(Math.random() * 100 + 1)
+const START_URL = `${BASE_URL}/businesses-for-sale-and-investment/b/?page=${page}`
 
 type BusinessListing = {
   title: string
   url: string | null
   sku?: string
-  // Short one-line tagline shown right under the title, e.g.
-  // "Medical equipment manufacturer with export sales and owned factory, seeking a full sale to investors."
+  // Card headline (itemprop="name"), e.g. "Premium Dubai dental & aesthetic clinic with 2,000+ loyal patients..."
   tagline: string
-  // Longer bullet-point description body
+  // Bullet-point body (itemprop="description"), one bullet per line
   description: string
   image?: string
   rating: number | null
-  // e.g. "Mohali" — parsed from the "8.1 Mohali" rating+location line
+  // e.g. "Dubai" (text of .location)
   city: string | null
+  // e.g. "UAE" (last part of .location data-title "Dubai, UAE")
+  country: string | null
+  // e.g. "USD 330 K"
   runRateSales: string | null
+  // e.g. "30 %"
   ebitdaMargin: string | null
   // "Business for Sale", "Partial Stake Sale", etc.
   dealTypeLabel: string | null
-  // e.g. "USD 1.15 Mn" or "USD 100 K for 10%"
+  // e.g. "USD 520 K" or "USD 100 K for 10%"
   dealAmountText: string | null
   verification: {
     email: boolean
@@ -33,9 +37,6 @@ type BusinessListing = {
   }
 }
 
-/**
- * Maps the page's deal-type label to the Prisma DealType enum.
- */
 const mapDealType = (label: string | null): 'FULL_SALE' | 'PARTIAL_STAKE' | 'BUSINESS_LOAN' | 'INVESTMENT' => {
   if (!label) return 'FULL_SALE'
   const normalized = label.toLowerCase()
@@ -61,7 +62,23 @@ const splitDealAmount = (text: string | null): { amountText: string | null; perc
   }
 }
 
+/** "USD 330 thousand" -> "USD 330 K", "USD 1.2 million" -> "USD 1.2 Mn" (same format as the deal amount) */
+const normalizeAmountText = (text: string | null): string | null => {
+  if (!text) return null
+  return text
+    .replace(/\s+/g, ' ')
+    .replace(/\bthousand\b/i, 'K')
+    .replace(/\bmillion\b/i, 'Mn')
+    .replace(/\bbillion\b/i, 'Bn')
+    .trim()
+}
+
 const saveBusinessListing = async (listing: BusinessListing) => {
+  // Skip Nigerian listings and anything without a title (can't build a slug)
+  if (!listing.title) return
+  if (listing.country && /Nigeria/i.test(listing.country)) return
+  if (listing.city && /Nigeria/i.test(listing.city)) return
+
   const user = await getCrawlerOwner()
 
   const { amountText, percent } = splitDealAmount(listing.dealAmountText)
@@ -74,25 +91,25 @@ const saveBusinessListing = async (listing: BusinessListing) => {
   const ebitdaMarginMatch = listing.ebitdaMargin?.match(/([\d.]+)/)
   const ebitdaMargin = ebitdaMarginMatch ? Number(ebitdaMarginMatch[1]) : null
   const description = listing.description?.trim() || listing.tagline?.trim() || listing.title
-  if (listing.city==="Nigeria") return;
+
+  // sku (e.g. "b-zuhtz") keeps slugs unique when two listings share a title
+  const slug = createSlug(listing.sku ? `${listing.title}-${listing.sku}` : listing.title)
 
   await prisma.businessProfile.upsert({
-    where: {
-      slug: createSlug(listing.title),
-    },
+    where: { slug },
 
     create: {
       userId: user.id,
       profileType: 'SELL_BUSINESS',
 
       title: listing.title,
-      slug: createSlug(listing.title),
+      slug,
 
       description,
       shortSummary: listing.tagline,
 
       industry: 'General',
-      country: listing.city ?? 'Unknown',
+      country: listing.country ?? listing.city ?? 'Unknown',
       city: listing.city,
 
       dealType: mapDealType(listing.dealTypeLabel),
@@ -118,6 +135,7 @@ const saveBusinessListing = async (listing: BusinessListing) => {
       description,
       shortSummary: listing.tagline,
 
+      country: listing.country ?? listing.city ?? 'Unknown',
       city: listing.city,
       dealType: mapDealType(listing.dealTypeLabel),
       currency,
@@ -141,119 +159,138 @@ export const businessCrawler = async (): Promise<BusinessListing[]> => {
   const crawlerConfig = new Configuration({ persistStorage: false, systemInfoV2: false })
   const dataset = await Dataset.open(undefined, { config: crawlerConfig })
 
-  const crawler = new CheerioCrawler({
-    maxConcurrency: 5,
+  const crawler = new CheerioCrawler(
+    {
+      maxConcurrency: 5,
 
-    async requestHandler({ $, request, log, enqueueLinks }) {
-      log.info(`Scraping ${request.url}`)
-      const pageListings: BusinessListing[] = []
+      async requestHandler({ $, request, log }) {
+        log.info(`Scraping ${request.url}`)
+        const pageListings: BusinessListing[] = []
 
-      // NOTE: as with the franchise/investor crawlers, `.listing-item` is assumed to be
-      // the shared card container across all three SMERGERS listing pages. The field
-      // selectors below (tagline, rating+city line, Run Rate Sales / EBITDA Margin /
-      // deal-amount boxes) were reverse-engineered from the rendered text of the page,
-      // since this sandbox can't reach smergers.com to inspect the live DOM directly.
-      // Verify against the real page HTML (browser devtools) and adjust class names
-      // before relying on this in production.
-      $('.listing-item').each((_, element) => {
-        const item = $(element)
+        $('.listing-item').each((_, element) => {
+          const item = $(element)
 
-        const titleAnchor = item.find('h2 a').first()
-        const title = titleAnchor.text().trim()
+          // --- Title + URL: <h2><a href="..."><i/> Title</a></h2>
+          const titleAnchor = item.find('h2 a').first()
+          const title = titleAnchor.text().replace(/\s+/g, ' ').trim()
+          const relativeUrl = titleAnchor.attr('href')
+          const url = relativeUrl ? new URL(relativeUrl, BASE_URL).href : null
 
-        const relativeUrl = titleAnchor.attr('href')
-        const url = relativeUrl ? new URL(relativeUrl, BASE_URL).href : null
+          // --- SKU: <meta itemprop="sku" content="b-zuhtz">
+          const sku = item.find('meta[itemprop="sku"]').attr('content')
 
-        const sku = item.find('meta[itemprop="sku"]').attr('content')
+          // --- Tagline: <div itemprop="name">text</div>
+          const tagline = item
+            .find('[itemprop="name"]')
+            .first()
+            .clone()
+            .children()
+            .remove()
+            .end()
+            .text()
+            .replace(/\s+/g, ' ')
+            .trim()
 
-        const tagline = item
-          .find('.listing-tagline, [itemprop="description"]')
-          .first()
-          .text()
-          .replace(/\s+/g, ' ')
-          .trim()
+          // --- Description: <div itemprop="description"> "- bullet\n- bullet..." </div>
+          // Keep line breaks (one bullet per line), only tidy each line.
+          const description = item
+            .find('[itemprop="description"]')
+            .first()
+            .text()
+            .split('\n')
+            .map((line) => line.replace(/\s+/g, ' ').trim())
+            .filter(Boolean)
+            .join('\n')
 
-        const description = item
-          .find('.listing-summary li, .bullet-description li')
-          .map((_i, el) => $(el).text().trim())
-          .get()
-          .join('\n')
+          // --- Image: <img class="listing-photo" src="/media/cache/...webp">
+          const imgSrc =
+            item.find('img.listing-photo').first().attr('src') ??
+            item.find('link[itemprop="image"]').attr('content')
+          const image = imgSrc ? new URL(imgSrc, BASE_URL).href : undefined
 
-        const image = item.find('img').first().attr('src') ?? item.find('link[itemprop="image"]').attr('content')
+          // --- Rating: <link itemprop="ratingValue" content="8.4">
+          const ratingValue =
+            item.find('link[itemprop="ratingValue"]').attr('content') ??
+            item.find('.listing-rating-location .rating').first().text().trim()
+          const rating = ratingValue && !Number.isNaN(Number(ratingValue)) ? Number(ratingValue) : null
 
-        const ratingLocationText = item
-          .find('.rating-location, .listing-meta')
-          .first()
-          .text()
-          .replace(/\s+/g, ' ')
-          .trim()
+          // --- Location: <span class="location" data-title="Dubai, UAE">Dubai</span>
+          const locationEl = item.find('.listing-rating-location .location').first()
+          const city = locationEl.text().trim() || null
+          const fullLocation = locationEl.attr('data-title')?.trim() ?? ''
+          const locationParts = fullLocation
+            .split(',')
+            .map((p) => p.trim())
+            .filter(Boolean)
+          const country = locationParts.length > 1 ? locationParts[locationParts.length - 1] : null
 
-        const ratingMatch = ratingLocationText.match(/^(\d+(\.\d+)?)\s+(.*)$/)
-        const rating = ratingMatch ? Number(ratingMatch[1]) : null
-        const city = ratingMatch ? ratingMatch[3].trim() : null
+          // --- Metrics: label div + value div inside .bg-grey-100
+          //     <div>Run Rate Sales</div><div><span class="currency-symbol">USD</span> 330 thousand</div>
+          const getMetric = (label: string): string | null => {
+            const labelEl = item
+              .find('.bg-grey-100 > div')
+              .filter((_i, el) => $(el).text().replace(/\s+/g, ' ').trim().toLowerCase().startsWith(label.toLowerCase()))
+              .first()
+            const value = labelEl.next().text().replace(/\s+/g, ' ').trim()
+            return value || null
+          }
 
-        const runRateSales = item
-          .find('.run-rate-sales, .field-run-rate-sales')
-          .first()
-          .text()
-          .replace(/Run Rate Sales/i, '')
-          .trim() || null
+          const runRateSales = normalizeAmountText(getMetric('Run Rate Sales'))
+          const ebitdaMargin = getMetric('EBITDA Margin')
 
-        const ebitdaMargin = item
-          .find('.ebitda-margin, .field-ebitda-margin')
-          .first()
-          .text()
-          .replace(/EBITDA Margin/i, '')
-          .trim() || null
+          // --- Deal type label: text directly inside .sme-v3-smalltext (ignore the nested info icon span)
+          const dealTypeLabel =
+            item
+              .find('.listing-contact-button .sme-v3-smalltext')
+              .first()
+              .clone()
+              .children()
+              .remove()
+              .end()
+              .text()
+              .replace(/\s+/g, ' ')
+              .trim() || null
 
-        const dealTypeLabel = item
-          .find('.deal-type-label, .field-deal-type')
-          .first()
-          .text()
-          .trim() || null
+          // --- Deal amount: tooltip attr holds the clean value, e.g. data-title="USD 520 K "
+          const dealAmountEl = item.find('.listing-contact-button .sme-v3-bolder').first()
+          const dealAmountText =
+            dealAmountEl.attr('data-title')?.replace(/\s+/g, ' ').trim() ||
+            dealAmountEl.text().replace(/\s+/g, ' ').trim() ||
+            null
 
-        const dealAmountText = item
-          .find('.deal-amount, .field-deal-amount')
-          .first()
-          .text()
-          .trim() || null
+          const verification = {
+            email: item.find('.social-proof-list .ti-email').hasClass('verified'),
+            phone: item.find('.social-proof-list .icon-phone').hasClass('verified'),
+            linkedin: item.find('.social-proof-list .icon-linkedin-sign').hasClass('verified'),
+            facebook: item.find('.social-proof-list .icon-facebook-sign').hasClass('verified'),
+            google: item.find('.social-proof-list .icon-google-plus-sign').hasClass('verified'),
+          }
 
-        const verification = {
-          email: item.find('.social-proof-list .ti-email').hasClass('verified'),
-          phone: item.find('.social-proof-list .icon-phone').hasClass('verified'),
-          linkedin: item.find('.social-proof-list .icon-linkedin-sign').hasClass('verified'),
-          facebook: item.find('.social-proof-list .icon-facebook-sign').hasClass('verified'),
-          google: item.find('.social-proof-list .icon-google-plus-sign').hasClass('verified'),
-        }
+          if (!title) return
 
-        const listing: BusinessListing = {
-          title,
-          url,
-          sku,
-          tagline,
-          description,
-          image,
-          rating,
-          city,
-          runRateSales,
-          ebitdaMargin,
-          dealTypeLabel,
-          dealAmountText,
-          verification,
-        }
+          pageListings.push({
+            title,
+            url,
+            sku,
+            tagline,
+            description,
+            image,
+            rating,
+            city,
+            country,
+            runRateSales,
+            ebitdaMargin,
+            dealTypeLabel,
+            dealAmountText,
+            verification,
+          })
+        })
 
-        pageListings.push(listing)
-      })
-
-      if (pageListings.length > 0) await dataset.pushData(pageListings)
-
-      // Follow pagination links, e.g. https://www.smergers.com/businesses-for-sale-and-investment/b/?page=2
-      await enqueueLinks({
-        selector: 'a[href*="/businesses-for-sale-and-investment/"]',
-        baseUrl: BASE_URL,
-      })
+        if (pageListings.length > 0) await dataset.pushData(pageListings)
+      },
     },
-  }, crawlerConfig)
+    crawlerConfig,
+  )
 
   await crawler.run([START_URL])
 
