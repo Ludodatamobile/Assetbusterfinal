@@ -74,6 +74,7 @@ const saveBusinessListing = async (listing: BusinessListing) => {
   const ebitdaMarginMatch = listing.ebitdaMargin?.match(/([\d.]+)/)
   const ebitdaMargin = ebitdaMarginMatch ? Number(ebitdaMarginMatch[1]) : null
   const description = listing.description?.trim() || listing.tagline?.trim() || listing.title
+  if (listing.city==="Nigeria") return;
 
   await prisma.businessProfile.upsert({
     where: {

@@ -1,0 +1,4 @@
+PG_VERSION="18"
+DB_USER="asset_db_user"
+DB_PASSWORD=qxwnF2bOjLva66p7Q6mff8rhwCLKiHRY
+DB_NAME=asset_buter001

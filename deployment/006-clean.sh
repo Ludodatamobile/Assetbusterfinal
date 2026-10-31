@@ -1,0 +1,24 @@
+unset CWD
+unset APPLICATION_TO_DEPLOY_DIR
+unset DEPLOY_FROM_GITHUB
+unset DEPLOY_FROM_LOCAL
+unset BRANCH_NAME
+unset PORT
+unset API_VERSION
+unset ARTIFACT_LOCATION
+unset REPO_URL
+unset NODE_MAJOR
+unset COMMIT_MESSAGE
+unset PUSH_TO_GITHUB
+unset APP_NAME
+unset APP_USER
+unset REMOTE_IP
+unset REMOTE_PATH
+unset APP_RUNNER_USER
+unset BWWUSER
+unset SERVER_DOMAIN_NAME
+unset SSH_KEY_PATH
+unset PM2_SHARED_DIR
+unset FORCE_NODE_UPGRADE
+
+echo "app is running at https://assetbusters.com/"
