@@ -3,14 +3,27 @@ import { prisma } from '../../config/prisma.js'
 import { createSlug, getCrawlerOwner, parseAmount } from './helperFunctions.js'
 
 const page = Math.floor(Math.random() * 100 + 1)
-const location = ['orlando', 'california', 'delaware', 'canada']
+
+const location = [
+  "orlando",
+  "alabama", "alaska", "arizona", "arkansas", "california",
+  "colorado", "connecticut", "delaware", "florida", "georgia",
+  "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas",
+  "kentucky", "louisiana", "maine", "maryland", "massachusetts",
+  "michigan", "minnesota", "mississippi", "missouri", "montana",
+  "nebraska", "nevada", "new hampshire", "new jersey", "new mexico",
+  "new york", "north carolina", "north dakota", "ohio", "oklahoma",
+  "oregon", "pennsylvania", "rhode island", "south carolina",
+  "south dakota", "tennessee", "texas", "utah", "vermont",
+  "virginia", "washington", "west virginia", "wisconsin", "wyoming", "canada"
+]
 
 const locationIndex = Math.floor(Math.random() * location.length + 1)
 
 const BUSINESS_FOR_SALE_URL =
   `https://www.businessesforsale.com/search?Keywords=United+States&Page=${page}`
-const BIZBUYSELL_URL = `https://www.bizbuysell.com/${location[locationIndex]}-businesses-for-sale/`
-const LOOPNET_URL = `https://www.loopnet.com/biz/${location[locationIndex]}-businesses-for-sale/`
+const BIZBUYSELL_URL = `https://www.bizbuysell.com/${location[locationIndex]}-businesses-for-sale/${page}/`
+const LOOPNET_URL = `https://www.loopnet.com/biz/${location[locationIndex]}-businesses-for-sale/${page}/`
 
 type ExternalBusinessListing = {
   source: 'businessesforsale' | 'bizbuysell' | 'loopnet'
