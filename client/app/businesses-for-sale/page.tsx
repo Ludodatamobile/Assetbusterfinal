@@ -26,7 +26,7 @@ type Filters = {
 };
 
 const INDUSTRIES = ["Technology", "Healthcare", "Manufacturing", "Energy", "Real Estate", "Hospitality", "Logistics", "Financial Services"];
-const COUNTRIES = ["Nigeria", "Ghana", "Kenya", "South Africa", "United States", "United Kingdom", "India", "United Arab Emirates"];
+const COUNTRIES = ["Nigeria", "Ghana", "Kenya", "South Africa", "United States", "US", "United Kingdom", "India", "United Arab Emirates"];
 
 function formatEnum(value?: string | null) {
   if (!value) return "Not available";
